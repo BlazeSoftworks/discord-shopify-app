@@ -97,11 +97,9 @@ app.prepare().then(() => {
     return
   });
 
-  // server.listen(port, () => {
-  //   console.log(`> Ready on http://localhost:${port}`);
-  // });
-
-  app.listen(process.env.PORT);
+  server.listen(port, () => {
+    console.log(`> Ready on http://localhost:${port}`);
+  });
 });
 
 
