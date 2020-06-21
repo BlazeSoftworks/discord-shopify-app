@@ -108,7 +108,7 @@ function makeHeader (data) {
 
 //------------
 
-fetch(`https://cors-anywhere.herokuapp.com/https://46b89d7e107e.ngrok.io/api/products`)
+fetch(`https://cors-anywhere.herokuapp.com/https://discord-shopify-app.herokuapp.com/api/products`)
     .then(res => res.json())
     .then(data => {
         //makeApp(data.data)

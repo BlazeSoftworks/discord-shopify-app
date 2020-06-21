@@ -41,7 +41,7 @@ const DELETE_SCRIPTTAG = gql`
     }
 `
 
-var urlScriptTags=`https://46b89d7e107e.ngrok.io/test-script.js`;
+var urlScriptTags=`https://discord-shopify-app.herokuapp.com/test-script.js`;
 
 function ScriptPage() {
 
