@@ -148,8 +148,7 @@ app.prepare().then(() => {
         //   ctx.body = "Done";
         // }))
 
-        // ctx.redirect('/annotated-layout');
-
+        ctx.redirect('/');
       },
     }),
   );
