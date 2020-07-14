@@ -287,7 +287,7 @@ function ScriptPage() {
             var iframe = document.createElement('iframe');
             iframe.id = "widgetbotiframe";
             iframe.width = "100%";
-            iframe.height = `${$(window).height() - 185}px`;
+            iframe.height = `${$(window).height() - 180}px`;
             iframe.style.border = "none";
 
             setTimeout(() => {
@@ -347,7 +347,7 @@ function ScriptPage() {
                 var iframe = document.createElement('iframe');
                 iframe.id = "widgetbotiframe";
                 iframe.width = "100%";
-                iframe.height = `${$(window).height() - 185}px`;
+                iframe.height = `${$(window).height() - 180}px`;
                 iframe.style.border = "none";
 
                 setTimeout(() => {
