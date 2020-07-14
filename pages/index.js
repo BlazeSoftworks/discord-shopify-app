@@ -25,22 +25,7 @@ const GET_STORE_NAME = gql`
   query getName{ 
     shop { 
       myshopifyDomain 
-    }
-      priceRules (first:10) {
-        edges {
-          node {
-            id
-            discountCodes (first:10) {
-              edges {
-                node {
-                  code
-                  id
-                }
-              }
-            }
-          }
-        }
-      }    
+    }      
   }
 `
 
@@ -103,8 +88,8 @@ function AnnotatedLayout() {
   if (loading) return <div>Loading..</div>
   else if (error) return <div>{error.message}</div>
 
-  console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.id);
-  console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.code);
+  // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.id);
+  // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.code);
 
   var sURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14)
   if (first) {
