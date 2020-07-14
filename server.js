@@ -57,11 +57,7 @@ app.prepare().then(() => {
         'read_products',
         'write_products',
         'read_script_tags',
-        'write_script_tags',
-        'read_discounts',
-        'write_discounts',
-        'read_price_rules',
-        'write_price_rules'
+        'write_script_tags'
       ],
       afterAuth(ctx) {
         const { shop, accessToken } = ctx.session;
