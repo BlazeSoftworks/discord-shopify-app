@@ -1003,7 +1003,7 @@ function ScriptPage() {
                         borderTop: '1px solid #DFE3E8',
                     }}>
                         <div></div>
-                        <Button disabled={valID == ''} size="medium" primary onClick={() => {
+                        <Button disabled={valID == ''} size="slim" primary onClick={() => {
                             makeApiCall(widgetObj, shopURL);
                             setActive(true);
                         }}>Save Settings</Button>
