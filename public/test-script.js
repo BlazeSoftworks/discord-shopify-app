@@ -109,7 +109,7 @@ const displayDiscordServer = () => {
 fetch(`https://cors-anywhere.herokuapp.com/https://discord-shopify-app.herokuapp.com/api/products`)
     .then(res => res.json())
     .then(data => {
-        makeApp(data.data)
+        //makeApp(data.data)
         //displayDiscordServer();              
         //makeHeader("SALUT");  
         console.log(data);
@@ -117,3 +117,5 @@ fetch(`https://cors-anywhere.herokuapp.com/https://discord-shopify-app.herokuapp
     .catch(error => console.log(error));
 
 
+
+alert("marea muie");
