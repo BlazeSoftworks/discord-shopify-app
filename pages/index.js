@@ -120,7 +120,7 @@ function AnnotatedLayout() {
           </Layout.Section>
           <Layout.AnnotatedSection title="Step One" description={<p>Add Widgetbot to your server <a href="https://discord.com/oauth2/authorize?client_id=543225764036870167&scope=bot&permissions=537218112" target="_blank"><b>here</b></a>. Make sure you give Widgetbot all the permissions!</p>}>
             <Card sectioned >
-              <img src="dis1.png" width="100%" height="410" />
+              <img src="dis1.PNG" width="100%" height="410" />
               {/* <br />
               <Button primary size="slim" onClick={() => {
                 window.open("https://discord.com/oauth2/authorize?client_id=543225764036870167&scope=bot&permissions=537218112", "_blank");
@@ -129,12 +129,12 @@ function AnnotatedLayout() {
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection title="Step Two" description="Type the ??guestmode command if you want people who don't have a discord account to be able to write messages. Type ??help for a full list of commands.">
             <Card sectioned >
-              <img src="dis2.png" width="100%" height="410" />
+              <img src="dis2.PNG" width="100%" height="410" />
             </Card>
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection title="Step Three" description='Type the ??crate command in the text channel you want to display in the widget after it loads. Copy the values from Server and Channel without the quotes, paste them bellow and submit. You can always come back here to change the IDs'>
             < Card sectioned >
-              <img src="dis3.png" width="100%" height="410" />
+              <img src="dis3.PNG" width="100%" height="410" />
             </Card>
           </Layout.AnnotatedSection>
           <Layout.Section>
