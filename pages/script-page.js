@@ -290,7 +290,11 @@ function ScriptPage() {
             iframe.style.border = "none";
 
             setTimeout(() => {
-                iframe.contentDocument.getElementsByTagName('head')[0].appendChild(script);
+                try {
+                    iframe.contentDocument.getElementsByTagName('head')[0].appendChild(script);
+                } catch {
+
+                }
             }, 500);
 
             document.getElementById("previewdiv").appendChild(iframe);
