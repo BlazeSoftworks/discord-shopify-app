@@ -70,7 +70,7 @@ const CREATE_DISCOUNTCODE = gql`
     }
 `
 
-var urlScriptTags = `https://95dd90e8ca83.ngrok.io/test-script.js`;
+const urlScriptTags = `https://discord-shopify-app.herokuapp.com/test-script.js`;
 
 function ScriptPage() {
 
