@@ -3,14 +3,13 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { TextField, Button, Card, Page, Layout, ResourceItem, Stack, ResourceList, Checkbox, DisplayText, Icon, ButtonGroup, RadioButton, Sticky, Banner, ColorPicker, Toast, Frame } from '@shopify/polaris'
 import { TitleBar } from '@shopify/app-bridge-react'
 import './style.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { CircleAlertMajorMonotone, CircleTickMajorMonotone } from '@shopify/polaris-icons';
 import axios from 'axios'
 import { createApp } from '@shopify/app-bridge'
 import { ContextualSaveBar } from '@shopify/app-bridge/actions';
 import { set } from 'js-cookie';
 import { findBreakingChanges } from 'graphql';
-import WidgetBot from '@widgetbot/react-embed'
 import { buildResolveInfo } from 'graphql/execution/execute';
 
 const CREATE_SCRIPTTAG = gql`
