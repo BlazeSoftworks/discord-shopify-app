@@ -74,85 +74,86 @@ app.prepare().then(() => {
 
         //graphql routes
 
-        router.get("/shop-info", (ctx => {
-          fetch(`https://${shopID}.myshopify.com/admin/api/graphql.json`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Shopify-Access-Token": accessToken
-            },
-            body: JSON.stringify({
-              query: `{
-                shop {
-                  name
-                  url
-                  email
-                  myshopifyDomain
-                }
-              }`
-            })
-          })
-            .then(res => res.json())
-            .then(data => {
-              console.log("Data Returned: \n", data);
-            })
-          ctx.body = "Done";
-        }))
+        // router.get("/shop-info", (ctx => {
+        //   fetch(`https://${shopID}.myshopify.com/admin/api/graphql.json`, {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "X-Shopify-Access-Token": accessToken
+        //     },
+        //     body: JSON.stringify({
+        //       query: `{
+        //         shop {
+        //           name
+        //           url
+        //           email
+        //           myshopifyDomain
+        //         }
+        //       }`
+        //     })
+        //   })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //       console.log("Data Returned: \n", data);
+        //     })
+        //   ctx.body = "Done";
+        // }))
 
-        router.get(`/api/graphql/:id`, (ctx => {
-          fetch(`https://${ctx.params.id}.myshopify.com/admin/api/2020-07/graphql.json`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Shopify-Access-Token": accessToken
-            },
-            body: JSON.stringify({
-              query:
-                `mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
-                  discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
-                    codeDiscountNode {
-                      id
-                    }
-                    userErrors {
-                      code
-                      extraInfo
-                      field
-                      message
-                    }
-                  }
-                }
-                `,
+        // router.get(`/api/graphql/:id`, (ctx => {
+        //   fetch(`https://${ctx.params.id}.myshopify.com/admin/api/2020-07/graphql.json`, {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "X-Shopify-Access-Token": accessToken
+        //     },
+        //     body: JSON.stringify({
+        //       query:
+        //         `mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
+        //           discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
+        //             codeDiscountNode {
+        //               id
+        //             }
+        //             userErrors {
+        //               code
+        //               extraInfo
+        //               field
+        //               message
+        //             }
+        //           }
+        //         }
+        //         `,
 
-              variables: {
-                basicCodeDiscount: {
-                  appliesOncePerCustomer: true,
-                  code: "DISFASF",
-                  customerSelection: {
-                    all: true
-                  },
-                  customerGets: {
-                    items: {
-                      all: true
-                    },
-                    value: {
-                      percentage: 0.1
-                    }
-                  },
-                  title: "Discord Discount",
-                  usageLimit: 1,
-                  startsAt: "2019-07-03T20:47:55Z"
-                }
-              },
-            })
-          })
-            .then(res => res.json())
-            .then(data => {
-              console.log("Data Returned: \n", data);
-            })
-          ctx.body = "Done";
-        }))
+        //       variables: {
+        //         basicCodeDiscount: {
+        //           appliesOncePerCustomer: true,
+        //           code: "DISFASF",
+        //           customerSelection: {
+        //             all: true
+        //           },
+        //           customerGets: {
+        //             items: {
+        //               all: true
+        //             },
+        //             value: {
+        //               percentage: 0.1
+        //             }
+        //           },
+        //           title: "Discord Discount",
+        //           usageLimit: 1,
+        //           startsAt: "2019-07-03T20:47:55Z"
+        //         }
+        //       },
+        //     })
+        //   })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //       console.log("Data Returned: \n", data);
+        //     })
+        //   ctx.body = "Done";
+        // }))
 
-        ctx.redirect('/annotated-layout');
+        // ctx.redirect('/annotated-layout');
+
       },
     }),
   );
