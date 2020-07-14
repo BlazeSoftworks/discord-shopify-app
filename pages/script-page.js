@@ -11,6 +11,7 @@ import { ContextualSaveBar } from '@shopify/app-bridge/actions';
 import { set } from 'js-cookie';
 import { findBreakingChanges } from 'graphql';
 import { buildResolveInfo } from 'graphql/execution/execute';
+import $ from 'jquery';
 
 const CREATE_SCRIPTTAG = gql`
     mutation scriptTagCreate($input: ScriptTagInput!) {
@@ -572,7 +573,7 @@ function ScriptPage() {
         setFirst(false);
         console.log(color);
     }
-
+    console.log($(window).height());
     return (
         <Frame>
             <Page title="Widget Settings" >
