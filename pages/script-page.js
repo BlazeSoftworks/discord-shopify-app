@@ -287,7 +287,7 @@ function ScriptPage() {
             var iframe = document.createElement('iframe');
             iframe.id = "widgetbotiframe";
             iframe.width = "100%";
-            iframe.height = "525px";
+            iframe.height = `${$(window).height() - 185}px`;
             iframe.style.border = "none";
 
             setTimeout(() => {
@@ -347,7 +347,7 @@ function ScriptPage() {
                 var iframe = document.createElement('iframe');
                 iframe.id = "widgetbotiframe";
                 iframe.width = "100%";
-                iframe.height = "525px";
+                iframe.height = `${$(window).height() - 185}px`;
                 iframe.style.border = "none";
 
                 setTimeout(() => {
@@ -573,7 +573,9 @@ function ScriptPage() {
         setFirst(false);
         console.log(color);
     }
+
     console.log($(window).height());
+
     return (
         <Frame>
             <Page title="Widget Settings" >
@@ -992,7 +994,8 @@ function ScriptPage() {
                         zIndex: '99',
                         bottom: '0',
                         right: '0',
-                        padding: '2rem',
+                        padding: '1rem',
+                        height: '50px',
                         width: '100%',
                         display: 'flex',
                         justifyContent: 'space-between',
