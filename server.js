@@ -46,6 +46,11 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
+server.use(async (ctx) => {
+  if (!ctx.cookies.get("shopOrigin"))
+    verifyRequest();
+});
+
 app.prepare().then(() => {
   server.use(session({ secure: true, sameSite: 'none' }, server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
@@ -158,7 +163,8 @@ app.prepare().then(() => {
 
   server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
-    console.log(Cookies.get("shopOrigin"));
+
+    console.log(ctx.cookies.get("shopOrigin"));
 
     //routes
     var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
