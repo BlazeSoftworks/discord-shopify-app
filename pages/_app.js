@@ -24,9 +24,10 @@ const client = new ApolloClient({
 });
 
 class MyApp extends App {
+  f;
 
   componentDidMount() {
-    var f = window.location.origin.toString();
+    f = window.location.origin.toString();
   }
 
   render() {
