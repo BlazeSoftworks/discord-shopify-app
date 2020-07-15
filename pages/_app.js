@@ -5,9 +5,17 @@ import { Provider } from '@shopify/app-bridge-react';
 import '@shopify/polaris/styles.css';
 import translations from '@shopify/polaris/locales/en.json';
 import Cookies from 'js-cookie';
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
+import ApolloClient, { InMemoryCache, from } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { createUploadLink } from 'apollo-upload-client';
+import React from 'react'
+
+const ProtectedComponent = () => {
+  if (authFails)
+    return <Redirect to='/login' />
+
+  return <div> My Protected Component </div>
+}
 
 const client = new ApolloClient({
   fetchOptions: {
@@ -18,7 +26,11 @@ const client = new ApolloClient({
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
-    //if (Cookies.get("shopOrigin") == undefined)
+    if (Cookies.get("shopOrigin") == undefined) {
+      var f = window.location.origin.toString();
+      const shopId = f.substring(8, f.length - 14);
+      this.props.push(`https://discord-shopify-app.herokuapp.com/auth?shop=${shopId}.myshopify.com`);
+    }
     //location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=bebras-store.myshopify.com`)
     console.log("shopOrigin: ", Cookies.get("shopOrigin"))
     const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
