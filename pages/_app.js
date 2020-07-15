@@ -23,10 +23,12 @@ const client = new ApolloClient({
   }
 });
 
-var f = window.location.origin.toString();
-const shopId = f.substring(8, f.length - 14);
-
 class MyApp extends App {
+
+  componentDidMount() {
+    var f = window.location.origin.toString();
+    const shopId = f.substring(8, f.length - 14);
+  }
 
   render() {
     const { Component, pageProps } = this.props;
