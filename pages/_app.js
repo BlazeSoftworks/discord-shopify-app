@@ -27,13 +27,13 @@ class MyApp extends App {
   f;
 
   componentDidMount() {
-    f = window.location.origin.toString();
+    this.f = window.location.origin.toString();
   }
 
   render() {
     const { Component, pageProps } = this.props;
     if (Cookies.get("shopOrigin") == undefined) {
-      const shopId = f.substring(8, f.length - 14);
+      const shopId = this.f.substring(8, f.length - 14);
       this.props.push(`https://discord-shopify-app.herokuapp.com/auth?shop=${shopId}.myshopify.com`);
     }
     console.log("shopOrigin: ", Cookies.get("shopOrigin"))
