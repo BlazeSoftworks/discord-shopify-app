@@ -23,15 +23,16 @@ const client = new ApolloClient({
   }
 });
 
+var f = window.location.origin.toString();
+const shopId = f.substring(8, f.length - 14);
+
 class MyApp extends App {
+
   render() {
     const { Component, pageProps } = this.props;
     if (Cookies.get("shopOrigin") == undefined) {
-      var f = window.location.origin.toString();
-      const shopId = f.substring(8, f.length - 14);
       this.props.push(`https://discord-shopify-app.herokuapp.com/auth?shop=${shopId}.myshopify.com`);
     }
-    //location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=bebras-store.myshopify.com`)
     console.log("shopOrigin: ", Cookies.get("shopOrigin"))
     const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
     return (
