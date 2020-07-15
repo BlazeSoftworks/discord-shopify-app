@@ -87,8 +87,8 @@ function AnnotatedLayout() {
 
   if (loading) return <div>Loading..</div>
   else if (error) {
-    console.log(Cookies.get("shopOrigin"))
-    const shopID = String(Cookies.get("shopOrigin")).substr(0, String(Cookies.get("shopOrigin")).length - 14);
+    console.log(Cookie.get("shopOrigin"))
+    const shopID = String(Cookie.get("shopOrigin")).substr(0, String(Cookie.get("shopOrigin")).length - 14);
     window.location.href = "https://discord-shopify-app.herokuapp.com/auth?shop=bebras-store.myshopify.com";
 
     return <div>{error.message}</div>
@@ -96,7 +96,7 @@ function AnnotatedLayout() {
 
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.id);
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.code);
-  console.log(Cookies.get("shopOrigin"))
+  console.log(Cookie.get("shopOrigin"))
 
   const sURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14)
 
