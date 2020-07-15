@@ -53,23 +53,23 @@ const DELETE_SCRIPTTAG = gql`
         }
     }
 `
-const GET_STORE_NAME = gql`
-    query getName { 
-        shop 
-        { 
-        myshopifyDomain 
-        }
-    }
-`
-const CREATE_DISCOUNTCODE = gql`
-    mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
-        discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
-        codeDiscountNode {
-            id
-        }        
-      }
-    }
-`
+// const GET_STORE_NAME = gql`
+//     query getName { 
+//         shop 
+//         { 
+//         myshopifyDomain 
+//         }
+//     }
+// `
+// const CREATE_DISCOUNTCODE = gql`
+//     mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
+//         discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
+//         codeDiscountNode {
+//             id
+//         }        
+//       }
+//     }
+// `
 
 const urlScriptTags = `https://discord-shopify-app.herokuapp.com/test-script.js`;
 
@@ -77,7 +77,7 @@ function ScriptPage() {
 
     const [createScripts] = useMutation(CREATE_SCRIPTTAG);
     const [deleteScripts] = useMutation(DELETE_SCRIPTTAG);
-    const [createDiscount] = useMutation(CREATE_DISCOUNTCODE);
+    //const [createDiscount] = useMutation(CREATE_DISCOUNTCODE);
     const { loading, error, data } = useQuery(QUERY_SCRIPTTAGS);
     // const [enabled, setEnabled] = useState(false);
     const [pressedObject, setPressedObject] = useState({
