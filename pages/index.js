@@ -88,7 +88,7 @@ function AnnotatedLayout() {
   if (loading) return <div>Loading..</div>
   else if (error) {
     console.log(Cookies.get("shopOrigin"));
-    location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=${Cookies.get("shopOrigin")}`)
+    //location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=${Cookies.get("shopOrigin")}`)
     return <div>{error.message}</div>
   }
 

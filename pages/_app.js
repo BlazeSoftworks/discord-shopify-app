@@ -24,16 +24,17 @@ const client = new ApolloClient({
   }
 });
 
+var shopId;
+
 class MyApp extends App {
 
   componentDidMount() {
-
+    var f = window.location.origin.toString();
+    shopId = f.substring(8, f.length - 14);
   }
 
   render() {
     if (Cookies.get("shopOrigin") == undefined) {
-      var f = window.location.origin.toString();
-      var shopId = f.substring(8, f.length - 14);
       var url = `https://discord-shopify-app.herokuapp.com/auth?shop=${shopId}.myshopify.com`;
 
       return (
