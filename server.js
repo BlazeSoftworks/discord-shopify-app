@@ -157,23 +157,6 @@ app.prepare().then(() => {
   server.use(verifyRequest());
 
   server.use(async (ctx) => {
-    if (ctx.cookies.get("shopOrigin") == undefined) {
-      console.log("------------------------");
-      console.log("REDIRECT LA MASAN PULA");
-      // console.log(ctx.url);
-      // console.log(ctx.origin);
-      // console.log(ctx.originalUrl);
-      // console.log(ctx.path);
-      // console.log(ctx.subdomains);
-      // console.log(ctx.socket);
-      // console.log(ctx.href);
-      console.log(ctx.request.query.shop);
-      console.log("------------------------");
-      ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
-    }
-  });
-
-  server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
 
     console.log(ctx.cookies.get("shopOrigin"));
@@ -282,6 +265,23 @@ app.prepare().then(() => {
     ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     await next();
+  });
+
+  server.use(async (ctx) => {
+    if (ctx.cookies.get("shopOrigin") == undefined) {
+      console.log("------------------------");
+      console.log("REDIRECT LA MASAN PULA");
+      // console.log(ctx.url);
+      // console.log(ctx.origin);
+      // console.log(ctx.originalUrl);
+      // console.log(ctx.path);
+      // console.log(ctx.subdomains);
+      // console.log(ctx.socket);
+      // console.log(ctx.href);
+      console.log(ctx.request.query.shop);
+      console.log("------------------------");
+      ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
+    }
   });
 
   server.listen(port, () => {
