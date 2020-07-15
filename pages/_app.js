@@ -28,39 +28,25 @@ var shopId;
 
 class MyApp extends App {
 
-  componentDidMount() {
-    var f = window.location.origin.toString();
-    shopId = f.substring(8, f.length - 14);
-  }
-
   render() {
-    if (Cookies.get("shopOrigin") == undefined) {
-      var url = `https://discord-shopify-app.herokuapp.com/auth?shop=${shopId}.myshopify.com`;
 
-      return (
-        <Redirect to={url} />
-      )
-    }
-
-    else {
-      const { Component, pageProps } = this.props;
-      const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
-      return (
-        <React.Fragment>
-          <Head>
-            <title>Discordify</title>
-            <meta charSet="utf-8" />
-          </Head>
-          <Provider config={config}>
-            <AppProvider i18n={translations}>
-              <ApolloProvider client={client}>
-                <Component {...pageProps} />
-              </ApolloProvider>
-            </AppProvider>
-          </Provider>
-        </React.Fragment>
-      );
-    }
+    const { Component, pageProps } = this.props;
+    const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
+    return (
+      <React.Fragment>
+        <Head>
+          <title>Discordify</title>
+          <meta charSet="utf-8" />
+        </Head>
+        <Provider config={config}>
+          <AppProvider i18n={translations}>
+            <ApolloProvider client={client}>
+              <Component {...pageProps} />
+            </ApolloProvider>
+          </AppProvider>
+        </Provider>
+      </React.Fragment>
+    );
   }
 }
 

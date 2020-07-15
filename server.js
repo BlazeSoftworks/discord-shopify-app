@@ -158,7 +158,7 @@ app.prepare().then(() => {
 
   server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
-    // console.log(Cookies.get("shopOrigin"));    
+    console.log(Cookies.get("shopOrigin"));
 
     //routes
     var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
@@ -255,6 +255,7 @@ app.prepare().then(() => {
 
     ctx.respond = false;
     ctx.res.statusCode = 200;
+
     return
   });
 
