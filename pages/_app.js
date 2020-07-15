@@ -18,6 +18,8 @@ const client = new ApolloClient({
 class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props;
+    if (Cookies.get("shopOrigin") == undefined)
+      location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=bebras-store.myshopify.com`)
     const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
     return (
       <React.Fragment>

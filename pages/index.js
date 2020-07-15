@@ -19,7 +19,7 @@ import gql from 'graphql-tag'
 import React, { useState, useCallback } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import axios from 'axios';
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 const GET_STORE_NAME = gql`
   query getName{ 
@@ -87,8 +87,8 @@ function AnnotatedLayout() {
 
   if (loading) return <div>Loading..</div>
   else if (error) {
-    console.log(Cookie.get("shopOrigin"));
-    location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=${Cookie.get("shopOrigin")}`)
+    console.log(Cookies.get("shopOrigin"));
+    location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=${Cookies.get("shopOrigin")}`)
     return <div>{error.message}</div>
   }
 
