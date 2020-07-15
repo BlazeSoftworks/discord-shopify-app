@@ -157,6 +157,13 @@ app.prepare().then(() => {
   server.use(verifyRequest());
 
   server.use(async (ctx) => {
+    if (ctx.cookies.get("shopOrigin") == undefined) {
+      console.log("REDIRECT LA MASAN PULA");
+      ctx.redirect('/auth/callback');
+    }
+  });
+
+  server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
 
     console.log(ctx.cookies.get("shopOrigin"));
