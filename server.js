@@ -158,7 +158,9 @@ app.prepare().then(() => {
 
   server.use(async (ctx) => {
     if (ctx.cookies.get("shopOrigin") == undefined) {
+      //https://discord-shopify-app.herokuapp.com/auth?shop=bebras      
       console.log("REDIRECT LA MASAN PULA");
+      console.log(ctx.url);
       ctx.redirect('/auth/callback');
     }
   });
