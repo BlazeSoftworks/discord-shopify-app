@@ -87,7 +87,7 @@ function AnnotatedLayout() {
 
   if (loading) return <div>Loading..</div>
   else if (error) {
-    //window.location.href = `https://discord-shopify-app.herokuapp.com/auth?shop=${Cookie.get("shopOrigin")}`;
+    window.location.href = `https://discord-shopify-app.herokuapp.com/auth?shop=${Cookie.get("shopOrigin")}`;
     return <div>{error.message}</div>
   }
 
