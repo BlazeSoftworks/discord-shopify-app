@@ -96,8 +96,10 @@ function AnnotatedLayout() {
 
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.id);
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.code);
+  console.log(Cookies.get("shopOrigin"))
 
   const sURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14)
+
   if (first) {
     axios.get(`/api/discordID/${sURL}`).then(result => {
       if (result.data.data.serverID != null) {
