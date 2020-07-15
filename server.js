@@ -158,20 +158,18 @@ app.prepare().then(() => {
 
   server.use(async (ctx) => {
     if (ctx.cookies.get("shopOrigin") == undefined) {
-      //https://discord-shopify-app.herokuapp.com/auth?shop=bebras      
       console.log("------------------------");
       console.log("REDIRECT LA MASAN PULA");
-      console.log(ctx.url);
+      // console.log(ctx.url);
       // console.log(ctx.origin);
       // console.log(ctx.originalUrl);
       // console.log(ctx.path);
       // console.log(ctx.subdomains);
       // console.log(ctx.socket);
       // console.log(ctx.href);
-      console.log(ctx.request.query);
-      console.log(ctx.req.url);
+      console.log(ctx.request.query.shop);
       console.log("------------------------");
-      ctx.redirect('/auth/callback');
+      ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
     }
   });
 
