@@ -87,16 +87,13 @@ function AnnotatedLayout() {
 
   if (loading) return <div>Loading..</div>
   else if (error) {
-    console.log(Cookie.get("shopOrigin"))
-    const shopID = String(Cookie.get("shopOrigin")).substr(0, String(Cookie.get("shopOrigin")).length - 14);
-    window.location.href = "https://discord-shopify-app.herokuapp.com/auth?shop=bebras-store.myshopify.com";
-
+    //window.location.href = `https://discord-shopify-app.herokuapp.com/auth?shop=${Cookie.get("shopOrigin")}`;
     return <div>{error.message}</div>
   }
 
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.id);
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.code);
-  console.log(Cookie.get("shopOrigin"))
+  //console.log(Cookie.get("shopOrigin"))
 
   const sURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14)
 
