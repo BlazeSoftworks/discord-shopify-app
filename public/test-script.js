@@ -23,62 +23,62 @@ console.log(shopId);
 // color: "#ff000000",
 // glyph: ["https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg", "95%"]
 
-// fetch(`https://discord-shopify-app.herokuapp.com/api/widget/${shopId}`)
-//     .then(res => res.json())
-//     .then(data => {
+fetch(`https://discord-shopify-app.herokuapp.com/api/widget/${shopId}`)
+    .then(res => res.json())
+    .then(data => {
 
-//         const widget = data.data;
-//         console.log(widget.notificationTimeout);
-//         if (!window.location.pathname.includes("/cart")) {
+        const widget = data.data;
+        console.log(widget.notificationTimeout);
+        if (!window.location.pathname.includes("/cart")) {
 
-//             if ((!isMobile && widget.desktop)) {
-//                 var script = document.createElement("script");
-//                 script.type = "text/javascript";
-//                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-//                 script.text = `
-//                 var crate = new Crate({
-//                     server: '723464730311786517', // Shopify Test Server
-//                     channel: '723464730945257494', // #general
-//                     location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
-//                     shard: 'https://e.widgetbot.io',                        
-//                     color: '${widget.color}',
-//                     defer: true,                        
-//                 })
-//                 //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
-//                 crate.notify({
-//                     content: '${widget.notificationText}',
-//                     timeout: ${widget.notificationTimeout},
-//                     avatar: '${widget.notificationAvatar}'                        
-//                   }) 
-//                 `
-//                 document.head.appendChild(script);
-//             }
-//             else if ((isMobile && widget.mobile)) {
-//                 var script = document.createElement("script");
-//                 script.type = "text/javascript";
-//                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-//                 script.text = `
-//                 var crate = new Crate({
-//                     server: '723464730311786517', // Shopify Test Server
-//                     channel: '723464730945257494', // #general
-//                     location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
-//                     shard: 'https://e.widgetbot.io',                        
-//                     color: '${widget.color}',
-//                     defer: true,                        
-//                 })
-//                 //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
-//                 crate.notify({
-//                     content: '${widget.notificationText}',
-//                     timeout: ${widget.notificationTimeout},
-//                     avatar: '${widget.notificationAvatar}'                        
-//                   }) 
-//                 `
-//                 document.head.appendChild(script);
-//             }
-//         }
+            if ((!isMobile && widget.desktop)) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                script.text = `
+                var crate = new Crate({
+                    server: '723464730311786517', // Shopify Test Server
+                    channel: '723464730945257494', // #general
+                    location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
+                    shard: 'https://e.widgetbot.io',                        
+                    color: '${widget.color}',
+                    defer: true,                        
+                })
+                //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
+                crate.notify({
+                    content: '${widget.notificationText}',
+                    timeout: ${widget.notificationTimeout},
+                    avatar: '${widget.notificationAvatar}'                        
+                  }) 
+                `
+                document.head.appendChild(script);
+            }
+            else if ((isMobile && widget.mobile)) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                script.text = `
+                var crate = new Crate({
+                    server: '723464730311786517', // Shopify Test Server
+                    channel: '723464730945257494', // #general
+                    location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
+                    shard: 'https://e.widgetbot.io',                        
+                    color: '${widget.color}',
+                    defer: true,                        
+                })
+                //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
+                crate.notify({
+                    content: '${widget.notificationText}',
+                    timeout: ${widget.notificationTimeout},
+                    avatar: '${widget.notificationAvatar}'                        
+                  }) 
+                `
+                document.head.appendChild(script);
+            }
+        }
 
-//         console.log(data);
-//     })
-//     .catch(error => console.log(error));
+        console.log(data);
+    })
+    .catch(error => console.log(error));
 
 

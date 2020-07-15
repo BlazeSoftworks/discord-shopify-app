@@ -11,7 +11,7 @@ import { createUploadLink } from 'apollo-upload-client';
 
 const client = new ApolloClient({
   fetchOptions: {
-    credentials: 'include',    
+    credentials: 'include',
   }
 });
 
@@ -22,16 +22,16 @@ class MyApp extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>Sample App</title>
+          <title>Discordify</title>
           <meta charSet="utf-8" />
         </Head>
-          <Provider config={config}>
-            <AppProvider i18n={translations}>
-              <ApolloProvider client={client}>
-                <Component {...pageProps} />
-              </ApolloProvider>
-            </AppProvider>
-          </Provider>
+        <Provider config={config}>
+          <AppProvider i18n={translations}>
+            <ApolloProvider client={client}>
+              <Component {...pageProps} />
+            </ApolloProvider>
+          </AppProvider>
+        </Provider>
       </React.Fragment>
     );
   }
