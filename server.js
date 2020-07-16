@@ -165,7 +165,6 @@ app.prepare().then(() => {
     var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
 
     if (ok) {
-      //discordID[shopID] = [];
       discordID[shopID] = {};
       ok = false;
     }
@@ -215,8 +214,6 @@ app.prepare().then(() => {
       try {
         ctx.body = {
           status: 'success',
-          //data: discordID[String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14)]
-          //data: discordID
           data: widget[shopID]
         };
       } catch (error) {
@@ -231,7 +228,6 @@ app.prepare().then(() => {
         console.log(ctx.href);
         console.log(body);
         console.log(shopID);
-        //discordID[shopID].push(body);
         widget[shopID] = body
         //console.log(discordID[String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14)]);
 
@@ -244,8 +240,6 @@ app.prepare().then(() => {
 
     router.delete(`/api/widget/${shopID}`, koaBody(), async (ctx) => {
       try {
-        //discordID = [];
-        //discordID[shopID] = [];
         widget[shopID] = {};
         ctx.body = 'All items deleted';
       } catch (error) {
@@ -257,17 +251,6 @@ app.prepare().then(() => {
     ctx.respond = false;
     ctx.res.statusCode = 200;
 
-    return
-  });
-
-  server.use(async (ctx, next) => {
-    ctx.set('Access-Control-Allow-Origin', '*');
-    ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-    await next();
-  });
-
-  server.use(async (ctx) => {
     if (ctx.cookies.get("shopOrigin") == undefined) {
       console.log("------------------------");
       console.log("REDIRECT");
@@ -275,7 +258,26 @@ app.prepare().then(() => {
       console.log("------------------------");
       ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
     }
+
+    return
   });
+
+  // server.use(async (ctx, next) => {
+  //   ctx.set('Access-Control-Allow-Origin', '*');
+  //   ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  //   ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  //   await next();
+  // });
+
+  // server.use(async (ctx) => {
+  //   if (ctx.cookies.get("shopOrigin") == undefined) {
+  //     console.log("------------------------");
+  //     console.log("REDIRECT");
+  //     console.log(ctx.request.query.shop);
+  //     console.log("------------------------");
+  //     ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
+  //   }
+  // });
 
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
