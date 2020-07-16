@@ -251,15 +251,6 @@ app.prepare().then(() => {
     ctx.respond = false;
     ctx.res.statusCode = 200;
 
-    if (ctx.cookies.get("shopOrigin") == undefined) {
-      console.log("------------------------");
-      console.log("REDIRECT");
-      console.log(ctx.request.query.shop);
-      console.log(ctx.request.query);
-      console.log("------------------------");
-      ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
-    }
-
     return
   });
 
@@ -270,15 +261,18 @@ app.prepare().then(() => {
   //   await next();
   // });
 
-  // server.use(async (ctx) => {
-  //   if (ctx.cookies.get("shopOrigin") == undefined) {
-  //     console.log("------------------------");
-  //     console.log("REDIRECT");
-  //     console.log(ctx.request.query.shop);
-  //     console.log("------------------------");
-  //     ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
-  //   }
-  // });
+  server.use(async (ctx) => {
+    if (ctx.cookies.get("shopOrigin") == undefined) {
+      console.log("------------------------");
+      console.log("REDIRECT");
+      console.log(ctx.request.query.shop);
+      console.log("------------------------");
+      ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
+    }
+    else {
+      console.log("E DEFIINIT", ctx.cookies.get("shopOrigin"));
+    }
+  });
 
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
