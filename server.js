@@ -255,6 +255,7 @@ app.prepare().then(() => {
       console.log("------------------------");
       console.log("REDIRECT");
       console.log(ctx.request.query.shop);
+      console.log(ctx.request.query);
       console.log("------------------------");
       ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
     }
