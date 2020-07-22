@@ -77,9 +77,7 @@ function ScriptPage() {
 
     const [createScripts] = useMutation(CREATE_SCRIPTTAG);
     const [deleteScripts] = useMutation(DELETE_SCRIPTTAG);
-    //const [createDiscount] = useMutation(CREATE_DISCOUNTCODE);
     const { loading, error, data } = useQuery(QUERY_SCRIPTTAGS);
-    // const [enabled, setEnabled] = useState(false);
     const [pressedObject, setPressedObject] = useState({
         button1: false,
         button2: false,
@@ -102,8 +100,6 @@ function ScriptPage() {
         'yAxis': 'bottom',
         'xAxis': 'right',
     });
-    // const [logoUrl, setLogoUrl] = useState('https://discord.com/assets/41484d92c876f76b20c7f746221e8151.svg');
-    // const [themeName, setThemeName] = useState('dark');
     const [color, setColor] = useState({
         hue: 227,
         brightness: 0.65,
@@ -121,8 +117,6 @@ function ScriptPage() {
             desktop: true,
             color: hslToHex(color.hue, color.saturation, color.brightness)
         })
-        // console.log(color);
-        // console.log(hslToHex(color.hue, color.saturation, color.brightness));
     }
     const [widgetObj, setWidget] = useState({
         desktopPosition: {

@@ -8,14 +8,11 @@ const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
 const { verifyRequest } = require('@shopify/koa-shopify-auth');
 const session = require('koa-session');
 const koaBody = require('koa-body');
-const Cookies = require('js-cookie');
-const axios = require('axios');
 
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 const { Connected } = require('@shopify/polaris');
-const { default: Axios } = require('axios');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -31,15 +28,15 @@ var discordID = {};
 var widget = {};
 var ok = true;
 
-function makeid(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+// function makeid(length) {
+//   var result = '';
+//   var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+//   var charactersLength = characters.length;
+//   for (var i = 0; i < length; i++) {
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
+//   return result;
+// }
 
 //ROUTER MIDDLEWARE
 server.use(cors({ origin: '*' }));

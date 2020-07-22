@@ -32,6 +32,7 @@
     "koa-router": "^9.0.1",
     "koa-session": "^6.0.0",
     "koa2-cors": "^2.0.6",
+    "mongodb": "^3.5.9",
     "next": "^9.4.2",
     "next-images": "^1.4.0",
     "react": "^16.13.1",
