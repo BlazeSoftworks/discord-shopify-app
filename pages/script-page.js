@@ -94,12 +94,6 @@ function ScriptPage() {
     });
     const [mobileVal, setMobileVal] = useState(true);
     const [desktopVal, setDesktopVal] = useState(true);
-    const [logoPressedObject, setLogoPressedObject] = useState({
-        logo1: true,
-        logo2: false,
-        logo3: false
-    });
-    const [themeDark, setThemeDark] = useState(true);
     const [positionDesktop, setPositionDesktop] = useState({
         'yAxis': 'bottom',
         'xAxis': 'right',

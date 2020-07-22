@@ -1,19 +1,13 @@
 import {
   Button,
   Card,
-  Form,
-  FormLayout,
   Layout,
   Page,
-  SettingToggle,
   Stack,
   TextField,
-  TextStyle,
-  Avatar,
   Banner,
   Frame,
   Toast,
-  DisplayText
 } from '@shopify/polaris';
 import gql from 'graphql-tag'
 import React, { useState, useCallback } from 'react';
@@ -50,6 +44,7 @@ const GET_STORE_NAME = gql`
 // `
 
 function AnnotatedLayout() {
+
   const [idset, setId] = useState(false);
   const [textFieldValue, setTextFieldValue] = useState('');
   const [textFieldValueOld, setTextFieldValueOld] = useState('');
@@ -127,10 +122,6 @@ function AnnotatedLayout() {
           <Layout.AnnotatedSection title="Step One" description={<p>Add Widgetbot to your server <a href="https://discord.com/oauth2/authorize?client_id=543225764036870167&scope=bot&permissions=537218112" target="_blank"><b>here</b></a>. Make sure you give Widgetbot all the permissions!</p>}>
             <Card sectioned >
               <img src="dis1.PNG" width="100%" height="410" />
-              {/* <br />
-              <Button primary size="slim" onClick={() => {
-                window.open("https://discord.com/oauth2/authorize?client_id=543225764036870167&scope=bot&permissions=537218112", "_blank");
-              }}>Add Widgetbot</Button> */}
             </Card>
           </Layout.AnnotatedSection>
           <Layout.AnnotatedSection title="Step Two" description="Type the ??guestmode command if you want people who don't have a discord account to be able to write messages. Type ??help for a full list of commands.">

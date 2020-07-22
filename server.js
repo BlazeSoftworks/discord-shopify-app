@@ -265,6 +265,8 @@ app.prepare().then(() => {
     if (ctx.cookies.get("shopOrigin") == undefined) {
       console.log("------------------------");
       console.log("REDIRECT");
+      console.log(ctx.request.URL);
+      console.log(ctx.request.subdomains);
       console.log(ctx.request.query.shop);
       console.log("------------------------");
       ctx.redirect(`https://discord-shopify-app.herokuapp.com/auth?shop=${ctx.request.query.shop}`);
