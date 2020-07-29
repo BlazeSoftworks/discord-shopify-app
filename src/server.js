@@ -28,10 +28,6 @@ const router = new KoaRouter()
 const DiscordID = require('./models/discordID')
 const Widget = require('./models/widget')
 
-var discordID = {};
-var widget = {};
-var ok = true;
-
 //ROUTER MIDDLEWARE
 server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
@@ -70,13 +66,7 @@ app.prepare().then(() => {
   server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
 
-    //routes
     var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
-
-    if (ok) {
-      discordID[shopID] = {};
-      ok = false;
-    }
 
     //shopID routes    
 
@@ -153,6 +143,7 @@ app.prepare().then(() => {
               mobile: obj.mobile,
               desktop: obj.desktop,
               color: obj.color,
+              widgetEnabled: obj.widgetEnabled,
               shopID
             }
           }
@@ -180,6 +171,7 @@ app.prepare().then(() => {
               mobile: ctx.request.body.mobile,
               desktop: ctx.request.body.desktop,
               color: ctx.request.body.color,
+              widgetEnabled: ctx.request.body.widgetEnabled,
               shopID
             }, { new: true, runValidators: true })
             ctx.status = 200
@@ -196,6 +188,7 @@ app.prepare().then(() => {
               mobile: ctx.request.body.mobile,
               desktop: ctx.request.body.desktop,
               color: ctx.request.body.color,
+              widgetEnabled: ctx.request.body.widgetEnabled,
               shopID
             })
             await id.save()

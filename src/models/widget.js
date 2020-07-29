@@ -59,7 +59,12 @@ const Widget = mongoose.model('Widget', {
         type: String,
         require: true,
         trim: true
-    }
+    },
+    widgetEnabled: {
+        type: Boolean,
+        required: true,
+        trim: true
+    },
 })
 
 module.exports = Widget

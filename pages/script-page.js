@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { TextField, Button, Card, Page, Layout, Stack, DisplayText, Icon, ButtonGroup, RadioButton, Sticky, Banner, ColorPicker, Toast, Frame } from '@shopify/polaris'
+import { ResourceList, TextField, Button, Card, Page, Layout, Stack, DisplayText, Icon, ButtonGroup, RadioButton, Sticky, Banner, ColorPicker, Toast, Frame } from '@shopify/polaris'
 import './style.css'
 import { useState } from 'react';
 import { CircleAlertMajorMonotone, CircleTickMajorMonotone } from '@shopify/polaris-icons';
@@ -36,24 +36,14 @@ const QUERY_SCRIPTTAGS = gql`
         }
     }
 `
-const DELETE_SCRIPTTAG = gql`
-    mutation scriptTagDelete($id: ID!) {
-        scriptTagDelete(id: $id) {
-            deletedScriptTagId
-            userErrors {
-                field
-                message
-            }
-        }
-    }
-`
 
 const urlScriptTags = `https://discord-shopify-app.herokuapp.com/test-script.js`;
 
 function ScriptPage() {
+    const [stop, setStop] = useState(true)
     const [createScripts] = useMutation(CREATE_SCRIPTTAG);
-    const [deleteScripts] = useMutation(DELETE_SCRIPTTAG);
     const { loading, error, data } = useQuery(QUERY_SCRIPTTAGS);
+    const [widgetEnabled, setWidgetEnabled] = useState(false)
     const [pressedObject, setPressedObject] = useState({
         button1: false,
         button2: false,
@@ -89,9 +79,10 @@ function ScriptPage() {
             notificationText: notificationValue,
             notificationTimeout: timeoutValue,
             notificationAvatar: avatarValue,
-            mobile: true,
-            desktop: true,
-            color: hslToHex(color.hue, color.saturation, color.brightness)
+            mobile: mobileVal,
+            desktop: desktopVal,
+            color: hslToHex(color.hue, color.saturation, color.brightness),
+            widgetEnabled: widgetEnabled
         })
     }
     const [widgetObj, setWidget] = useState({
@@ -108,7 +99,8 @@ function ScriptPage() {
         notificationAvatar: 'https://cdn.discordapp.com/embed/avatars/0.png',
         color: '#7289DA',
         mobile: true,
-        desktop: true
+        desktop: true,
+        widgetEnabled: false
     });
 
     const [valID, setValID] = useState('');
@@ -217,12 +209,13 @@ function ScriptPage() {
             notificationAvatar: avatarValue,
             mobile: mobileVal,
             desktop: desktopVal,
-            color: hslToHex(color.hue, color.saturation, color.brightness)
+            color: hslToHex(color.hue, color.saturation, color.brightness),
+            widgetEnabled: widgetEnabled
         })
     }
 
     function returnIframe(desktop) {
-        console.log(widgetObj)
+        //console.log(widgetObj)
         if (valID != '') {
             var script = document.createElement("script");
 
@@ -282,7 +275,8 @@ function ScriptPage() {
     }
 
     function returnFirstIframe() {
-        console.log(widgetObj)
+        console.log("mare pula")
+        //console.log(widgetObj)
         if (firstRender) {
             if (valID != '') {
                 var script = document.createElement("script");
@@ -342,7 +336,7 @@ function ScriptPage() {
 
             setTimeout(() => {
                 setFirstRender(false);
-            }, 1000);
+            }, 100);
         }
     }
 
@@ -418,13 +412,6 @@ function ScriptPage() {
     if (error) return <div>{error.message}</div>
 
     const shopURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14);
-
-    // axios.get(`/api/widget/${shopURL}`).then(result => {
-    //     if (result.data.data != null) {
-    //         setWidget(result.data.data);
-    //         console.log(result.data.data);
-    //     }
-    // }).catch(error => console.log(error));   
 
     if (first) {
         axios.get(`/api/discordID/${shopURL}`).then(result => {
@@ -506,6 +493,7 @@ function ScriptPage() {
                     setAvatarValue(widget.notificationAvatar)
                     setDesktopVal(widget.desktop)
                     setMobileVal(widget.mobile)
+                    setWidgetEnabled(widget.widgetEnabled)
                 }
 
                 //console.log(data.data);
@@ -518,11 +506,26 @@ function ScriptPage() {
                     notificationAvatar: widget.notificationAvatar,
                     mobile: widget.mobile,
                     desktop: widget.desktop,
-                    color: widget.color
+                    color: widget.color,
+                    widgetEnabled: widget.widgetEnabled
                 })
 
             }).catch(error => console.log(error));
         setFirst(false);
+    }
+
+    if (stop && data.scriptTags.edges[0] == undefined) {
+        console.log("dublu cacat")
+        setStop(false);
+        createScripts({
+            variables: {
+                input: {
+                    src: urlScriptTags,
+                    displayScope: "ALL"
+                }
+            },
+            refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
+        })
     }
 
     return (
@@ -534,31 +537,36 @@ function ScriptPage() {
                         <Card sectioned>
                             <Stack alignment="center" spacing="extraLoose">
                                 <Stack.Item fill>
-                                    {((data.scriptTags.edges[0] != undefined)) ? <Stack alignment="center"><Icon source={CircleTickMajorMonotone} /><DisplayText size="small">Discord Widget is <b style={{ color: '#50b83c' }}>enabled</b></DisplayText></Stack> : <Stack alignment="center"><Icon source={CircleAlertMajorMonotone} /><DisplayText size="small">Discord Widget is <b style={{ color: '#de3618' }}>disabled</b></DisplayText></Stack>}
+                                    {(widgetEnabled) ? <Stack alignment="center"><Icon source={CircleTickMajorMonotone} /><DisplayText size="small">Discord Widget is <b style={{ color: '#50b83c' }}>enabled</b></DisplayText></Stack> : <Stack alignment="center"><Icon source={CircleAlertMajorMonotone} /><DisplayText size="small">Discord Widget is <b style={{ color: '#de3618' }}>disabled</b></DisplayText></Stack>}
                                 </Stack.Item>
                                 <Stack.Item>
                                     <label className="switch">
                                         {(valID != '') ?
-                                            <input type="checkbox" checked={(data.scriptTags.edges[0] != undefined)} onChange={() => {
+                                            <input type="checkbox" checked={widgetEnabled} onChange={() => {
                                                 if (valID != '') {
-                                                    if (!(data.scriptTags.edges[0] != undefined))
-                                                        createScripts({
-                                                            variables: {
-                                                                input: {
-                                                                    src: urlScriptTags,
-                                                                    displayScope: "ALL"
-                                                                }
-                                                            },
-                                                            refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
-                                                        })
-                                                    else if ((data.scriptTags.edges[0] != undefined))
-                                                        deleteScripts({
-                                                            variables: {
-                                                                id: data.scriptTags.edges[0].node.id
-                                                            },
-                                                            refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
-                                                        })
-                                                    // setEnabled(!enabled);
+                                                    setWidgetEnabled(!widgetEnabled)
+                                                    setWidget({
+                                                        desktopPosition: positionDesktop,
+                                                        mobilePosition: positionMobile,
+                                                        notificationText: notificationValue,
+                                                        notificationTimeout: timeoutValue,
+                                                        notificationAvatar: avatarValue,
+                                                        mobile: mobileVal,
+                                                        desktop: desktopVal,
+                                                        color: hslToHex(color.hue, color.brightness, color.saturation),
+                                                        widgetEnabled: !widgetEnabled
+                                                    });
+                                                    makeApiCall({
+                                                        desktopPosition: positionDesktop,
+                                                        mobilePosition: positionMobile,
+                                                        notificationText: notificationValue,
+                                                        notificationTimeout: timeoutValue,
+                                                        notificationAvatar: avatarValue,
+                                                        mobile: mobileVal,
+                                                        desktop: desktopVal,
+                                                        color: hslToHex(color.hue, color.brightness, color.saturation),
+                                                        widgetEnabled: !widgetEnabled
+                                                    }, shopURL);
                                                 }
                                             }} />
                                             : ''}
@@ -588,7 +596,8 @@ function ScriptPage() {
                                             notificationAvatar: avatarValue,
                                             mobile: false,
                                             desktop: true,
-                                            color: hslToHex(color.hue, color.saturation, color.brightness)
+                                            color: hslToHex(color.hue, color.saturation, color.brightness),
+                                            widgetEnabled: widgetEnabled
                                         })
                                         setMobileVal(false);
                                         setDesktopVal(true);
@@ -606,7 +615,8 @@ function ScriptPage() {
                                             notificationAvatar: avatarValue,
                                             mobile: true,
                                             desktop: false,
-                                            color: hslToHex(color.hue, color.saturation, color.brightness)
+                                            color: hslToHex(color.hue, color.saturation, color.brightness),
+                                            widgetEnabled: widgetEnabled
                                         })
                                         setMobileVal(true);
                                         setDesktopVal(false);
@@ -624,7 +634,8 @@ function ScriptPage() {
                                             notificationAvatar: avatarValue,
                                             mobile: true,
                                             desktop: true,
-                                            color: hslToHex(color.hue, color.saturation, color.brightness)
+                                            color: hslToHex(color.hue, color.saturation, color.brightness),
+                                            widgetEnabled: widgetEnabled
                                         })
                                         setMobileVal(true);
                                         setDesktopVal(true);
@@ -731,78 +742,6 @@ function ScriptPage() {
                                     Set Discord Purple Color
                                 </Button>
                             </Stack>
-
-                            {/* <p>Widget Logo</p>
-                        <br />
-                        <div style={{ backgroundColor: '#99aab5', borderRadius: '10px' }}>
-                            <Stack spacing="tight" distribution="center" alignment="center">
-                                <img className="not-select" src="https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg" onClick={() => {
-                                    setWidget({
-                                        desktopPosition: positionDesktop,
-                                        mobilePosition: positionMobile,
-                                        logo: 'https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg',
-                                        theme: themeName,
-                                        mobile: mobileVal,
-                                        desktop: desktopVal
-                                    })
-                                    setLogoPressedObject({ logo1: true, logo2: false, logo3: false });
-                                    setLogoUrl('https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg');
-                                }} width={(logoPressedObject.logo1) ? "80" : "60"} />
-                                <img className="not-select" src="https://discord.com/assets/41484d92c876f76b20c7f746221e8151.svg" onClick={() => {
-                                    setWidget({
-                                        desktopPosition: positionDesktop,
-                                        mobilePosition: positionMobile,
-                                        logo: 'https://discord.com/assets/41484d92c876f76b20c7f746221e8151.svg',
-                                        theme: themeName,
-                                        mobile: mobileVal,
-                                        desktop: desktopVal
-                                    })
-                                    setLogoPressedObject({ logo1: false, logo2: true, logo3: false });
-                                    setLogoUrl('https://discord.com/assets/41484d92c876f76b20c7f746221e8151.svg');
-                                }} width={(logoPressedObject.logo2) ? "80" : "60"} />
-                                <img className="not-select" src="https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg" onClick={() => {
-                                    setWidget({
-                                        desktopPosition: positionDesktop,
-                                        mobilePosition: positionMobile,
-                                        logo: 'https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg',
-                                        theme: themeName,
-                                        mobile: mobileVal,
-                                        desktop: desktopVal
-                                    })
-                                    setLogoPressedObject({ logo1: false, logo2: false, logo3: true });
-                                    setLogoUrl('https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg');
-                                }} width={(logoPressedObject.logo3) ? "80" : "60"} />
-                            </Stack>
-                        </div>
-                        <br />
-                        <p>Widget Theme</p>
-                        <br />
-                        <ButtonGroup segmented>
-                            <Button pressed={themeDark} onClick={() => {
-                                setWidget({
-                                    desktopPosition: positionDesktop,
-                                    mobilePosition: positionMobile,
-                                    logo: logoUrl,
-                                    theme: 'dark',
-                                    mobile: mobileVal,
-                                    desktop: desktopVal
-                                })
-                                setThemeName("dark");
-                                setThemeDark(true);
-                            }}>Dark</Button>
-                            <Button pressed={!themeDark} onClick={() => {
-                                setWidget({
-                                    desktopPosition: positionDesktop,
-                                    mobilePosition: positionMobile,
-                                    logo: logoUrl,
-                                    theme: 'light',
-                                    mobile: mobileVal,
-                                    desktop: desktopVal
-                                })
-                                setThemeName("light");
-                                setThemeDark(false);
-                            }}>Light</Button>
-                        </ButtonGroup> */}
                         </Card>
                         {/* <Card sectioned title={<DisplayText size="small"><b>Discount for Joining Server</b></DisplayText>}>
                             <Button primary onClick={() => {
@@ -843,7 +782,8 @@ function ScriptPage() {
                                     notificationAvatar: avatarValue,
                                     mobile: mobileVal,
                                     desktop: desktopVal,
-                                    color: hslToHex(color.hue, color.brightness, color.saturation)
+                                    color: hslToHex(color.hue, color.brightness, color.saturation),
+                                    widgetEnabled: widgetEnabled
                                 });
                             }} />
                             <br />
@@ -859,7 +799,8 @@ function ScriptPage() {
                                     notificationAvatar: avatarValue,
                                     mobile: mobileVal,
                                     desktop: desktopVal,
-                                    color: hslToHex(color.hue, color.brightness, color.saturation)
+                                    color: hslToHex(color.hue, color.brightness, color.saturation),
+                                    widgetEnabled: widgetEnabled
                                 });
                             }} />
                             <br />
@@ -873,7 +814,8 @@ function ScriptPage() {
                                     notificationAvatar: val,
                                     mobile: mobileVal,
                                     desktop: desktopVal,
-                                    color: hslToHex(color.hue, color.brightness, color.saturation)
+                                    color: hslToHex(color.hue, color.brightness, color.saturation),
+                                    widgetEnabled: widgetEnabled
                                 });
                             }} />
                             <br />
@@ -883,10 +825,6 @@ function ScriptPage() {
                         <Card sectioned title={<DisplayText size="small"><b>Help and Contact</b></DisplayText>}>
                             <p>For any kinds of issues or suggestions, you can email us at <b>blazesoftworks7@gmail.com</b></p>
                             <br />
-                            {/* <p>If your widget doesn't load, please check if you've entered the correct IDs.</p>
-                            <br />
-                            <p>If the issue persists please send an email with a screenshot of each of the app's pages with your settings and your store's name and we'll gladly help you solve the problem.</p>
-                            <br /> */}
                             <p>We are not affiliated with either <i>Widgetbot</i> or <i>Discord</i>. You can learn more about <i>Widgetbot</i> and support them for extra features <b><a href="https://widgetbot.io/" target="_blank">here</a></b>.</p>
                         </Card>
 
@@ -898,13 +836,12 @@ function ScriptPage() {
                             <div style={{ backgroundColor: '#99aab5', borderRadius: '10px' }}>
                                 <Stack distribution="center" alignment="center" vertical>
                                     <DisplayText size="small">Press the buttons bellow after every change to see the preview</DisplayText>
-                                    {/* <p>Press the button bellow after every change to see the preview</p> */}
                                 </Stack>
                                 <br />
                                 <Stack distribution="center">
                                     <ButtonGroup segmented>
-                                        <Button primary size="slim" pressed={desktopPreview} onClick={() => { setDesktopPreview(true); if (valID != '') returnIframe(true); }}>Generate Desktop</Button>
-                                        <Button primary size="slim" pressed={!desktopPreview} onClick={() => { setDesktopPreview(false); if (valID != '') returnIframe(false) }}>Generate Mobile</Button>
+                                        <Button primary size="slim" pressed={desktopPreview} onClick={() => { setDesktopPreview(true); if (valID != '') { returnIframe(true); setFirstRender(false); } }}>Generate Desktop</Button>
+                                        <Button primary size="slim" pressed={!desktopPreview} onClick={() => { setDesktopPreview(false); if (valID != '') { returnIframe(false); setFirstRender(false); } }}>Generate Mobile</Button>
                                     </ButtonGroup>
                                     {
                                         returnFirstIframe()
@@ -916,26 +853,6 @@ function ScriptPage() {
 
                                     </div>
                                 </Stack>
-                                {/* <Stack distribution="trailing" spacing="extraLoose"> */}
-                                {/* <svg height="100" width="100"> */}
-                                {/* <circle cx="50" cy="50" r="30" fill={hslToHex(color.hue, color.saturation, color.brightness)}> */}
-                                {/* </circle> */}
-                                {/* </svg> */}
-                                {/* #7289DA */}
-                                {/* <div style={{ backgroundColor: hslToHex(color.hue, color.saturation, color.brightness) }} className="dot">
-                                        <Stack distribution="center" alignment="center">
-                                            <img src="dislogo.png" width="40px" height="40px"></img>
-                                        </Stack>
-                                    </div> */}
-                                {/* {
-                                        (valID != '') ?
-                                            < img className="not-select" width="80" src={
-                                                (logoPressedObject.logo1) ?
-                                                    "https://discord.com/assets/1c8a54f25d101bdc607cec7228247a9a.svg" :
-                                                    (logoPressedObject.logo2) ? "https://discord.com/assets/41484d92c876f76b20c7f746221e8151.svg" : "https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg"
-                                            } /> : <div></div>
-                                    } */}
-                                {/* </Stack> */}
                             </div>
                         </Sticky>
                     </Layout.Section>
@@ -961,60 +878,60 @@ function ScriptPage() {
                     </div>
 
                     {/* <Layout.Section>
-                    <Card sectioned>
-                        <Button
-                            primary
-                            size="slim"
-                            type="submit"
-                            onClick={() => {
-                                createScripts({
-                                    variables: {
-                                        input: {
-                                            src: urlScriptTags,
-                                            displayScope: "ALL"
-                                        }
-                                    },
-                                    refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
-                                })
-                            }}>
-                            Create ScriptTag
+                        <Card sectioned>
+                            <Button
+                                primary
+                                size="slim"
+                                type="submit"
+                                onClick={() => {
+                                    createScripts({
+                                        variables: {
+                                            input: {
+                                                src: urlScriptTags,
+                                                displayScope: "ALL"
+                                            }
+                                        },
+                                        refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
+                                    })
+                                }}>
+                                Create ScriptTag
                         </Button>
-                    </Card>
-                    <Card>
-                        <ResourceList
-                            showHeader
-                            resourceName={{ singular: 'Script', plural: 'Scripts' }}
-                            items={data.scriptTags.edges}
-                            renderItem={item => {
-                                return (
-                                    <ResourceList.Item
-                                        id={item.node.id}
-                                    >
-                                        <Stack>
-                                            <Stack.Item>
-                                                <p>
-                                                    {item.node.id}
-                                                </p>
-                                            </Stack.Item>
-                                            <Stack.Item>
-                                                <Button type="submit" onClick={() => {
-                                                    deleteScripts({
-                                                        variables: {
-                                                            id: item.node.id
-                                                        },
-                                                        refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
-                                                    })
-                                                }}>
-                                                    Delete ScriptTag
+                        </Card>
+                        <Card>
+                            <ResourceList
+                                showHeader
+                                resourceName={{ singular: 'Script', plural: 'Scripts' }}
+                                items={data.scriptTags.edges}
+                                renderItem={item => {
+                                    return (
+                                        <ResourceList.Item
+                                            id={item.node.id}
+                                        >
+                                            <Stack>
+                                                <Stack.Item>
+                                                    <p>
+                                                        {item.node.id}
+                                                    </p>
+                                                </Stack.Item>
+                                                <Stack.Item>
+                                                    <Button type="submit" onClick={() => {
+                                                        deleteScripts({
+                                                            variables: {
+                                                                id: item.node.id
+                                                            },
+                                                            refetchQueries: [{ query: QUERY_SCRIPTTAGS }]
+                                                        })
+                                                    }}>
+                                                        Delete ScriptTag
                                                 </Button>
-                                            </Stack.Item>
-                                        </Stack>
-                                    </ResourceList.Item>
-                                )
-                            }}
-                        />
-                    </Card>
-                </Layout.Section> */}
+                                                </Stack.Item>
+                                            </Stack>
+                                        </ResourceList.Item>
+                                    )
+                                }}
+                            />
+                        </Card>
+                    </Layout.Section> */}
                 </Layout >
                 <div style={{
                     display: 'flex',
