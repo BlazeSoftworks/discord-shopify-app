@@ -59,9 +59,6 @@ app.prepare().then(() => {
           sameSite: 'none'
         });
 
-        //console.log(ctx.session);
-        //console.log(ctx.response);
-
         ctx.redirect('/');
       },
     }),
@@ -72,8 +69,6 @@ app.prepare().then(() => {
 
   server.use(async (ctx) => {
     await handle(ctx.req, ctx.res);
-
-    //console.log(ctx.cookies.get("shopOrigin"));
 
     //routes
     var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
@@ -138,25 +133,6 @@ app.prepare().then(() => {
           ctx.body = error
         }
       } else {
-        ctx.status = 401
-        ctx.body = "Not authenticated"
-      }
-    })
-
-    router.delete(`/api/discordID/${shopID}`, koaBody(), async (ctx) => {
-      if (ctx.cookies.get("shopOrigin")) {
-        try {
-          const id = await DiscordID.findByIdAndDelete(shopID)
-          if (!user) {
-            return res.status(404).send()
-          }
-          ctx.body = 'All items deleted';
-        } catch (error) {
-          console.log(error);
-          ctx.body = error
-        }
-      }
-      else {
         ctx.status = 401
         ctx.body = "Not authenticated"
       }
@@ -236,54 +212,6 @@ app.prepare().then(() => {
         ctx.body = "Not authenticated"
       }
     })
-
-    // router.get(`/api/widget/${shopID}`, async (ctx) => {
-    //   if (ctx.cookies.get("shopOrigin")) {
-    //     try {
-    //       ctx.body = {
-    //         status: 'success',
-    //         data: widget[shopID]
-    //       };
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   } else {
-    //     ctx.body = "Not authenticated"
-    //   }
-    // });
-
-    // router.post(`/api/widget/${shopID}`, koaBody(), async (ctx) => {
-    //   if (ctx.cookies.get("shopOrigin")) {
-    //     try {
-    //       const body = ctx.request.body;
-
-    //       console.log(ctx.href);
-    //       console.log(body);
-    //       console.log(shopID);
-    //       widget[shopID] = body
-
-    //       ctx.body = "Item Added";
-
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   } else {
-    //     ctx.body = "Not authenticated"
-    //   }
-    // })
-
-    // router.delete(`/api/widget/${shopID}`, koaBody(), async (ctx) => {
-    //   if (ctx.cookies.get("shopOrigin")) {
-    //     try {
-    //       widget[shopID] = {};
-    //       ctx.body = 'All items deleted';
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   } else {
-    //     ctx.body = "Not authenticated"
-    //   }
-    // })
 
     //------
 
