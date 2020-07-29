@@ -112,7 +112,7 @@ app.prepare().then(() => {
     router.post(`/api/discordID/${shopID}`, koaBody(), async (ctx) => {
       if (ctx.cookies.get("shopOrigin")) {
         try {
-          if ((await Widget.find({ shopID })).length > 0) {
+          if ((await DiscordID.find({ shopID })).length > 0) {
             const item = await DiscordID.findOneAndUpdate(shopID, {
               serverID: ctx.request.body.serverID,
               channelID: ctx.request.body.channelID,
