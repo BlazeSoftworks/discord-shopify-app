@@ -1,16 +1,10 @@
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { TextField, Button, Card, Page, Layout, ResourceItem, Stack, ResourceList, Checkbox, DisplayText, Icon, ButtonGroup, RadioButton, Sticky, Banner, ColorPicker, Toast, Frame } from '@shopify/polaris'
-import { TitleBar } from '@shopify/app-bridge-react'
+import { TextField, Button, Card, Page, Layout, Stack, DisplayText, Icon, ButtonGroup, RadioButton, Sticky, Banner, ColorPicker, Toast, Frame } from '@shopify/polaris'
 import './style.css'
 import { useState } from 'react';
 import { CircleAlertMajorMonotone, CircleTickMajorMonotone } from '@shopify/polaris-icons';
 import axios from 'axios'
-import { createApp } from '@shopify/app-bridge'
-import { ContextualSaveBar } from '@shopify/app-bridge/actions';
-import { set } from 'js-cookie';
-import { findBreakingChanges } from 'graphql';
-import { buildResolveInfo } from 'graphql/execution/execute';
 import $ from 'jquery';
 
 const CREATE_SCRIPTTAG = gql`
@@ -53,28 +47,10 @@ const DELETE_SCRIPTTAG = gql`
         }
     }
 `
-// const GET_STORE_NAME = gql`
-//     query getName { 
-//         shop 
-//         { 
-//         myshopifyDomain 
-//         }
-//     }
-// `
-// const CREATE_DISCOUNTCODE = gql`
-//     mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
-//         discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
-//         codeDiscountNode {
-//             id
-//         }        
-//       }
-//     }
-// `
 
-const urlScriptTags = `https://discord-shopify-app.herokuapp.com/test-script.js`;
+const urlScriptTags = `https://7a0eda9b3d40.ngrok.io/test-script.js`;
 
 function ScriptPage() {
-
     const [createScripts] = useMutation(CREATE_SCRIPTTAG);
     const [deleteScripts] = useMutation(DELETE_SCRIPTTAG);
     const { loading, error, data } = useQuery(QUERY_SCRIPTTAGS);
@@ -246,6 +222,7 @@ function ScriptPage() {
     }
 
     function returnIframe(desktop) {
+        console.log(widgetObj)
         if (valID != '') {
             var script = document.createElement("script");
 
@@ -305,6 +282,7 @@ function ScriptPage() {
     }
 
     function returnFirstIframe() {
+        console.log(widgetObj)
         if (firstRender) {
             if (valID != '') {
                 var script = document.createElement("script");
@@ -313,21 +291,21 @@ function ScriptPage() {
                 script.type = "text/javascript";
                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
                 script.text = `
-            var crate = new Crate({
-                server: '${valID}', 
-                channel: '${channelID}',
-                location: ["bottom", "right"],                                
-                shard: 'https://e.widgetbot.io',                        
-                color: '#7289DA',
-                defer: true,                        
-            })
-            //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                                
-            crate.notify({
-                content: '[Join](https://discord.gg/3FKvVwH) our Discord Server!',
-                timeout: 2000,
-                avatar: 'https://cdn.discordapp.com/embed/avatars/0.png'                        
-              }) 
-            `
+                var crate = new Crate({
+                    server: '${valID}', 
+                    channel: '${channelID}', 
+                    location: ["${widgetObj.desktopPosition.yAxis}", "${widgetObj.desktopPosition.xAxis}"],                                
+                    shard: 'https://e.widgetbot.io',                        
+                    color: '${widgetObj.color}',
+                    defer: true,                        
+                })
+                //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                                
+                crate.notify({
+                    content: '${widgetObj.notificationText}',
+                    timeout: ${widgetObj.notificationTimeout},
+                    avatar: '${widgetObj.notificationAvatar}'                        
+                  }) 
+                `
 
                 if (document.getElementById('widgetbotiframe') != undefined)
                     document.getElementById('widgetbotiframe').remove();
@@ -372,16 +350,6 @@ function ScriptPage() {
         const url = `/api/widget/${sURL}`;
 
         axios.post(url, appInfo).then((result) => { }).catch((error) => { console.log(error.response) });
-    }
-
-    function makeid(length) {
-        var result = '';
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        var charactersLength = characters.length;
-        for (var i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
     }
 
     function hexToHsl(hex) {
@@ -463,7 +431,7 @@ function ScriptPage() {
             if (result.data.data.serverID != null) {
                 setValID(result.data.data.serverID);
                 setChannelID(result.data.data.channelID);
-                console.log(result.data.data.serverID);
+                //console.log(result.data.data.serverID);
             }
         }).catch(error => console.log(error));
 
@@ -471,6 +439,7 @@ function ScriptPage() {
             .then(res => res.json())
             .then(data => {
                 var widget = data.data;
+                //console.log(widget)
                 if (widget != null) {
                     if (widget.desktopPosition.yAxis == 'top' && widget.desktopPosition.xAxis == 'left') {
                         setPressedObject({ button1: true, button2: false, button3: false, button4: false, });
@@ -530,39 +499,31 @@ function ScriptPage() {
                         });
                     }
 
-                    //FINISH DIS AND DO THE MARKUP LANG THING [text](link)
-
-                    console.log(widget.color);
-
                     var ccolor = hexToHsl(widget.color);
-
-                    console.log(ccolor);
-
                     setColorPlus({ hue: ccolor.h, saturation: (ccolor.s / 100), brightness: (ccolor.l / 100) });
-
-                    console.log(color);
+                    setNotificationValue(widget.notificationText)
+                    setTimeoutValue(widget.notificationTimeout)
+                    setAvatarValue(widget.notificationAvatar)
+                    setDesktopVal(widget.desktop)
+                    setMobileVal(widget.mobile)
                 }
 
-                console.log(data.data);
+                //console.log(data.data);
 
                 setWidget({
-                    desktopPosition: positionDesktop,
-                    mobilePosition: positionMobile,
-                    notificationText: notificationValue,
-                    notificationTimeout: timeoutValue,
-                    notificationAvatar: avatarValue,
-                    mobile: mobileVal,
-                    desktop: desktopVal,
-                    color: hslToHex(color.hue, color.saturation, color.brightness)
+                    desktopPosition: widget.desktopPosition,
+                    mobilePosition: widget.mobilePosition,
+                    notificationText: widget.notificationText,
+                    notificationTimeout: widget.notificationTimeout,
+                    notificationAvatar: widget.notificationAvatar,
+                    mobile: widget.mobile,
+                    desktop: widget.desktop,
+                    color: widget.color
                 })
 
-                makeApiCall(widgetObj, shopURL);
             }).catch(error => console.log(error));
         setFirst(false);
-        console.log(color);
     }
-
-    console.log($(window).height());
 
     return (
         <Frame>
@@ -942,10 +903,12 @@ function ScriptPage() {
                                 <br />
                                 <Stack distribution="center">
                                     <ButtonGroup segmented>
-                                        <Button primary size="slim" pressed={desktopPreview} onClick={() => { setDesktopPreview(true); returnIframe(true); setFirstRender(false); }}>Generate Desktop</Button>
-                                        <Button primary size="slim" pressed={!desktopPreview} onClick={() => { setDesktopPreview(false); returnIframe(false); setFirstRender(false); }}>Generate Mobile</Button>
+                                        <Button primary size="slim" pressed={desktopPreview} onClick={() => { setDesktopPreview(true); if (valID != '') returnIframe(true); }}>Generate Desktop</Button>
+                                        <Button primary size="slim" pressed={!desktopPreview} onClick={() => { setDesktopPreview(false); if (valID != '') returnIframe(false) }}>Generate Mobile</Button>
                                     </ButtonGroup>
-                                    {returnFirstIframe(desktopPreview)}
+                                    {
+                                        returnFirstIframe()
+                                    }
                                 </Stack>
                                 <br />
                                 <Stack distribution={(!desktopPreview) ? "center" : "fill"}>
