@@ -48,7 +48,7 @@ const DELETE_SCRIPTTAG = gql`
     }
 `
 
-const urlScriptTags = `https://7a0eda9b3d40.ngrok.io/test-script.js`;
+const urlScriptTags = `https://discord-shopify-app.herokuapp.com/test-script.js`;
 
 function ScriptPage() {
     const [createScripts] = useMutation(CREATE_SCRIPTTAG);

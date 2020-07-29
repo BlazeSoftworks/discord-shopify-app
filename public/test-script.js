@@ -23,7 +23,7 @@ console.log(shopId);
 // color: "#ff000000",
 // glyph: ["https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg", "95%"]
 
-fetch(`https://7a0eda9b3d40.ngrok.io/api/widget/${shopId}`)
+fetch(`https://discord-shopify-app.herokuapp.com/api/widget/${shopId}`)
     .then(res => res.json())
     .then(data => {
 
