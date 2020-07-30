@@ -18,12 +18,12 @@ const client = new ApolloClient({
 class MyApp extends App {
 
   static async getInitialProps(server) {
-    const shopOrigin = server.ctx.query.shop
+    var shopOrigin = server.ctx.query.shop
     return { shopOrigin }
   }
 
   render() {
-    const { Component, pageProps, shopOrigin } = this.props;
+    var { Component, pageProps, shopOrigin } = this.props;
     console.log(shopOrigin)
     if (Cookies.get("shopOrigin")) {
       shopOrigin = Cookies.get("shopOrigin")
