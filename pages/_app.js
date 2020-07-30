@@ -26,6 +26,14 @@ class MyApp extends App {
     const { Component, pageProps, shopOrigin } = this.props;
     if (Cookies.get("shopOrigin")) {
       shopOrigin = Cookies.get("shopOrigin")
+      console.log("---------")
+      console.log("Il aveam")
+      console.log("---------")
+    } else {
+      Cookies.set("shopOrigin", shopOrigin)
+      console.log("---------")
+      console.log("L-am setat acum")
+      console.log("---------")
     }
     const config = { apiKey: API_KEY, shopOrigin, forceRedirect: true };
     return (
