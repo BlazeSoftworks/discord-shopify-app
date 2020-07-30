@@ -24,13 +24,18 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps, shopOrigin } = this.props;
+    console.log(shopOrigin)
     if (Cookies.get("shopOrigin")) {
       shopOrigin = Cookies.get("shopOrigin")
       console.log("---------")
       console.log("Il aveam")
       console.log("---------")
     } else {
-      Cookies.set("shopOrigin", shopOrigin)
+      Cookies.set("shopOrigin", shopOrigin, {
+        httpOnly: false,
+        secure: true,
+        sameSite: 'none'
+      })
       console.log("---------")
       console.log("L-am setat acum")
       console.log("---------")
