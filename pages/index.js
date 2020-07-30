@@ -23,26 +23,6 @@ const GET_STORE_NAME = gql`
   }
 `
 
-// const GET_STORE_DISCOUNTS = gql`
-//   query getDiscountCodes{
-//     priceRules (first:10) {
-//       edges {
-//         node {
-//           id
-//           discountCodes (first:10) {
-//             edges {
-//               node {
-//                 code
-//                 id
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
-
 function AnnotatedLayout() {
 
   const [idset, setId] = useState(false);
@@ -57,7 +37,7 @@ function AnnotatedLayout() {
     (value) => {
       if (/^\d+$/.test(value) || value == '')
         setTextFieldValue(value);
-      console.log(textFieldValue);
+      //console.log(textFieldValue);
     },
     [],
   );
@@ -66,7 +46,7 @@ function AnnotatedLayout() {
     (value) => {
       if (/^\d+$/.test(value) || value == '')
         setTextFieldValue1(value);
-      console.log(textFieldValue1);
+      //console.log(textFieldValue1);
     },
     [],
   );
@@ -82,7 +62,7 @@ function AnnotatedLayout() {
 
   if (loading) return <div>Loading..</div>
   else if (error) {
-    console.log(Cookies.get("shopOrigin"));
+    //console.log(Cookies.get("shopOrigin"));
     //location.replace(`https://discord-shopify-app.herokuapp.com/auth?shop=${Cookies.get("shopOrigin")}`)
     return <div>{error.message}</div>
   }
@@ -124,7 +104,7 @@ function AnnotatedLayout() {
               <img src="dis1.PNG" width="100%" height="410" />
             </Card>
           </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection title="Step Two" description="Type the ??guestmode command if you want people who don't have a discord account to be able to write messages. Type ??help for a full list of commands.">
+          <Layout.AnnotatedSection title="Step Two" description="Type the ??guestmode command if you want people who don't have a discord account or are not already in your server to be able to choose a name on spot and write messages. Type ??help for a full list of commands.">
             <Card sectioned >
               <img src="dis2.PNG" width="100%" height="410" />
             </Card>

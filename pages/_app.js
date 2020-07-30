@@ -17,9 +17,17 @@ const client = new ApolloClient({
 
 class MyApp extends App {
 
+  static async getInitialProps(server) {
+    const shopOrigin = server.ctx.query.shop
+    return { shopOrigin }
+  }
+
   render() {
-    const { Component, pageProps } = this.props;
-    const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
+    const { Component, pageProps, shopOrigin } = this.props;
+    if (Cookies.get("shopOrigin")) {
+      shopOrigin = Cookies.get("shopOrigin")
+    }
+    const config = { apiKey: API_KEY, shopOrigin, forceRedirect: true };
     return (
       <React.Fragment>
         <Head>
