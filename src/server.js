@@ -13,7 +13,6 @@ const koaBody = require('koa-body')
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy')
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy')
-const { Connected } = require('@shopify/polaris')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
