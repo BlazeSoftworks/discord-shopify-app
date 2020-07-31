@@ -31,8 +31,8 @@ class MyApp extends App {
 
   componentDidMount() {
     if (this.state.refreshed) {
+      alert("MARE RFRESZ QUAESZS")
       window.location.reload(false);
-      console.log("mare refresh ba quae")
       this.setState({ refreshed: false })
     }
   }
