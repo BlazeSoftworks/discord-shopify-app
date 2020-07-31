@@ -22,6 +22,11 @@ class MyApp extends App {
     return { shopOrigin }
   }
 
+  componentDidMount() {
+    window.location.reload(false);
+    console.log("mare refresh ba quae")
+  }
+
   render() {
     var { Component, pageProps, shopOrigin } = this.props;
     console.log(shopOrigin)
@@ -40,7 +45,6 @@ class MyApp extends App {
       console.log("---------")
       console.log("L-am setat acum")
       console.log("---------")
-      window.location.reload(false);
     }
 
     const config = { apiKey: API_KEY, shopOrigin, forceRedirect: true };
