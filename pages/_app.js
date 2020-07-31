@@ -40,8 +40,11 @@ class MyApp extends App {
       console.log("---------")
       console.log("L-am setat acum")
       console.log("---------")
+      window.location.reload(false);
     }
+
     const config = { apiKey: API_KEY, shopOrigin, forceRedirect: true };
+
     return (
       <React.Fragment>
         <Head>
