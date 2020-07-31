@@ -24,14 +24,14 @@ class MyApp extends App {
 
   render() {
     var { Component, pageProps, shopOrigin } = this.props;
-    console.log("forta fratre")
     console.log(shopOrigin)
     if (Cookies.get("shopOrigin")) {
       shopOrigin = Cookies.get("shopOrigin")
       console.log("---------")
       console.log("Il aveam")
       console.log("---------")
-    } else {
+    }
+    else {
       Cookies.set("shopOrigin", shopOrigin, {
         httpOnly: false,
         secure: true,
