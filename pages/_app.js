@@ -17,25 +17,25 @@ const client = new ApolloClient({
 
 class MyApp extends App {
 
-  constructor() {
-    super()
-    this.state = {
-      refreshed: false
-    }
-  }
+  // constructor() {
+  //   super()
+  //   this.state = {
+  //     refreshed: false
+  //   }
+  // }
 
   static async getInitialProps(server) {
     var shopOrigin = server.ctx.query.shop
     return { shopOrigin }
   }
 
-  componentDidMount() {
-    if (this.state.refreshed) {
-      alert("MARE RFRESZ QUAESZS")
-      window.location.reload(false);
-      this.setState({ refreshed: false })
-    }
-  }
+  // componentDidMount() {
+  //   if (this.state.refreshed) {
+  //     alert("MARE RFRESZ QUAESZS")
+  //     window.location.reload(false);
+  //     this.setState({ refreshed: false })
+  //   }
+  // }
 
   render() {
     var { Component, pageProps, shopOrigin } = this.props;
@@ -52,7 +52,7 @@ class MyApp extends App {
         secure: true,
         sameSite: 'none'
       })
-      this.setState({ refreshed: true })
+      //this.setState({ refreshed: true })
       console.log("---------")
       console.log("L-am setat acum")
       console.log("---------")
