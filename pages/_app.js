@@ -17,14 +17,21 @@ const client = new ApolloClient({
 
 class MyApp extends App {
 
+  state = {
+    refreshed=false
+  }
+
   static async getInitialProps(server) {
     var shopOrigin = server.ctx.query.shop
     return { shopOrigin }
   }
 
   componentDidMount() {
-    window.location.reload(false);
-    console.log("mare refresh ba quae")
+    if (!this.state.refreshed) {
+      window.location.reload(false);
+      console.log("mare refresh ba quae")
+      this.setState({ refreshed=true })
+    }
   }
 
   render() {
