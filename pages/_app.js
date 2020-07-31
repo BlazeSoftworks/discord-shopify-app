@@ -18,6 +18,7 @@ const client = new ApolloClient({
 class MyApp extends App {
 
   constructor() {
+    super()
     this.state = {
       refreshed: false
     }
