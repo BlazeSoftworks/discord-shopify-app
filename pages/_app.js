@@ -47,17 +47,15 @@ class MyApp extends App {
       console.log("---------")
     }
     else {
-      if (window) {
-        Cookies.set("shopOrigin", shopOrigin, {
-          httpOnly: false,
-          secure: true,
-          sameSite: 'none'
-        })
-        //this.setState({ refreshed: true })
-        console.log("---------")
-        console.log("L-am setat acum")
-        console.log("---------")
-      }
+      Cookies.set("shopOrigin", shopOrigin, {
+        httpOnly: false,
+        secure: true,
+        sameSite: 'none'
+      })
+      //this.setState({ refreshed: true })
+      console.log("---------")
+      console.log("L-am setat acum")
+      console.log("---------")
     }
 
     const config = { apiKey: API_KEY, shopOrigin, forceRedirect: true };
