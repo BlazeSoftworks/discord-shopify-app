@@ -30,7 +30,7 @@ class MyApp extends App {
     if (!this.state.refreshed) {
       window.location.reload(false);
       console.log("mare refresh ba quae")
-      this.setState({ refreshed=true })
+      this.setState({ refreshed: true })
     }
   }
 
