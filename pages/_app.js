@@ -18,7 +18,7 @@ const client = new ApolloClient({
 class MyApp extends App {
 
   state = {
-    refreshed=false
+    refreshed: false
   }
 
   static async getInitialProps(server) {
