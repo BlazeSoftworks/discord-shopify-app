@@ -30,10 +30,10 @@ class MyApp extends App {
   }
 
   componentDidMount() {
-    if (!this.state.refreshed) {
+    if (this.state.refreshed) {
       window.location.reload(false);
       console.log("mare refresh ba quae")
-      this.setState({ refreshed: true })
+      this.setState({ refreshed: false })
     }
   }
 
@@ -52,6 +52,7 @@ class MyApp extends App {
         secure: true,
         sameSite: 'none'
       })
+      this.setState({ refreshed: true })
       console.log("---------")
       console.log("L-am setat acum")
       console.log("---------")
