@@ -47,7 +47,7 @@ const GET_STORE = gql`
   }
 `
 
-const urlScriptTags = `https://discordify.com/test-script.js`;
+const urlScriptTags = `https://www.discordify.com/test-script.js`;
 
 function AnnotatedLayout() {
   const [createScripts] = useMutation(CREATE_SCRIPTTAG);

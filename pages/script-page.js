@@ -37,7 +37,7 @@ const QUERY_SCRIPTTAGS = gql`
     }
 `
 
-const urlScriptTags = `https://discordify.com/test-script.js`;
+const urlScriptTags = `https://www.discordify.com/test-script.js`;
 
 function ScriptPage() {
     const [stop, setStop] = useState(true)

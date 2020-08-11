@@ -25,7 +25,7 @@ const shopId = f.substring(8, f.length - 14);
 
 var svID, chID
 
-var url = 'https://discordify.com'
+var url = 'https://www.discordify.com'
 
 fetch(`${url}/api/usageRecord/${shopId}`)
     .then(res => res.json())
