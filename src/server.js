@@ -50,7 +50,7 @@ server.use(async (ctx) => {
     ctx.status = 404
     ctx.body = { msg: 'emmmmmmm, seems 404' };
     console.log("BA PULA")
-    ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}.myshopify.com`)
+    ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}`)
   }
   console.log("CACAT FRATE")
 })
