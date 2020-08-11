@@ -5,32 +5,44 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
     isMobile = true;
 }
 
-console.log("Is mobile?" + isMobile);
+//console.log("Is mobile?" + isMobile);
 
-const body = $('body');
-const prodDesc = $('.product-single__description');
+// const body = $('body');
+// const prodDesc = $('.product-single__description');
 
-body.css({
-    'position': 'absolute'
-})
+// body.css({
+//     'position': 'absolute'
+// })
 
 //------------
 
 var f = window.location.origin.toString();
 const shopId = f.substring(8, f.length - 14);
-console.log(shopId);
+//console.log(shopId);
 
 // color: "#ff000000",
 // glyph: ["https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg", "95%"]
 
 var svID, chID
 
-fetch(`https://discord-shopify-app.herokuapp.com/api/discordID/${shopId}`)
+var url = 'https://discordify.com'
+
+fetch(`${url}/api/usageRecord/${shopId}`)
     .then(res => res.json())
-    .then((data) => {
+    .then(data => {
+        console.log(data)
+        return fetch(`${url}/api/usageCreate/${shopId}`)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        return fetch(`${url}/api/discordID/${shopId}`)
+    })
+    .then(res => res.json())
+    .then(data => {
         svID = data.data.serverID
         chID = data.data.channelID
-        return fetch(`https://discord-shopify-app.herokuapp.com/api/widget/${shopId}`)
+        return fetch(`${url}/api/widget/${shopId}`)
     })
     .then(res => res.json())
     .then(data => {
@@ -39,7 +51,6 @@ fetch(`https://discord-shopify-app.herokuapp.com/api/discordID/${shopId}`)
 
         if (widget.widgetEnabled) {
             if (!window.location.pathname.includes("/cart")) {
-
                 if ((!isMobile && widget.desktop)) {
                     var script = document.createElement("script");
                     script.type = "text/javascript";

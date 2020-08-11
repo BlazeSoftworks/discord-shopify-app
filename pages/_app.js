@@ -7,7 +7,7 @@ import translations from '@shopify/polaris/locales/en.json';
 import Cookies from 'js-cookie';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import React from 'react'
+import React from 'react';
 
 const client = new ApolloClient({
   fetchOptions: {
@@ -17,34 +17,19 @@ const client = new ApolloClient({
 
 class MyApp extends App {
 
-  // constructor() {
-  //   super()
-  //   this.state = {
-  //     refreshed: false
-  //   }
-  // }
-
   static async getInitialProps(server) {
     var shopOrigin = server.ctx.query.shop
     return { shopOrigin }
   }
 
-  // componentDidMount() {
-  //   if (this.state.refreshed) {
-  //     alert("MARE RFRESZ QUAESZS")
-  //     window.location.reload(false);
-  //     this.setState({ refreshed: false })
-  //   }
-  // }
-
   render() {
     var { Component, pageProps, shopOrigin } = this.props;
-    console.log(shopOrigin)
-    if (Cookies.get("shopOrigin")) {
+    //console.log(shopOrigin)
+    if (Cookies.get("shopOrigin") != undefined) {
       shopOrigin = Cookies.get("shopOrigin")
-      console.log("---------")
-      console.log("Il aveam")
-      console.log("---------")
+      //console.log("---------")
+      //console.log("Il aveam")
+      //console.log("---------")
     }
     else {
       Cookies.set("shopOrigin", shopOrigin, {
@@ -53,9 +38,9 @@ class MyApp extends App {
         sameSite: 'none'
       })
       //this.setState({ refreshed: true })
-      console.log("---------")
-      console.log("L-am setat acum")
-      console.log("---------")
+      //console.log("---------")
+      //console.log("L-am setat acum")
+      //console.log("---------")
     }
 
     const config = { apiKey: API_KEY, shopOrigin, forceRedirect: true };

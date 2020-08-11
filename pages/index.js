@@ -11,26 +11,53 @@ import {
 } from '@shopify/polaris';
 import gql from 'graphql-tag'
 import React, { useState, useCallback } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const GET_STORE_NAME = gql`
-  query getName{ 
+const CREATE_SCRIPTTAG = gql`
+    mutation scriptTagCreate($input: ScriptTagInput!) {
+        scriptTagCreate(input: $input) {
+           scriptTag {
+             id
+            }
+           userErrors {
+            field
+            message
+            }
+        }
+    }
+`
+
+const GET_STORE = gql`
+  query getStore{ 
+    scriptTags(first: 5) {
+      edges {
+          node {
+              id
+              src
+              displayScope
+          }
+      }
+  }
+
     shop { 
       myshopifyDomain 
     }      
   }
 `
 
-function AnnotatedLayout() {
+const urlScriptTags = `https://discordify.com/test-script.js`;
 
+function AnnotatedLayout() {
+  const [createScripts] = useMutation(CREATE_SCRIPTTAG);
   const [idset, setId] = useState(false);
+  const [stop, setStop] = useState(true);
   const [textFieldValue, setTextFieldValue] = useState('');
   const [textFieldValueOld, setTextFieldValueOld] = useState('');
   const [textFieldValue1, setTextFieldValue1] = useState('');
   const [textFieldValueOld1, setTextFieldValueOld1] = useState('');
-  const { loading, error, data } = useQuery(GET_STORE_NAME);
+  const { loading, error, data } = useQuery(GET_STORE);
   const [first, setFirst] = useState(true);
 
   const handleTextFieldChange = useCallback(
@@ -83,8 +110,21 @@ function AnnotatedLayout() {
         setTextFieldValueOld1(result.data.data.channelID);
       }
     }).catch(error => console.log(error));
-
     setFirst(false);
+  }
+
+  if (stop && data.scriptTags.edges[0] == undefined) {
+    console.log("dublu cacat")
+    setStop(false);
+    createScripts({
+      variables: {
+        input: {
+          src: urlScriptTags,
+          displayScope: "ALL"
+        }
+      },
+      refetchQueries: [{ query: GET_STORE }]
+    })
   }
 
   return (

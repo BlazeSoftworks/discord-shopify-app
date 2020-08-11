@@ -37,7 +37,7 @@ const QUERY_SCRIPTTAGS = gql`
     }
 `
 
-const urlScriptTags = `https://discord-shopify-app.herokuapp.com/test-script.js`;
+const urlScriptTags = `https://discordify.com/test-script.js`;
 
 function ScriptPage() {
     const [stop, setStop] = useState(true)
@@ -275,7 +275,6 @@ function ScriptPage() {
     }
 
     function returnFirstIframe() {
-        console.log("mare pula")
         //console.log(widgetObj)
         if (firstRender) {
             if (valID != '') {
