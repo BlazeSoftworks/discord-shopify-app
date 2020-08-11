@@ -68,10 +68,12 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment) =>
   else
     appSubscription = responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1]
 
-  console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems)
+  // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems)
 
-  console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails)
-  console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1].plan.pricingDetails)
+  // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails)
+  // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1].plan.pricingDetails)
+
+  console.log(responseJson.data.appSubscriptionCreate)
 
   return { confirmationUrl: confirmationUrl, appSubscription: appSubscription }
 }
