@@ -75,6 +75,7 @@ app.prepare().then(() => {
         'write_products',
         'read_script_tags',
         'write_script_tags',
+        'read_reports'
       ],
       async afterAuth(ctx) {
         const { shop, accessToken } = ctx.session;
