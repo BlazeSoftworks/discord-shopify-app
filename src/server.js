@@ -44,6 +44,19 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
+app.use(async (ctx, next) => {
+  try {
+    await next()
+    const status = ctx.status || 404
+    if (status === 404) {
+      ctx.throw(404)
+    }
+  } catch (err) {
+    if (ctx.cookies.get("shopOrigin"))
+      ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}.myshopify.com`)
+  }
+})
+
 const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
 router.post('/webhooks/customers/redact', webhook, (ctx) => {
@@ -164,7 +177,7 @@ app.prepare().then(() => {
               console.log(obj)
             }
             else {
-              ctx.status = 404
+              ctx.status = 400
               ctx.body = "Not found"
             }
           } catch (error) {
