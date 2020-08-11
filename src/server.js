@@ -44,6 +44,25 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
+const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
+
+router.post('/webhooks/customers/redact', webhook, (ctx) => {
+  console.log('received webhook customers/redact: ', ctx.state.webhook);
+});
+
+router.post('/webhooks/shop/redact', webhook, async (ctx) => {
+  console.log('received webhook shop/redact: ', ctx.state.webhook);
+  const sr = new ShopRedact({
+    shop_id: ctx.state.webhook.payload.shop_id,
+    shop_domain: ctx.state.webhook.payload.shop_domain,
+  })
+  await sr.save()
+});
+
+router.post('/webhooks/customers/data_request', webhook, (ctx) => {
+  console.log('received webhook customers/data_request: ', ctx.state.webhook);
+});
+
 app.prepare().then(() => {
   server.use(session({ secure: true, sameSite: 'none' }, server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
@@ -272,25 +291,6 @@ app.prepare().then(() => {
       },
     }),
   );
-
-  const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
-
-  router.post('/webhooks/customers/redact', webhook, (ctx) => {
-    console.log('received webhook customers/redact: ', ctx.state.webhook);
-  });
-
-  router.post('/webhooks/shop/redact', webhook, async (ctx) => {
-    console.log('received webhook shop/redact: ', ctx.state.webhook);
-    const sr = new ShopRedact({
-      shop_id: ctx.state.webhook.payload.shop_id,
-      shop_domain: ctx.state.webhook.payload.shop_domain,
-    })
-    await sr.save()
-  });
-
-  router.post('/webhooks/customers/data_request', webhook, (ctx) => {
-    console.log('received webhook customers/data_request: ', ctx.state.webhook);
-  });
 
   server.use(graphQLProxy({ version: ApiVersion.July20 }))
 
