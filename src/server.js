@@ -45,15 +45,15 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
-server.use(async (ctx) => {
-  if (parseInt(ctx.status) === 404) {
-    ctx.status = 404
-    ctx.body = { msg: 'emmmmmmm, seems 404' };
-    console.log("BA PULA")
-    ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}`)
-  }
-  console.log("CACAT FRATE")
-})
+// server.use(async (ctx) => {
+//   if (parseInt(ctx.status) === 404) {
+//     ctx.status = 404
+//     ctx.body = { msg: 'emmmmmmm, seems 404' };
+//     console.log("BA PULA")
+//     ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}`)
+//   }
+//   console.log("CACAT FRATE")
+// })
 
 const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
