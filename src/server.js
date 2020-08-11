@@ -1,5 +1,4 @@
 require('isomorphic-fetch')
-require('./db/mongoose')
 const dotenv = require('dotenv')
 const Koa = require('koa')
 const KoaRouter = require('koa-router')
@@ -23,6 +22,8 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+require('./db/mongoose')
+
 const {
   SHOPIFY_API_SECRET_KEY,
   SHOPIFY_API_KEY,
@@ -44,7 +45,7 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
-app.use(async (ctx, next) => {
+server.use(async (ctx, next) => {
   try {
     await next()
     const status = ctx.status || 404
