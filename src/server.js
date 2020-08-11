@@ -45,15 +45,27 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
-// server.use(async (ctx) => {
-//   if (parseInt(ctx.status) === 404) {
-//     ctx.status = 404
-//     ctx.body = { msg: 'emmmmmmm, seems 404' };
-//     console.log("BA PULA")
-//     ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}`)
-//   }
-//   console.log("CACAT FRATE")
-// })
+server.use(async (ctx) => {
+  if (ctx.cookies.get('shopRedirected') == undefined) {
+    if (parseInt(ctx.status) === 404) {
+      ctx.status = 404
+      ctx.body = { msg: 'emmmmmmm, seems 404' };
+      console.log("BA PULA")
+      ctx.cookies.set('shopRedirected', ctx.request.query.shop, {
+        httpOnly: false,
+        secure: true,
+        sameSite: 'none'
+      });
+      ctx.redirect(`https://www.discordify.com/auth?shop=${ctx.cookies.get("shopOrigin")}`)
+    }
+    else {
+      console.log("CACAT FRATE")
+    }
+  }
+  else {
+    console.log("TOT MUIE")
+  }
+})
 
 const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
@@ -95,6 +107,8 @@ app.prepare().then(() => {
           secure: true,
           sameSite: 'none'
         });
+
+        //HANDLE SUB
 
         const { confirmationUrl, appSubscription } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
 
