@@ -10,7 +10,6 @@ const { verifyRequest } = require('@shopify/koa-shopify-auth')
 const { receiveWebhook, registerWebhook } = require('@shopify/koa-shopify-webhooks');
 const session = require('koa-session')
 const koaBody = require('koa-body')
-const sslify = require('koa-sslify').default;
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy')
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy')
@@ -39,7 +38,8 @@ const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 
 //ROUTER MIDDLEWARE
-server.use(sslify)
+
+// init middleware with resolver
 server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
