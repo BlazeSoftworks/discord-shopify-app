@@ -158,7 +158,7 @@ app.prepare().then(() => {
 
         const bobj = (await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges
 
-        // console.log(bobj)
+        console.log(bobj)
 
         if (bobj.length == 0 || bobj[0].node.status == "CANCELLED" || bobj[0].node.status == "EXPIRED" || bobj[0].node.status == "DECLINED") {
           confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
