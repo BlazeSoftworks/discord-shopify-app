@@ -1,5 +1,5 @@
 expiry = new Date();
-expiry.setTime(date.getTime() + (1 * 60 * 1000));
+expiry.setTime(expiry.getTime() + (1 * 30 * 1000));
 
 function bake_cookie(name, value) {
     var cookie = [name, '=', JSON.stringify(value), '; expires=', expiry.toGMTString(), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
