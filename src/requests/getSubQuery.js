@@ -15,17 +15,7 @@ const getSubscriptionQuery = async (ctx, accessToken, shop) => {
                             amount
                             currencyCode
                           }
-                        }
-                        ... on AppUsagePricing {
-                          balanceUsed {
-                            amount
-                            currencyCode
-                          }
-                          cappedAmount {
-                            amount
-                            currencyCode
-                          }
-                        }
+                        }                        
                       }
                     }
                   }

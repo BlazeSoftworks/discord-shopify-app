@@ -156,9 +156,11 @@ app.prepare().then(() => {
 
         var confirmationUrl;
 
-        console.log((await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges)
+        const bobj = (await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges
 
-        if ((await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges.length == 0) {
+        console.log(bobj)
+
+        if (bobj.length == 0 || bobj[0].status == "CANCELLED" || bobj[0].status == "EXPIRED") {
           confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
           console.log("FACEM BANI ", await getSubQuery(ctx, accessToken, shop))
         }
