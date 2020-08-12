@@ -164,7 +164,7 @@ function ScriptPage() {
         }
         else if (i == 'button4') {
             setPressedObject(pos = { button1: false, button2: false, button3: false, button4: true, });
-            setPositionDesktop({
+            setPositionDesktop(pos = {
                 'yAxis': 'bottom',
                 'xAxis': 'right',
             });
