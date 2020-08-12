@@ -869,7 +869,7 @@ function ScriptPage() {
                         background: '#F4F6F8',
                         borderTop: '1px solid #DFE3E8',
                     }}>
-                        <div></div>
+                        <div>Saved changes take around 10 minutes to show up on your store</div>
                         <Button disabled={valID == ''} size="slim" primary onClick={() => {
                             makeApiCall(widgetObj, shopURL);
                             setActive(true);

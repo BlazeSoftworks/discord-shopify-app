@@ -1,5 +1,8 @@
+expiry = new Date();
+expiry.setTime(date.getTime() + (1 * 60 * 1000));
+
 function bake_cookie(name, value) {
-    var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+    var cookie = [name, '=', JSON.stringify(value), '; expires=', expiry.toGMTString(), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
     document.cookie = cookie;
 }
 
