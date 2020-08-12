@@ -156,7 +156,7 @@ app.prepare().then(() => {
 
         var confirmationUrl;
 
-        if ((await getSubQuery(ctx, accessToken, shop)).currentAppInstallation.allSubscriptions.edges.length == 0) {
+        if ((await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges.length == 0) {
           confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
           console.log("FACEM BANI ", await getSubQuery(ctx, accessToken, shop))
         }
