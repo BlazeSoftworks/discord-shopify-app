@@ -49,7 +49,7 @@ var url = 'https://www.discordify.com'
 //         console.log(data)
 //         return fetch(`${url}/api/discordID/${shopId}`)
 //     })
-if (read_cookie("dis") != undefined && read_cookie("widget") != undefined)
+if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
     fetch(`${url}/api/discordID/${shopId}`)
         .then(res => res.json())
         .then(data => {
