@@ -124,11 +124,10 @@ app.prepare().then(() => {
     //#region MONGODB ROUTES    
 
     if (update[shopID] == false || update[shopID] == undefined) {
-      update[shopID] = true
 
       const cap = 1000
 
-      console.log(appSubscription.id)
+      console.log("MARELE VIERME")
 
       router.get(`/api/usageCreate/${shopID}`, async (ctx) => {
         const item = (await Usage.find({ shopID }))[0]
@@ -319,9 +318,7 @@ app.prepare().then(() => {
         }
       })
 
-      update.update = false
-
-      await update.save()
+      update[shopID] = true
     }
 
     //#endregion
