@@ -15,7 +15,7 @@ const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy')
 
 const getSubscriptionUrl = require('./requests/getSubcriptionUrl');
 const getStorePlan = require('./requests/getStorePlan');
-const getSubscriptionQuery = require('./requests/getSubscriptionQuery');
+const getSubQuery = require('./requests/getSubQuery');
 //const createUsageRecord = require('./requests/createUsageRecord');
 
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -156,9 +156,9 @@ app.prepare().then(() => {
 
         var confirmationUrl;
 
-        if (getSubscriptionQuery == undefined) {
+        if (await getSubQuery(ctx, accessToken, shop) == undefined) {
           confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
-          console.log("FACEM BANI")
+          console.log("FACEM BANI ", await getSubQuery(ctx, accessToken, shop))
         }
         else {
           console.log("AM FACUT DE LA ASTA")
