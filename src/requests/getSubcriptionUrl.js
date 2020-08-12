@@ -1,5 +1,13 @@
 const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment) => {
-  //SCHIMBA TEST TRUE   
+  // {
+  //   plan: {
+  //     appUsagePricingDetails: {
+  //         cappedAmount: { amount: 10, currencyCode: USD }
+  //         terms: "$1 for every 1000 website impressions"
+  //     }
+  //   }
+  // }  
+
   const query = JSON.stringify({
     query: `mutation {
         appSubscriptionCreate(
@@ -7,19 +15,11 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment) =>
             trialDays: 7
             returnUrl: "${process.env.HOST}"
             test: ${partnerDevelopment}
-            lineItems: [
-            {
-              plan: {
-                appUsagePricingDetails: {
-                    cappedAmount: { amount: 10, currencyCode: USD }
-                    terms: "$1 for every 1000 website impressions"
-                }
-              }
-            }            
+            lineItems: [                     
             {
               plan: {
                 appRecurringPricingDetails: {
-                    price: { amount: 2.49, currencyCode: USD }
+                    price: { amount: 4.99, currencyCode: USD }
                 }
               }
             }            
@@ -62,20 +62,22 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment) =>
 
   const confirmationUrl = responseJson.data.appSubscriptionCreate.confirmationUrl
 
-  var appSubscription
-  if (responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails == "AppUsagePricing")
-    appSubscription = responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0]
-  else
-    appSubscription = responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1]
+  // var appSubscription
+  // if (responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails == "AppUsagePricing")
+  //   appSubscription = responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0]
+  // else
+  //   appSubscription = responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1]
 
-  // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems)
+  // // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems)
 
-  // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails)
-  // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1].plan.pricingDetails)
+  // // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails)
+  // // console.log(responseJson.data.appSubscriptionCreate.appSubscription.lineItems[1].plan.pricingDetails)
 
-  console.log(responseJson.data.appSubscriptionCreate)
+  // console.log(responseJson.data.appSubscriptionCreate)
 
-  return { confirmationUrl: confirmationUrl, appSubscription: appSubscription }
+  // return { confirmationUrl: confirmationUrl, appSubscription: appSubscription }
+
+  return confirmationUrl
 }
 
 module.exports = getSubscriptionUrl;

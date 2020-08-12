@@ -1,3 +1,14 @@
+function bake_cookie(name, value) {
+    var cookie = [name, '=', JSON.stringify(value), '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+    document.cookie = cookie;
+}
+
+function read_cookie(name) {
+    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+    result && (result = JSON.parse(result[1]));
+    return result;
+}
+
 var isMobile = false; //initiate as false
 // device detection
 if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
@@ -27,35 +38,44 @@ var svID, chID
 
 var url = 'https://www.discordify.com'
 
-fetch(`${url}/api/usageRecord/${shopId}`)
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        return fetch(`${url}/api/usageCreate/${shopId}`)
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-        return fetch(`${url}/api/discordID/${shopId}`)
-    })
-    .then(res => res.json())
-    .then(data => {
-        svID = data.data.serverID
-        chID = data.data.channelID
-        return fetch(`${url}/api/widget/${shopId}`)
-    })
-    .then(res => res.json())
-    .then(data => {
+// fetch(`${url}/api/usageRecord/${shopId}`)
+//     .then(res => res.json())
+//     .then(data => {
+//         console.log(data)
+//         return fetch(`${url}/api/usageCreate/${shopId}`)
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         console.log(data)
+//         return fetch(`${url}/api/discordID/${shopId}`)
+//     })
+if (read_cookie("dis") != undefined && read_cookie("widget") != undefined)
+    fetch(`${url}/api/discordID/${shopId}`)
+        .then(res => res.json())
+        .then(data => {
+            const dis = data.data
 
-        const widget = data.data;
+            bake_cookie("dis", dis)
 
-        if (widget.widgetEnabled) {
-            if (!window.location.pathname.includes("/cart")) {
-                if ((!isMobile && widget.desktop)) {
-                    var script = document.createElement("script");
-                    script.type = "text/javascript";
-                    script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                    script.text = `
+            svID = dis.serverID
+            chID = dis.channelID
+
+            return fetch(`${url}/api/widget/${shopId}`)
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            const widget = data.data;
+
+            bake_cookie("widget", widget)
+
+            if (widget.widgetEnabled) {
+                if (!window.location.pathname.includes("/cart")) {
+                    if ((!isMobile && widget.desktop)) {
+                        var script = document.createElement("script");
+                        script.type = "text/javascript";
+                        script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                        script.text = `
                 var crate = new Crate({
                     server: '${svID}', 
                     channel: '${chID}', 
@@ -71,13 +91,13 @@ fetch(`${url}/api/usageRecord/${shopId}`)
                     avatar: '${widget.notificationAvatar}'                        
                   }) 
                 `
-                    document.head.appendChild(script);
-                }
-                else if ((isMobile && widget.mobile)) {
-                    var script = document.createElement("script");
-                    script.type = "text/javascript";
-                    script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                    script.text = `
+                        document.head.appendChild(script);
+                    }
+                    else if ((isMobile && widget.mobile)) {
+                        var script = document.createElement("script");
+                        script.type = "text/javascript";
+                        script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                        script.text = `
                 var crate = new Crate({
                     server: '${svID}', 
                     channel: '${chID}',
@@ -93,11 +113,61 @@ fetch(`${url}/api/usageRecord/${shopId}`)
                     avatar: '${widget.notificationAvatar}'                        
                   }) 
                 `
-                    document.head.appendChild(script);
+                        document.head.appendChild(script);
+                    }
                 }
             }
+        })
+        .catch(error => console.log(error));
+else {
+    const { svID, chID } = read_cookie("dis")
+    const widget = read_cookie("widget")
+    if (widget.widgetEnabled) {
+        if (!window.location.pathname.includes("/cart")) {
+            if ((!isMobile && widget.desktop)) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                script.text = `
+        var crate = new Crate({
+            server: '${svID}', 
+            channel: '${chID}', 
+            location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
+            shard: 'https://e.widgetbot.io',                        
+            color: '${widget.color}',
+            defer: true,                        
+        })
+        //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
+        crate.notify({
+            content: '${widget.notificationText}',
+            timeout: ${widget.notificationTimeout},
+            avatar: '${widget.notificationAvatar}'                        
+          }) 
+        `
+                document.head.appendChild(script);
+            }
+            else if ((isMobile && widget.mobile)) {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                script.text = `
+        var crate = new Crate({
+            server: '${svID}', 
+            channel: '${chID}',
+            location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
+            shard: 'https://e.widgetbot.io',                        
+            color: '${widget.color}',
+            defer: true,                        
+        })
+        //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
+        crate.notify({
+            content: '${widget.notificationText}',
+            timeout: ${widget.notificationTimeout},
+            avatar: '${widget.notificationAvatar}'                        
+          }) 
+        `
+                document.head.appendChild(script);
+            }
         }
-    })
-    .catch(error => console.log(error));
-
-
+    }
+}

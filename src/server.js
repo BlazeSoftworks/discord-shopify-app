@@ -15,7 +15,7 @@ const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy')
 
 const getSubscriptionUrl = require('./requests/getSubcriptionUrl');
 const getStorePlan = require('./requests/getStorePlan');
-const createUsageRecord = require('./requests/createUsageRecord');
+//const createUsageRecord = require('./requests/createUsageRecord');
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
@@ -35,7 +35,7 @@ const router = new KoaRouter()
 
 const DiscordID = require('./models/discordID')
 const Widget = require('./models/widget')
-const Usage = require('./models/usage')
+//const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 
 var update = {}
@@ -99,11 +99,11 @@ app.prepare().then(() => {
 
         //HANDLE SUB
 
-        const { confirmationUrl, appSubscription } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
+        //const { confirmationUrl, appSubscription } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
+
+        const confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
 
         const shopID = shop.substr(0, shop.length - 14);
-
-        console.log(appSubscription)
 
         //ROUTE CREATION
         update[shopID] = false
@@ -129,58 +129,58 @@ app.prepare().then(() => {
 
       console.log("MARELE VIERME")
 
-      router.get(`/api/usageCreate/${shopID}`, async (ctx) => {
-        const item = (await Usage.find({ shopID }))[0]
-        const arr = await Usage.find({ shopID })
-        if (arr.length > 0 && item.counter == cap) {
-          const ur = await createUsageRecord(ctx, accessToken, shop, appSubscription.id)
-          console.log(ur.data.appUsageRecordCreate.userErrors)
-          ctx.status = 200
-          ctx.body = { status: 'success' }
-        }
-        else {
-          ctx.status = 200
-          ctx.body = { status: 'success' }
-        }
-      })
+      // router.get(`/api/usageCreate/${shopID}`, async (ctx) => {
+      //   const item = (await Usage.find({ shopID }))[0]
+      //   const arr = await Usage.find({ shopID })
+      //   if (arr.length > 0 && item.counter == cap) {
+      //     const ur = await createUsageRecord(ctx, accessToken, shop, appSubscription.id)
+      //     console.log(ur.data.appUsageRecordCreate.userErrors)
+      //     ctx.status = 200
+      //     ctx.body = { status: 'success' }
+      //   }
+      //   else {
+      //     ctx.status = 200
+      //     ctx.body = { status: 'success' }
+      //   }
+      // })
 
-      router.get(`/api/usageRecord/${shopID}`, async (ctx) => {
-        try {
-          const item = (await Usage.find({ shopID }))[0]
-          const arr = await Usage.find({ shopID })
-          //console.log(item)
-          if (arr.length > 0 && item.counter < cap) {
-            item.counter += 1;
-            await item.save()
+      // router.get(`/api/usageRecord/${shopID}`, async (ctx) => {
+      //   try {
+      //     const item = (await Usage.find({ shopID }))[0]
+      //     const arr = await Usage.find({ shopID })
+      //     //console.log(item)
+      //     if (arr.length > 0 && item.counter < cap) {
+      //       item.counter += 1;
+      //       await item.save()
 
-            ctx.status = 200
-            ctx.body = item;
-            console.log(item)
-          }
-          else if (arr.length > 0 && item.counter >= cap) {
-            item.counter = 1;
-            await item.save()
+      //       ctx.status = 200
+      //       ctx.body = item;
+      //       console.log(item)
+      //     }
+      //     else if (arr.length > 0 && item.counter >= cap) {
+      //       item.counter = 1;
+      //       await item.save()
 
-            ctx.status = 200
-            ctx.body = item;
-            console.log(item)
-          }
-          else {
-            const id = new Usage({
-              counter: 1,
-              shopID
-            })
-            await id.save()
-            ctx.status = 200
-            ctx.body = id
-            console.log(id)
-          }
-        } catch (error) {
-          console.log(error);
-          ctx.status = 500
-          ctx.body = error
-        }
-      })
+      //       ctx.status = 200
+      //       ctx.body = item;
+      //       console.log(item)
+      //     }
+      //     else {
+      //       const id = new Usage({
+      //         counter: 1,
+      //         shopID
+      //       })
+      //       await id.save()
+      //       ctx.status = 200
+      //       ctx.body = id
+      //       console.log(id)
+      //     }
+      //   } catch (error) {
+      //     console.log(error);
+      //     ctx.status = 500
+      //     ctx.body = error
+      //   }
+      // })
 
       router.get(`/api/discordID/${shopID}`, async (ctx) => {
         try {
