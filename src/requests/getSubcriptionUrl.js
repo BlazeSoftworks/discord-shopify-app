@@ -1,4 +1,4 @@
-const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment) => {
+const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, trial) => {
   // {
   //   plan: {
   //     appUsagePricingDetails: {
@@ -12,7 +12,7 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment) =>
     query: `mutation {
         appSubscriptionCreate(
             name: "Discordify Plan"
-            trialDays: 7
+            trialDays: ${trial}
             returnUrl: "${process.env.HOST}"
             test: ${partnerDevelopment}
             lineItems: [                     

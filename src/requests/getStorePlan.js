@@ -30,7 +30,7 @@ const getStorePlan = async (ctx, accessToken, shop) => {
     const responseJson = await response.json();
 
     //console.log(responseJson)
-    console.log(responseJson.data.shop.plan)
+    //console.log(responseJson.data.shop.plan)
 
     return responseJson.data.shop.plan
 };

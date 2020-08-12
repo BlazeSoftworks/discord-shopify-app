@@ -37,6 +37,7 @@ const DiscordID = require('./models/discordID')
 const Widget = require('./models/widget')
 //const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
+const Billing = require('./models/billing')
 
 var update = {}
 
@@ -97,13 +98,62 @@ app.prepare().then(() => {
           sameSite: 'none'
         });
 
-        //HANDLE SUB
-
         //const { confirmationUrl, appSubscription } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
 
-        const confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
-
         const shopID = shop.substr(0, shop.length - 14);
+
+        //#region TRIAL LOGIC
+
+        const billing = (await Billing.findOne({ shopID }))
+
+        var date_ob = new Date()
+
+        let date = date_ob.getDate()
+        let month = date_ob.getMonth() + 1
+        let year = date_ob.getFullYear();
+
+        let today = { year, month, date }
+
+        var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        var trial;
+
+        if (billing != undefined && billing.first_install_date.year == today.year) {
+
+          var dif = 0
+
+          if (billing.first_install_date.month == today.month) {
+            dif = today.date - billing.first_install_date.date
+          }
+          else if (today.month - billing.first_install_date.month == 1) {
+            if (billing.first_install_date.month - 1 == 1 && billing.first_install_date.year % 4 == 0)
+              dif = 29 - billing.first_install_date.date + today.date
+            else
+              dif = days[billing.first_install_date.month - 1] - billing.first_install_date.date + today.date
+          }
+          else {
+            dif = 7
+          }
+
+          trial = 7 - dif
+
+          if (trial < 0)
+            trial = 0
+        }
+        else {
+          trial = 7
+
+          const id = new Billing({
+            first_install_date: today,
+            shopID
+          })
+
+          await id.save()
+        }
+
+        //#endregion
+
+        const confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
         //ROUTE CREATION
         update[shopID] = false
@@ -127,7 +177,7 @@ app.prepare().then(() => {
 
       const cap = 1000
 
-      console.log("MARELE VIERME")
+      //console.log("MARELE VIERME")
 
       // router.get(`/api/usageCreate/${shopID}`, async (ctx) => {
       //   const item = (await Usage.find({ shopID }))[0]
@@ -194,7 +244,7 @@ app.prepare().then(() => {
                 channelID: obj.channelID,
               }
             }
-            console.log(obj)
+            //console.log(obj)
           }
           else {
             ctx.status = 400
@@ -217,7 +267,7 @@ app.prepare().then(() => {
               }, { new: true, runValidators: true })
               ctx.status = 200
               ctx.body = "Item Updated";
-              console.log(item)
+              //console.log(item)
             }
             else {
               const id = new DiscordID({
@@ -230,7 +280,7 @@ app.prepare().then(() => {
               ctx.body = id
             }
           } catch (error) {
-            console.log(error);
+            //console.log(error);
             ctx.status = 500
             ctx.body = error
           }
@@ -259,7 +309,7 @@ app.prepare().then(() => {
                 shopID
               }
             }
-            console.log(obj)
+            //console.log(obj)
           }
           else {
             ctx.body = "Not found"
@@ -271,7 +321,7 @@ app.prepare().then(() => {
 
       router.post(`/api/widget/${shopID}`, koaBody(), async (ctx) => {
         if (ctx.cookies.get("shopOrigin")) {
-          console.log(ctx.request.body)
+          //console.log(ctx.request.body)
           try {
             if ((await Widget.find({ shopID })).length > 0) {
               const item = await Widget.findOneAndUpdate(shopID, {
@@ -288,7 +338,7 @@ app.prepare().then(() => {
               }, { new: true, runValidators: true })
               ctx.status = 200
               ctx.body = "Item Updated";
-              console.log(item)
+              //console.log(item)
             }
             else {
               const id = new Widget({
@@ -308,7 +358,7 @@ app.prepare().then(() => {
               ctx.body = id
             }
           } catch (error) {
-            console.log(error);
+            //console.log(error);
             ctx.status = 500
             ctx.body = error
           }
