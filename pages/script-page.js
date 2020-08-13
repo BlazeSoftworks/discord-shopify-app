@@ -824,7 +824,11 @@ function ScriptPage() {
                         <Card sectioned title={<DisplayText size="small"><b>Help and Contact</b></DisplayText>}>
                             <p>For any kinds of issues or suggestions, you can email us at <b>blazesoftworks7@gmail.com</b></p>
                             <br />
-                            <p>We are not affiliated with either <i>Widgetbot</i> or <i>Discord</i>. You can learn more about <i>Widgetbot</i> and support them for extra features <b><a href="https://widgetbot.io/" target="_blank">here</a></b>.</p>
+                            <p>We are not affiliated with either <i>Widgetbot</i> or <i>Discord</i>.</p>
+                            <br />
+                            <p> <b>Unfortunately we cannot fix problems regarding <i>Widgetbot</i> outages, however, the <i>Widgetbot</i> team fixes them pretty fast.</b></p>
+                            <br />
+                            <p> <i>Discordify</i> will always provide you with the latest <i>Widgetbot</i> version.  You can learn more about <i>Widgetbot</i> and support them for extra features <b><a href="https://widgetbot.io/" target="_blank">here</a></b>.</p>
                         </Card>
 
                     </Layout.Section>
@@ -869,7 +873,7 @@ function ScriptPage() {
                         background: '#F4F6F8',
                         borderTop: '1px solid #DFE3E8',
                     }}>
-                        <div><b>Saved changes take around 10 minutes to show up on your store</b></div>
+                        <div><b>Saved changes take a few seconds to show up on your store</b></div>
                         <Button disabled={valID == ''} size="slim" primary onClick={() => {
                             makeApiCall(widgetObj, shopURL);
                             setActive(true);
