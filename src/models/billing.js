@@ -18,7 +18,7 @@ const Billing = mongoose.model('Billing', {
             trim: true
         },
     },
-    gif: {
+    gid: {
         type: String,
         require: true,
         trim: true
