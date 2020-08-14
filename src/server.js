@@ -156,7 +156,7 @@ app.prepare().then(() => {
 
         //#endregion
 
-        const confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
+        const { confirmationUrl } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
         console.log("CE PULA")
         // const bobj = (await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges
