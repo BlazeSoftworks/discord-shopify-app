@@ -151,11 +151,11 @@ app.prepare().then(() => {
 
         const bill = await Billing.findOne({ shopID })
 
-        if (bill) {
-          console.log()
-          console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
-          console.log()
-        }
+        // if (bill) {
+        //   console.log()
+        //   console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+        //   console.log()
+        // }
 
         if (!bill) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
@@ -168,7 +168,7 @@ app.prepare().then(() => {
 
           await id.save()
 
-          console.log("1 ", id)
+          //console.log("1 ", id)
 
           ctx.redirect(confirmationUrl);
         }
@@ -184,7 +184,7 @@ app.prepare().then(() => {
           ctx.redirect(confirmationUrl);
         }
         else {
-          console.log("3")
+          //console.log("3")
 
           ctx.redirect("/");
         }
