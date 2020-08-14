@@ -150,9 +150,11 @@ app.prepare().then(() => {
 
         const bill = await Billing.findOne({ shopID })
 
-        console.log()
-        console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
-        console.log()
+        if (bill) {
+          console.log()
+          console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+          console.log()
+        }
 
         if (!bill) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
