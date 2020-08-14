@@ -171,7 +171,7 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).status != "ACTIVE") {
+        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).node.status != "ACTIVE") {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
           bill.gid = gid
