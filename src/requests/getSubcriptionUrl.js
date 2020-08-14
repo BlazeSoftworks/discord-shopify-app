@@ -64,7 +64,7 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
   const gid = responseJson.data.appSubscriptionCreate.appSubscription.id
 
   console.log(confirmationUrl)
-  console.log(ID)
+  console.log(gid)
 
   // var appSubscription
   // if (responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails == "AppUsagePricing")
