@@ -19,6 +19,11 @@ const Billing = mongoose.model('Billing', {
             trim: true
         },
     },
+    gif: {
+        type: String,
+        require: true,
+        trim: true
+    },
     shopID: {
         type: String,
         require: true,

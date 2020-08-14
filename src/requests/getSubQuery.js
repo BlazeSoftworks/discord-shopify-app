@@ -1,34 +1,33 @@
-const getSubscriptionQuery = async (ctx, accessToken, shop) => {
+const getSubscriptionQuery = async (ctx, accessToken, shop, gid) => {
 
   const query = JSON.stringify({
     query: `query {
-          currentAppInstallation {
-            allSubscriptions(first: 2) {
-              edges {
-                node {
-                  lineItems {
-                    plan {
-                      pricingDetails {
-                        __typename
-                        ... on AppRecurringPricing {
-                          price {
-                            amount
-                            currencyCode
-                          }
-                        }                        
-                      }
-                    }
+      node(id: ${gid}) {
+        ...on AppSubscription {
+          billingInterval
+          createdAt
+          currentPeriodEnd
+          id
+          name
+          status
+          test
+          lineItems {
+            plan {
+              pricingDetails {
+                ...on AppRecurringPricing {
+                  interval
+                  price {
+                    amount
+                    currencyCode
                   }
-                  createdAt
-                  id
-                  name
-                  status
-                  test
-                }
+    
+                }  
               }
             }
           }
-        }`
+        }
+      }
+    }`
   });
 
   const response = await fetch(`https://${shop}/admin/api/2020-07/graphql.json`, {
@@ -41,6 +40,8 @@ const getSubscriptionQuery = async (ctx, accessToken, shop) => {
   })
 
   const responseJson = await response.json();
+
+  console.log(responseJson)
 
   return responseJson
 }

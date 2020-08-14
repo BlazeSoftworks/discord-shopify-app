@@ -45,8 +45,6 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
       }`
   });
 
-  console.log("DE CE NU MERGE")
-
   const response = await fetch(`https://${shop}/admin/api/2020-07/graphql.json`, {
     method: 'POST',
     headers: {
@@ -56,8 +54,6 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
     body: query
   })
 
-  console.log("CE MACIACTA")
-
   const responseJson = await response.json();
 
   //console.log(JSON.stringify(responseJson))
@@ -65,11 +61,10 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
   //console.log(JSON.parse(JSON.stringify(responseJson)))
 
   const confirmationUrl = responseJson.data.appSubscriptionCreate.confirmationUrl
-  //const ID = responseJson.data.appSubscriptionCreate.id
+  const gid = responseJson.data.appSubscriptionCreate.appSubscription.id
 
   console.log(confirmationUrl)
-  //console.log(ID)
-  console.log(responseJson.data.appSubscriptionCreate)
+  console.log(ID)
 
   // var appSubscription
   // if (responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails == "AppUsagePricing")
@@ -86,7 +81,7 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
 
   // return { confirmationUrl: confirmationUrl, appSubscription: appSubscription }
 
-  return { confirmationUrl: confirmationUrl }
+  return { confirmationUrl: confirmationUrl, gid: gid }
 }
 
 module.exports = getSubscriptionUrl;
