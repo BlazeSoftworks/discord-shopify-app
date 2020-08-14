@@ -61,6 +61,10 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
   //console.log(JSON.parse(JSON.stringify(responseJson)))
 
   const confirmationUrl = responseJson.data.appSubscriptionCreate.confirmationUrl
+  const ID = responseJson.data.appSubscriptionCreate.id
+
+  console.log(confirmationUrl)
+  console.log(ID)
 
   // var appSubscription
   // if (responseJson.data.appSubscriptionCreate.appSubscription.lineItems[0].plan.pricingDetails == "AppUsagePricing")
@@ -77,7 +81,7 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
 
   // return { confirmationUrl: confirmationUrl, appSubscription: appSubscription }
 
-  return confirmationUrl
+  return { confirmationUrl: confirmationUrl, ID: ID }
 }
 
 module.exports = getSubscriptionUrl;

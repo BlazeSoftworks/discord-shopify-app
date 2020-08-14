@@ -149,7 +149,7 @@ function AnnotatedLayout() {
               <img src="dis2.PNG" width="100%" height="410" />
             </Card>
           </Layout.AnnotatedSection>
-          <Layout.AnnotatedSection title="Step Three" description='Type the ??crate command in the text channel you want to display in the widget after it loads. Copy the values from Server and Channel without the quotes, paste them bellow and submit. You can always come back here to change the IDs. Now go to Widget Settings to customise and enable your widget!'>
+          <Layout.AnnotatedSection title="Step Three" description='Type the ??crate command in the text channel you want to display in the widget after it loads. Copy the values from Server and Channel without the quotes, paste them bellow and submit. You can always come back here to change the IDs. Now go to Widget Settings to customize and enable your widget!'>
             < Card sectioned >
               <img src="dis3.PNG" width="100%" height="410" />
             </Card>

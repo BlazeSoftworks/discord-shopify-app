@@ -2,7 +2,7 @@
 // expiry.setTime(expiry.getTime() + (1 * 30 * 1000));
 
 function bake_cookie(name, value) {
-    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 15, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
     document.cookie = cookie;
 }
 
