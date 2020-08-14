@@ -39,6 +39,7 @@ const Widget = require('./models/widget')
 //const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 const Billing = require('./models/billing')
+const { data } = require('jquery')
 
 var update = {}
 
@@ -171,7 +172,7 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).node.status != "ACTIVE") {
+        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
           bill.gid = gid
