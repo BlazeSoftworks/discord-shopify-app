@@ -99,6 +99,8 @@ app.prepare().then(() => {
           sameSite: 'none'
         });
 
+        console.log("WHAT")
+
         //const { confirmationUrl, appSubscription } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
 
         const shopID = shop.substr(0, shop.length - 14);
@@ -156,6 +158,7 @@ app.prepare().then(() => {
 
         const confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
+        console.log("CE PULA")
         // const bobj = (await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges
 
         // console.log(bobj)
