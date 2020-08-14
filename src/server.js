@@ -253,7 +253,7 @@ app.prepare().then(() => {
     await handle(ctx.req, ctx.res);
 
     const shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
-
+    console.log(update[shopID])
     //#region MONGODB ROUTES    
 
     if (update[shopID] == false || update[shopID] == undefined) {
