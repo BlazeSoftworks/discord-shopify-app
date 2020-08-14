@@ -40,8 +40,6 @@ const getSubscriptionQuery = async (ctx, accessToken, shop, gid) => {
 
   const responseJson = await response.json();
 
-  console.log(responseJson)
-
   return responseJson
 }
 

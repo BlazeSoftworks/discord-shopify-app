@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { isNumeric } = require('jquery')
 
 const Billing = mongoose.model('Billing', {
     first_install_date: {

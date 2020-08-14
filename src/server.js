@@ -99,9 +99,8 @@ app.prepare().then(() => {
           sameSite: 'none'
         });
 
-        console.log("WHAT")
-
-        //const { confirmationUrl, appSubscription } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment);
+        //ROUTE CREATION
+        update[shopID] = false
 
         const shopID = shop.substr(0, shop.length - 14);
 
@@ -145,41 +144,42 @@ app.prepare().then(() => {
         }
         else {
           trial = 7
+        }
+
+        //#endregion        
+
+        const bill = await Billing.findOne({ shopID })
+
+        if (!bill) {
+          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
           const id = new Billing({
             first_install_date: today,
+            gid,
             shopID
           })
 
           await id.save()
+
+          console.log("1 ", id)
+
+          ctx.redirect(confirmationUrl);
         }
+        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).status != "ACTIVE") {
+          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
-        //#endregion
+          bill.gid = gid
+          await bill.save()
 
-        const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
+          console.log("2 ", bill)
 
-        const res = await getSubQuery(ctx, accessToken, shop, gid)
+          ctx.redirect(confirmationUrl);
+        }
+        else {
+          console.log("3")
 
-        console.log("ALOOO")
-
-        console.log(res)
-        // const bobj = (await getSubQuery(ctx, accessToken, shop)).data.currentAppInstallation.allSubscriptions.edges
-
-        // console.log(bobj)
-
-        // if (bobj.length == 0 || bobj[0].node.status == "CANCELLED" || bobj[0].node.status == "EXPIRED" || bobj[0].node.status == "DECLINED") {
-        //   confirmationUrl = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
-        //   console.log("FACEM BANI ", await getSubQuery(ctx, accessToken, shop))
-        // }
-        // else {
-        //   console.log("AM FACUT DE LA ASTA")
-        //   confirmationUrl = '/'
-        // }
-
-        //ROUTE CREATION
-        update[shopID] = false
-
-        ctx.redirect(confirmationUrl);
+          ctx.redirect("/");
+        }
       },
     }),
   );
