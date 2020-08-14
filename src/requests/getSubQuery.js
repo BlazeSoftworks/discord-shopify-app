@@ -3,8 +3,7 @@ const getSubscriptionQuery = async (ctx, accessToken, shop, gid) => {
   const query = JSON.stringify({
     query: `query {
       node(id: "${gid}") {
-        ...on AppSubscription {
-          billingInterval
+        ...on AppSubscription {          
           createdAt
           currentPeriodEnd
           id
