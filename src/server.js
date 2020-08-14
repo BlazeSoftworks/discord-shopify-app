@@ -150,6 +150,10 @@ app.prepare().then(() => {
 
         const bill = await Billing.findOne({ shopID })
 
+        console.log()
+        console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+        console.log()
+
         if (!bill) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
@@ -172,7 +176,7 @@ app.prepare().then(() => {
           await bill.save()
 
           console.log("2 ", bill)
-          console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+          //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
 
           ctx.redirect(confirmationUrl);
         }
