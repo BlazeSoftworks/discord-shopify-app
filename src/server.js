@@ -204,7 +204,7 @@ app.prepare().then(() => {
 
     if (update[shopID] == false || update[shopID] == undefined) {
 
-      const cap = 1000
+      //const cap = 1000
 
       //console.log("MARELE VIERME")
 
