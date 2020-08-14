@@ -99,10 +99,10 @@ app.prepare().then(() => {
           sameSite: 'none'
         });
 
+        const shopID = shop.substr(0, shop.length - 14);
+
         //ROUTE CREATION
         update[shopID] = false
-
-        const shopID = shop.substr(0, shop.length - 14);
 
         //#region TRIAL LOGIC
 
