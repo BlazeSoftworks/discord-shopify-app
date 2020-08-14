@@ -315,6 +315,8 @@ app.prepare().then(() => {
       //   }
       // })
 
+      console.log("A INTRAT AICI GEN WHAT COAIE")
+
       router.get(`/api/discordID/${shopID}`, async (ctx) => {
         try {
           const obj = await DiscordID.findOne({ shopID })
