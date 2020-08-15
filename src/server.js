@@ -2,7 +2,8 @@ require('isomorphic-fetch')
 const dotenv = require('dotenv')
 const Koa = require('koa')
 const KoaRouter = require('koa-router')
-var cors = require('koa2-cors')
+const cors = require('koa2-cors')
+const send = require('koa-send')
 const next = require('next')
 const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth')
 const { verifyRequest } = require('@shopify/koa-shopify-auth')
@@ -62,7 +63,10 @@ server.use(router.routes());
 
 const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
-
+router.get('/test-script.js', async (ctx) => {
+  console.log("SE INCEARCA BA")
+  await send(ctx, './script.js')
+})
 
 router.get('/privacy', (ctx) => {
   ctx.body = privacy
