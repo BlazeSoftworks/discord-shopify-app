@@ -76,7 +76,7 @@ router.get('/test-script.js', async (ctx) => {
 router.get('/favicon.ico', async (ctx) => {
   console.log("SE INCEARCA BA LA FAVI")
   try {
-    await send(ctx, 'favicon.ico', { root: __dirname })
+    await send(ctx, 'favicon.ico', { root: __dirname + "../public" })
     console.log(__dirname)
   } catch (e) {
     console.log(e)
