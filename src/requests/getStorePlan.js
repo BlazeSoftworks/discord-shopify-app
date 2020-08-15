@@ -3,6 +3,7 @@ const getStorePlan = async (ctx, accessToken, shop) => {
         query: `{
         shop {
             name
+            email
             plan {
               partnerDevelopment
             }
@@ -32,7 +33,10 @@ const getStorePlan = async (ctx, accessToken, shop) => {
     //console.log(responseJson)
     //console.log(responseJson.data.shop.plan)
 
-    return responseJson.data.shop.plan
+    return {
+        partnerDevelopment: responseJson.data.shop.plan.partnerDevelopment,
+        email: responseJson.data.shop.email
+    }
 };
 
 module.exports = getStorePlan;

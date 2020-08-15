@@ -10,7 +10,7 @@ module.exports = `
 <h1 class="entry-title" itemprop="headline">Privacy Policy</h1>
 <div class="entry-content clear" itemprop="text">
     <div class="elementor-text-editor elementor-clearfix"><p><!-- wp:heading --><!-- /wp:heading --><!-- wp:paragraph --></p>
-        <p>Blaze Softworks designs Shopify Apps. This privacy policy describes what personal information is collected and how we use it when you install our app on your Shopify store</p>
+        <p>Blaze Softworks designs Shopify Apps. This privacy policy describes what personal information is collected and how we use it when you install our app on your Shopify store.</p>
         <div>
             <h3 style="font-size: 2.14286rem; font-style: normal;">What personal data we collect</h3>
         </div>

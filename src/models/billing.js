@@ -18,6 +18,11 @@ const Billing = mongoose.model('Billing', {
             trim: true
         },
     },
+    email: {
+        type: String,
+        require: true,
+        trim: true
+    },
     gid: {
         type: String,
         require: true,
