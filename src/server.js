@@ -194,7 +194,7 @@ app.prepare().then(() => {
           ctx.redirect(confirmationUrl);
         }
         else {
-          console.log("3")
+          //console.log("3")
 
           ctx.redirect("/");
         }
