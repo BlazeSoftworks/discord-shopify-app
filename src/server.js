@@ -65,7 +65,22 @@ const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
 router.get('/test-script.js', async (ctx) => {
   console.log("SE INCEARCA BA")
-  await send(ctx, './script.js')
+  try {
+    await send(ctx, 'script.js', { root: __dirname })
+    console.log(__dirname)
+  } catch (e) {
+    console.log(e)
+  }
+})
+
+router.get('/favicon.ico', async (ctx) => {
+  console.log("SE INCEARCA BA LA FAVI")
+  try {
+    await send(ctx, 'favicon.ico', { root: __dirname })
+    console.log(__dirname)
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 router.get('/privacy', (ctx) => {
