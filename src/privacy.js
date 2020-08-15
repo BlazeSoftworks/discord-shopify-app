@@ -6,7 +6,7 @@ module.exports = `
     Privacy Policy
 </title>
 </head>
-<body style="padding: 40px 25px;font-family: sans-serif;">
+<body style="padding: 40px 25px;font-family: lato; background-color: #282A2D; color: white;">
 <h1 class="entry-title" itemprop="headline">Privacy Policy</h1>
 <div class="entry-content clear" itemprop="text">
     <div class="elementor-text-editor elementor-clearfix"><p><!-- wp:heading --><!-- /wp:heading --><!-- wp:paragraph --></p>
