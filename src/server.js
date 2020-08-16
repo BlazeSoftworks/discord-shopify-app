@@ -65,6 +65,19 @@ const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
 server.use(async (ctx) => {
 
+  console.log(ctx)
+  console.log()
+  console.log(ctx.origin)
+  console.log()
+  console.log(ctx.originalUrl)
+  console.log()
+  console.log(ctx.url)
+  console.log()
+  console.log(ctx.href)
+  console.log()
+  console.log(ctx.hostname)
+  console.log()
+
   const shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
   console.log("shopID = ", shopID)
   console.log(`update[${shopID}] = `, update[shopID])
