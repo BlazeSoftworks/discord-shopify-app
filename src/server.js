@@ -145,149 +145,149 @@ server.use(async (ctx) => {
 
     console.log("A INTRAT AICI GEN WHAT COAIE")
 
-    router.get(`/api/discordID/${shopID}`, async (ctx) => {
-      console.log(ctx)
-      console.log()
-      console.log(ctx.URL)
-      console.log()
-      console.log(ctx.origin)
-      console.log()
-      console.log(ctx.originalUrl)
+    // router.get(`/api/discordID/${shopID}`, async (ctx) => {
+    //   console.log(ctx)
+    //   console.log()
+    //   console.log(ctx.URL)
+    //   console.log()
+    //   console.log(ctx.origin)
+    //   console.log()
+    //   console.log(ctx.originalUrl)
 
-      try {
-        const obj = await DiscordID.findOne({ shopID })
-        if (obj) {
-          ctx.status = 200
-          ctx.body = {
-            status: 'success',
-            data: {
-              serverID: obj.serverID,
-              channelID: obj.channelID,
-            }
-          }
-          //console.log(obj)
-        }
-        else {
-          ctx.status = 400
-          ctx.body = "Not found"
-        }
-      } catch (error) {
-        ctx.status = 500
-        ctx.body = error
-      }
-    });
+    //   try {
+    //     const obj = await DiscordID.findOne({ shopID })
+    //     if (obj) {
+    //       ctx.status = 200
+    //       ctx.body = {
+    //         status: 'success',
+    //         data: {
+    //           serverID: obj.serverID,
+    //           channelID: obj.channelID,
+    //         }
+    //       }
+    //       //console.log(obj)
+    //     }
+    //     else {
+    //       ctx.status = 400
+    //       ctx.body = "Not found"
+    //     }
+    //   } catch (error) {
+    //     ctx.status = 500
+    //     ctx.body = error
+    //   }
+    // });
 
-    router.post(`/api/discordID/${shopID}`, koaBody(), async (ctx) => {
-      if (ctx.cookies.get("shopOrigin")) {
-        try {
-          if ((await DiscordID.find({ shopID })).length > 0) {
-            const item = await DiscordID.findOneAndUpdate(shopID, {
-              serverID: ctx.request.body.serverID,
-              channelID: ctx.request.body.channelID,
-              shopID
-            }, { new: true, runValidators: true })
-            ctx.status = 200
-            ctx.body = "Item Updated";
-            //console.log(item)
-          }
-          else {
-            const id = new DiscordID({
-              serverID: ctx.request.body.serverID,
-              channelID: ctx.request.body.channelID,
-              shopID
-            })
-            await id.save()
-            ctx.status = 200
-            ctx.body = id
-          }
-        } catch (error) {
-          //console.log(error);
-          ctx.status = 500
-          ctx.body = error
-        }
-      } else {
-        ctx.status = 401
-        ctx.body = "Not authenticated"
-      }
-    })
+    // router.post(`/api/discordID/${shopID}`, koaBody(), async (ctx) => {
+    //   if (ctx.cookies.get("shopOrigin")) {
+    //     try {
+    //       if ((await DiscordID.find({ shopID })).length > 0) {
+    //         const item = await DiscordID.findOneAndUpdate(shopID, {
+    //           serverID: ctx.request.body.serverID,
+    //           channelID: ctx.request.body.channelID,
+    //           shopID
+    //         }, { new: true, runValidators: true })
+    //         ctx.status = 200
+    //         ctx.body = "Item Updated";
+    //         //console.log(item)
+    //       }
+    //       else {
+    //         const id = new DiscordID({
+    //           serverID: ctx.request.body.serverID,
+    //           channelID: ctx.request.body.channelID,
+    //           shopID
+    //         })
+    //         await id.save()
+    //         ctx.status = 200
+    //         ctx.body = id
+    //       }
+    //     } catch (error) {
+    //       //console.log(error);
+    //       ctx.status = 500
+    //       ctx.body = error
+    //     }
+    //   } else {
+    //     ctx.status = 401
+    //     ctx.body = "Not authenticated"
+    //   }
+    // })
 
-    router.get(`/api/widget/${shopID}`, async (ctx) => {
-      try {
-        const obj = await Widget.findOne({ shopID })
-        if (obj) {
-          ctx.body = {
-            status: 'success',
-            data: {
-              desktopPosition: obj.desktopPosition,
-              mobilePosition: obj.mobilePosition,
-              notificationText: obj.notificationText,
-              notificationTimeout: obj.notificationTimeout,
-              notificationAvatar: obj.notificationAvatar,
-              mobile: obj.mobile,
-              desktop: obj.desktop,
-              color: obj.color,
-              widgetEnabled: obj.widgetEnabled,
-              shopID
-            }
-          }
-          //console.log(obj)
-        }
-        else {
-          ctx.body = "Not found"
-        }
-      } catch (error) {
-        ctx.body = error
-      }
-    });
+    // router.get(`/api/widget/${shopID}`, async (ctx) => {
+    //   try {
+    //     const obj = await Widget.findOne({ shopID })
+    //     if (obj) {
+    //       ctx.body = {
+    //         status: 'success',
+    //         data: {
+    //           desktopPosition: obj.desktopPosition,
+    //           mobilePosition: obj.mobilePosition,
+    //           notificationText: obj.notificationText,
+    //           notificationTimeout: obj.notificationTimeout,
+    //           notificationAvatar: obj.notificationAvatar,
+    //           mobile: obj.mobile,
+    //           desktop: obj.desktop,
+    //           color: obj.color,
+    //           widgetEnabled: obj.widgetEnabled,
+    //           shopID
+    //         }
+    //       }
+    //       //console.log(obj)
+    //     }
+    //     else {
+    //       ctx.body = "Not found"
+    //     }
+    //   } catch (error) {
+    //     ctx.body = error
+    //   }
+    // });
 
-    router.post(`/api/widget/${shopID}`, koaBody(), async (ctx) => {
-      if (ctx.cookies.get("shopOrigin")) {
-        //console.log(ctx.request.body)
-        try {
-          if ((await Widget.find({ shopID })).length > 0) {
-            const item = await Widget.findOneAndUpdate(shopID, {
-              desktopPosition: ctx.request.body.desktopPosition,
-              mobilePosition: ctx.request.body.mobilePosition,
-              notificationText: ctx.request.body.notificationText,
-              notificationTimeout: ctx.request.body.notificationTimeout,
-              notificationAvatar: ctx.request.body.notificationAvatar,
-              mobile: ctx.request.body.mobile,
-              desktop: ctx.request.body.desktop,
-              color: ctx.request.body.color,
-              widgetEnabled: ctx.request.body.widgetEnabled,
-              shopID
-            }, { new: true, runValidators: true })
-            ctx.status = 200
-            ctx.body = "Item Updated";
-            //console.log(item)
-          }
-          else {
-            const id = new Widget({
-              desktopPosition: ctx.request.body.desktopPosition,
-              mobilePosition: ctx.request.body.mobilePosition,
-              notificationText: ctx.request.body.notificationText,
-              notificationTimeout: ctx.request.body.notificationTimeout,
-              notificationAvatar: ctx.request.body.notificationAvatar,
-              mobile: ctx.request.body.mobile,
-              desktop: ctx.request.body.desktop,
-              color: ctx.request.body.color,
-              widgetEnabled: ctx.request.body.widgetEnabled,
-              shopID
-            })
-            await id.save()
-            ctx.status = 200
-            ctx.body = id
-          }
-        } catch (error) {
-          //console.log(error);
-          ctx.status = 500
-          ctx.body = error
-        }
-      } else {
-        ctx.status = 401
-        ctx.body = "Not authenticated"
-      }
-    })
+    // router.post(`/api/widget/${shopID}`, koaBody(), async (ctx) => {
+    //   if (ctx.cookies.get("shopOrigin")) {
+    //     //console.log(ctx.request.body)
+    //     try {
+    //       if ((await Widget.find({ shopID })).length > 0) {
+    //         const item = await Widget.findOneAndUpdate(shopID, {
+    //           desktopPosition: ctx.request.body.desktopPosition,
+    //           mobilePosition: ctx.request.body.mobilePosition,
+    //           notificationText: ctx.request.body.notificationText,
+    //           notificationTimeout: ctx.request.body.notificationTimeout,
+    //           notificationAvatar: ctx.request.body.notificationAvatar,
+    //           mobile: ctx.request.body.mobile,
+    //           desktop: ctx.request.body.desktop,
+    //           color: ctx.request.body.color,
+    //           widgetEnabled: ctx.request.body.widgetEnabled,
+    //           shopID
+    //         }, { new: true, runValidators: true })
+    //         ctx.status = 200
+    //         ctx.body = "Item Updated";
+    //         //console.log(item)
+    //       }
+    //       else {
+    //         const id = new Widget({
+    //           desktopPosition: ctx.request.body.desktopPosition,
+    //           mobilePosition: ctx.request.body.mobilePosition,
+    //           notificationText: ctx.request.body.notificationText,
+    //           notificationTimeout: ctx.request.body.notificationTimeout,
+    //           notificationAvatar: ctx.request.body.notificationAvatar,
+    //           mobile: ctx.request.body.mobile,
+    //           desktop: ctx.request.body.desktop,
+    //           color: ctx.request.body.color,
+    //           widgetEnabled: ctx.request.body.widgetEnabled,
+    //           shopID
+    //         })
+    //         await id.save()
+    //         ctx.status = 200
+    //         ctx.body = id
+    //       }
+    //     } catch (error) {
+    //       //console.log(error);
+    //       ctx.status = 500
+    //       ctx.body = error
+    //     }
+    //   } else {
+    //     ctx.status = 401
+    //     ctx.body = "Not authenticated"
+    //   }
+    // })
 
     update[shopID] = true
   }
