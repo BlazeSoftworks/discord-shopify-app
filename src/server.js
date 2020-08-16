@@ -79,9 +79,13 @@ server.use(async (ctx) => {
   // console.log(ctx.hostname)
   // console.log()
 
-  var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
+  var shopID
 
-  if (shopID == undefined) {
+  if (ctx.cookies.get("shopOrigin")) {
+    console.log("cookie = ", ctx.cookies.get("shopOrigin"))
+    shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
+  }
+  else {
     shopID = String(ctx.request.header.origin).substr(0, String(ctx.request.header.origin).length - 14);
   }
 
