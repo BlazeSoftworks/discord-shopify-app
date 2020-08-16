@@ -64,20 +64,20 @@ server.use(router.routes());
 const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
 router.get('/test-script.js', async (ctx) => {
-  console.log("SE INCEARCA BA")
+  //console.log("SE INCEARCA BA")
   try {
     await send(ctx, 'script.js', { root: __dirname })
-    console.log(__dirname)
+    //console.log(__dirname)
   } catch (e) {
     console.log(e)
   }
 })
 
 router.get('/favicon.ico', async (ctx) => {
-  console.log("SE INCEARCA BA LA FAVI")
+  //console.log("SE INCEARCA BA LA FAVI")
   try {
     await send(ctx, 'favicon.ico', { root: __dirname })
-    console.log(__dirname)
+    //console.log(__dirname)
   } catch (e) {
     console.log(e)
   }
@@ -294,6 +294,14 @@ app.prepare().then(() => {
       console.log("A INTRAT AICI GEN WHAT COAIE")
 
       router.get(`/api/discordID/${shopID}`, async (ctx) => {
+        console.log(ctx)
+        console.log()
+        console.log(ctx.URL)
+        console.log()
+        console.log(ctx.origin)
+        console.log()
+        console.log(ctx.originalUrl)
+
         try {
           const obj = await DiscordID.findOne({ shopID })
           if (obj) {

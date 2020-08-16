@@ -788,7 +788,7 @@ function ScriptPage() {
                             <br />
                             <p>You can create hyperlinks using markdown like so: [text](link)</p>
                             <br />
-                            <TextField label="Notification Timeout (miliseconds)" type="number" value={timeoutValue} onChange={(val) => {
+                            <TextField label="Notification Timeout (milliseconds)" type="number" value={timeoutValue} onChange={(val) => {
                                 setTimeoutValue(val);
                                 setWidget({
                                     desktopPosition: positionDesktop,
