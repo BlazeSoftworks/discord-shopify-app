@@ -232,7 +232,7 @@ app.prepare().then(() => {
     console.log(`update[${shopID}] = `, update[shopID])
     //#region MONGODB ROUTES    
 
-    if ((update[shopID] == false || update[shopID] == undefined) && shopID != undefined) {
+    if ((update[shopID] == false || update[shopID] == undefined)) {// && shopID != undefined) {
 
       //const cap = 1000
 
