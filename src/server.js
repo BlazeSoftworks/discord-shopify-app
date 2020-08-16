@@ -86,11 +86,11 @@ server.use(async (ctx) => {
     shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
   }
   else {
-    shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 14);
+    shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
   }
 
-  console.log("shopID = ", shopID)
-  console.log(`update[${shopID}] = `, update[shopID])
+  console.log("shopID =", shopID)
+  console.log(`update[${shopID}] =`, update[shopID])
 
   //#region MONGODB ROUTES    
 
