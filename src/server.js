@@ -65,11 +65,11 @@ const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
 server.use(async (ctx) => {
 
+  // console.log()
+  // console.log(ctx)
   console.log()
-  console.log(ctx)
+  console.log(ctx.request.header.origin)
   console.log()
-  //console.log(ctx.request.origin)
-  //console.log()
   // console.log(ctx.originalUrl)
   // console.log()
   // console.log(ctx.url)
@@ -82,7 +82,7 @@ server.use(async (ctx) => {
   var shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
 
   if (shopID == undefined) {
-    shopID = String(ctx.request.origin).substr(0, String(ctx.request.origin).length - 14);
+    shopID = String(ctx.request.header.origin).substr(0, String(ctx.request.header.origin).length - 14);
   }
 
   console.log("shopID = ", shopID)
