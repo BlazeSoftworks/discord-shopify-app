@@ -156,14 +156,6 @@ server.use(async (ctx) => {
     console.log("A INTRAT AICI GEN WHAT COAIE")
 
     router.get(`/api/discordID/${shopID}`, async (ctx) => {
-      console.log(ctx)
-      console.log()
-      console.log(ctx.URL)
-      console.log()
-      console.log(ctx.origin)
-      console.log()
-      console.log(ctx.originalUrl)
-
       try {
         const obj = await DiscordID.findOne({ shopID })
         if (obj) {
