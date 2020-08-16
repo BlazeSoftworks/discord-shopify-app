@@ -69,21 +69,6 @@ router.get('ping', (ctx) => {
 })
 
 server.use(async (ctx) => {
-
-  // console.log()
-  // console.log(ctx)
-  console.log()
-  console.log(ctx.request.header.origin)
-  console.log()
-  // console.log(ctx.originalUrl)
-  // console.log()
-  // console.log(ctx.url)
-  // console.log()
-  // console.log(ctx.href)
-  // console.log()
-  // console.log(ctx.hostname)
-  // console.log()
-
   var shopID
 
   if (ctx.cookies.get("shopOrigin")) {
@@ -94,12 +79,12 @@ server.use(async (ctx) => {
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
   }
 
-  console.log("shopID =", shopID)
-  console.log(`update[${shopID}] =`, update[shopID])
+  // console.log("shopID =", shopID)
+  // console.log(`update[${shopID}] =`, update[shopID])
 
   //#region MONGODB ROUTES    
 
-  if (update[shopID] == false || update[shopID] == undefined) {
+  if ((update[shopID] == false || update[shopID] == undefined) && (ctx.request.header.origin != undefined || ctx.cookies.get("shopOrigin") != undefined)) {
 
     //const cap = 1000
 
@@ -300,7 +285,6 @@ server.use(async (ctx) => {
   }
 
   //#endregion
-
 })
 
 router.get('/test-script.js', async (ctx) => {
