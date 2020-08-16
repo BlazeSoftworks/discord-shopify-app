@@ -23,7 +23,7 @@ var svID, chID
 
 var url = 'https://www.discordify.com'
 
-setTimeout(() => {
+fetch(`${url}/ping`).then(() => {
     if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
         fetch(`${url}/api/discordID/${shopId}`)
             .then(res => res.json())
@@ -147,5 +147,6 @@ setTimeout(() => {
         }
 
     }
-}, 3000)
+}).catch(e => console.log(e))
+
 

@@ -42,6 +42,7 @@ const Widget = require('./models/widget')
 //const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 const Billing = require('./models/billing')
+const { route } = require('next/dist/next-server/server/router')
 
 var update = {}
 
@@ -62,6 +63,10 @@ server.use(router.routes());
 // })
 
 const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
+
+router.get('ping', (ctx) => {
+  ctx.body = { status: "success" }
+})
 
 server.use(async (ctx) => {
 
