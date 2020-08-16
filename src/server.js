@@ -65,10 +65,11 @@ const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
 server.use(async (ctx) => {
 
-  // console.log(ctx)
   console.log()
-  console.log(ctx.request.origin)
+  console.log(ctx)
   console.log()
+  //console.log(ctx.request.origin)
+  //console.log()
   // console.log(ctx.originalUrl)
   // console.log()
   // console.log(ctx.url)
