@@ -80,6 +80,7 @@ server.use(async (ctx, next) => {
   }
   else {
     anext = true
+    console.log("ASDASDASDASDAJ  CACLASCKASLCKASLC KASOCKASOCKASCK")
   }
 
   console.log("shopID =", shopID)
