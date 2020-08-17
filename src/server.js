@@ -66,13 +66,16 @@ router.get('ping', (ctx) => {
 })
 
 server.use(async (ctx, next) => {
+  var anext = false
   var shopID
 
   if (ctx.cookies.get("shopOrigin")) {
+    anext = true
     console.log("cookie = ", ctx.cookies.get("shopOrigin"))
     shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
   }
   else {
+    anext = false
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
   }
 
@@ -283,7 +286,7 @@ server.use(async (ctx, next) => {
 
   //#endregion
 
-  if (update[shopID] == undefined)
+  if (anext)
     await next()
 })
 
