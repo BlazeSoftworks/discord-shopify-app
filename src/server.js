@@ -283,7 +283,7 @@ server.use(async (ctx, next) => {
 
   //#endregion
 
-  if (update[shopID] != true)
+  if (update[shopID] == undefined)
     await next()
 })
 
