@@ -822,7 +822,12 @@ function ScriptPage() {
                         </Card>
 
                         <Card sectioned title={<DisplayText size="small"><b>Help and Contact</b></DisplayText>}>
-                            <p>For any kinds of issues or suggestions, you can email us at <b>blazesoftworks7@gmail.com</b></p>
+                            <p>For any kinds of issues or suggestions, you can contact us at
+                                <br />
+                                Email: <b>blazesoftworks7@gmail.com</b>
+                                <br />
+                                Discord: <b>BlazeSoftworks#0639</b>
+                            </p>
                             <br />
                             <p>We are not affiliated with either <i>Widgetbot</i> or <i>Discord</i>.</p>
                             <br />
