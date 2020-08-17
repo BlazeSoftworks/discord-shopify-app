@@ -283,7 +283,8 @@ server.use(async (ctx, next) => {
 
   //#endregion
 
-  await next()
+  if (update[shopID] != true)
+    await next()
 })
 
 router.get('/test-script.js', async (ctx) => {
