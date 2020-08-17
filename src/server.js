@@ -42,7 +42,6 @@ const Widget = require('./models/widget')
 //const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 const Billing = require('./models/billing')
-const { route } = require('next/dist/next-server/server/router')
 
 var update = {}
 
@@ -62,13 +61,11 @@ server.use(router.routes());
 //   }
 // })
 
-const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
-
 router.get('ping', (ctx) => {
   ctx.body = { status: "success" }
 })
 
-server.use(async (ctx) => {
+server.use(async (ctx, next) => {
   var shopID
 
   if (ctx.cookies.get("shopOrigin")) {
@@ -79,10 +76,10 @@ server.use(async (ctx) => {
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
   }
 
-  // console.log("shopID =", shopID)
-  // console.log(`update[${shopID}] =`, update[shopID])
+  console.log("shopID =", shopID)
+  console.log(`update[${shopID}] =`, update[shopID])
 
-  //#region MONGODB ROUTES    
+  //#region MONGODB ROUTES
 
   if ((update[shopID] == false || update[shopID] == undefined) && (ctx.request.header.origin != undefined || ctx.cookies.get("shopOrigin") != undefined)) {
 
@@ -285,6 +282,8 @@ server.use(async (ctx) => {
   }
 
   //#endregion
+
+  await next()
 })
 
 router.get('/test-script.js', async (ctx) => {
@@ -311,6 +310,8 @@ router.get('/privacy', (ctx) => {
   ctx.body = privacy
 })
 
+const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
+
 router.post('/webhooks/customers/redact', webhook, (ctx) => {
   console.log('received webhook customers/redact: ', ctx.state.webhook);
 });
@@ -329,6 +330,7 @@ router.post('/webhooks/customers/data_request', webhook, (ctx) => {
 });
 
 app.prepare().then(() => {
+
   server.use(session({ secure: true, sameSite: 'none' }, server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
   server.use(
