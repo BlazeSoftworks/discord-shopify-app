@@ -74,9 +74,12 @@ server.use(async (ctx, next) => {
     console.log("cookie = ", ctx.cookies.get("shopOrigin"))
     shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
   }
-  else {
+  else if (ctx.request.header.origin) {
     anext = false
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
+  }
+  else {
+    anext = true
   }
 
   console.log("shopID =", shopID)
