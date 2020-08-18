@@ -92,7 +92,7 @@ fetch(`${url}/ping`).then(() => {
                 }
             }
         })
-        .catch(error => console.log(error));
+        .catch((e) => console.log(e));
     // else {
     //     const { svID, chID } = read_cookie("dis")
     //     const widget = read_cookie("widget")
@@ -146,6 +146,6 @@ fetch(`${url}/ping`).then(() => {
     //     }
 
     // }
-}).catch(e => console.log(e))
+}).catch((e) => console.log(e))
 
 

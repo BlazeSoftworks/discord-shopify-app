@@ -152,7 +152,7 @@ server.use(async (ctx, next) => {
     //   }
     // })
 
-    //console.log("A INTRAT AICI GEN WHAT COAIE")
+    console.log("A INTRAT AICI GEN WHAT COAIE")
 
     router.get(`/api/discordID/${shopID}`, async (ctx) => {
       try {
