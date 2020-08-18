@@ -61,7 +61,7 @@ server.use(router.routes());
 //   }
 // })
 
-router.get('ping', (ctx) => {
+router.get('/ping', (ctx) => {
   ctx.body = { status: "success" }
 })
 
