@@ -834,8 +834,8 @@ function ScriptPage() {
                             <p> <b>Unfortunately we cannot fix problems regarding <i>Widgetbot</i> outages, however, the <i>Widgetbot</i> team fixes them pretty fast.</b></p>
                             <br />
                             <p> <i>Discordify</i> will always provide you with the latest <i>Widgetbot</i> version. </p>
-                            <br />
-                            <p> You can learn more about <i>Widgetbot </i> <b><a href="https://widgetbot.io/" target="_blank">here</a></b> and support them for extra features on <b><a href="https://www.patreon.com/widgetbot" target="_blank">Patreon</a></b></p>
+                            {/* <br />
+                            <p> You can learn more about <i>Widgetbot </i> <b><a href="https://widgetbot.io/" target="_blank">here</a></b> and support them for extra features on <b><a href="https://www.patreon.com/widgetbot" target="_blank">Patreon</a></b></p> */}
                         </Card>
 
                     </Layout.Section>

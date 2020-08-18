@@ -1,13 +1,13 @@
-function bake_cookie(name, value) {
-    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
-    document.cookie = cookie;
-}
+// function bake_cookie(name, value) {
+//     var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+//     document.cookie = cookie;
+// }
 
-function read_cookie(name) {
-    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-    result && (result = JSON.parse(result[1]));
-    return result;
-}
+// function read_cookie(name) {
+//     var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+//     result && (result = JSON.parse(result[1]));
+//     return result;
+// }
 
 var isMobile = false; //initiate as false
 // device detection
@@ -30,7 +30,7 @@ fetch(`${url}/ping`).then(() => {
         .then(data => {
             const dis = data.data
 
-            bake_cookie("dis", dis)
+            //bake_cookie("dis", dis)
 
             svID = dis.serverID
             chID = dis.channelID
@@ -39,10 +39,9 @@ fetch(`${url}/ping`).then(() => {
         })
         .then(res => res.json())
         .then(data => {
-
             const widget = data.data;
 
-            bake_cookie("widget", widget)
+            //bake_cookie("widget", widget)
 
             if (widget.widgetEnabled) {
                 if (!window.location.pathname.includes("/cart")) {
