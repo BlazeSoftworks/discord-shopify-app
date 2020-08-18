@@ -71,20 +71,25 @@ server.use(async (ctx, next) => {
 
   if (ctx.cookies.get("shopOrigin")) {
     anext = true
-    // console.log("cookie = ", ctx.cookies.get("shopOrigin"))
+    console.log()
+    console.log("cookie = ", ctx.cookies.get("shopOrigin"))
+    console.log()
     shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
   }
   else if (ctx.request.header.origin) {
+    console.log()
+    console.log(ctx.request.header.origin)
+    console.log()
     anext = false
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
   }
   else {
     anext = true
-    // console.log("ASDASDASDASDAJ  CACLASCKASLCKASLC KASOCKASOCKASCK")
+    console.log("ASDASDASDASDAJ  CACLASCKASLCKASLC KASOCKASOCKASCK")
   }
 
-  // console.log("shopID =", shopID)
-  // console.log(`update[${shopID}] =`, update[shopID])
+  console.log("shopID =", shopID)
+  console.log(`update[${shopID}] =`, update[shopID])
 
   //#region MONGODB ROUTES
 
