@@ -91,6 +91,9 @@ server.use(async (ctx, next) => {
       anext = false
       shopID = String(ctx.request.header.referer).substr(8, String(ctx.request.header.referer).length - 23);
     }
+    else {
+      anext = true
+    }
   }
   else {
     anext = true
