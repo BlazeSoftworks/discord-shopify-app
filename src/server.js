@@ -61,8 +61,9 @@ server.use(router.routes());
 //   }
 // })
 
-router.get('/ping', (ctx) => {
+router.get('/ping', async (ctx, next) => {
   ctx.body = { status: "success" }
+  await next()
 })
 
 server.use(async (ctx, next) => {
