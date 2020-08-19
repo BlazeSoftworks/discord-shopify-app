@@ -84,11 +84,13 @@ server.use(async (ctx, next) => {
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
   }
   else if (ctx.request.header.referer) {
-    console.log()
-    console.log("Referer: ", ctx.request.header.referer)
-    console.log()
-    anext = false
-    shopID = String(ctx.request.header.referer).substr(8, String(ctx.request.header.referer).length - 23);
+    if (ctx.request.header.referer != 'https://partners.shopify.com/') {
+      console.log()
+      console.log("Referer: ", ctx.request.header.referer)
+      console.log()
+      anext = false
+      shopID = String(ctx.request.header.referer).substr(8, String(ctx.request.header.referer).length - 23);
+    }
   }
   else {
     anext = true
