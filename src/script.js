@@ -27,7 +27,7 @@ fetch(`${url}/ping`)
     .then((res) => res.json())
     .then((data) => {
         console.log(data)
-        //if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)        
+        //if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
         fetch(`${url}/api/discordID/${shopId}`)
             .then(res => res.json())
             .then(data => {
@@ -148,7 +148,5 @@ fetch(`${url}/ping`)
         //         }
         //     }
 
-        // }        
+        // }
     }).catch((e) => console.log(e))
-
-

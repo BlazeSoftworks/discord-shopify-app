@@ -61,9 +61,11 @@ server.use(router.routes());
 //   }
 // })
 
-server.use(async (ctx, next) => {
-  console.log("DECE NU INTRA")
+router.get('/ping', (ctx) => {
+  ctx.body = { status: "success" }
+})
 
+server.use(async (ctx, next) => {
   var anext = false
   var shopID
 
@@ -76,10 +78,17 @@ server.use(async (ctx, next) => {
   }
   else if (ctx.request.header.origin) {
     console.log()
-    console.log(ctx.request.header.origin)
+    console.log("Origin: ", ctx.request.header.origin)
     console.log()
     anext = false
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
+  }
+  else if (ctx.request.header.referer) {
+    console.log()
+    console.log("Referer: ", ctx.request.header.referer)
+    console.log()
+    anext = false
+    shopID = String(ctx.request.header.referer).substr(8, String(ctx.request.header.referer).length - 23);
   }
   else {
     anext = true
@@ -289,21 +298,12 @@ server.use(async (ctx, next) => {
     })
 
     update[shopID] = true
-
-    console.log()
-    console.log(`update[${shopID}]=`, update[shopID])
-    console.log()
   }
 
   //#endregion
 
   if (anext)
     await next()
-})
-
-router.get('/ping', async (ctx, next) => {
-  ctx.body = { status: "success" }
-  await next()
 })
 
 router.get('/test-script.js', async (ctx) => {
@@ -447,7 +447,7 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status == undefined || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
+        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
 
           bill.gid = gid
@@ -483,5 +483,3 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 });
-
-

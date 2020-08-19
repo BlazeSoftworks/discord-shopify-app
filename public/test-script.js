@@ -150,5 +150,3 @@ fetch(`${url}/ping`)
 
         // }
     }).catch((e) => console.log(e))
-
-
