@@ -447,17 +447,17 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        // else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
-        //   const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
+        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status == undefined || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
+          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
 
-        //   bill.gid = gid
-        //   await bill.save()
+          bill.gid = gid
+          await bill.save()
 
-        //   //console.log("2 ", bill)
-        //   //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+          //console.log("2 ", bill)
+          //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
 
-        //   ctx.redirect(confirmationUrl);
-        // }
+          ctx.redirect(confirmationUrl);
+        }
         else {
           //console.log("3")
 
