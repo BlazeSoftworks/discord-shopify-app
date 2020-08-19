@@ -61,11 +61,9 @@ server.use(router.routes());
 //   }
 // })
 
-router.get('/ping', (ctx) => {
-  ctx.body = { status: "success" }
-})
-
 server.use(async (ctx, next) => {
+  console.log("DECE NU INTRA")
+
   var anext = false
   var shopID
 
@@ -291,12 +289,21 @@ server.use(async (ctx, next) => {
     })
 
     update[shopID] = true
+
+    console.log()
+    console.log(`update[${shopID}]=`, update[shopID])
+    console.log()
   }
 
   //#endregion
 
   if (anext)
     await next()
+})
+
+router.get('/ping', async (ctx, next) => {
+  ctx.body = { status: "success" }
+  await next()
 })
 
 router.get('/test-script.js', async (ctx) => {
@@ -440,17 +447,17 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
-          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
+        // else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
+        //   const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
 
-          bill.gid = gid
-          await bill.save()
+        //   bill.gid = gid
+        //   await bill.save()
 
-          //console.log("2 ", bill)
-          //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+        //   //console.log("2 ", bill)
+        //   //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
 
-          ctx.redirect(confirmationUrl);
-        }
+        //   ctx.redirect(confirmationUrl);
+        // }
         else {
           //console.log("3")
 

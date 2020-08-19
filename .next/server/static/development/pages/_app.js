@@ -367,7 +367,7 @@ class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_0___default.a {
     }
 
     const config = {
-      apiKey: "931baa204624b8aa28d9f5fcac1ccbf1",
+      apiKey: "7f3be3dcb2061d77d708bfcc3f36c06c",
       shopOrigin,
       forceRedirect: true
     };

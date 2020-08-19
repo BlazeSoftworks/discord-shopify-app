@@ -1,16 +1,13 @@
-// expiry = new Date();
-// expiry.setTime(expiry.getTime() + (1 * 30 * 1000));
+// function bake_cookie(name, value) {
+//     var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+//     document.cookie = cookie;
+// }
 
-function bake_cookie(name, value) {
-    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 15, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
-    document.cookie = cookie;
-}
-
-function read_cookie(name) {
-    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-    result && (result = JSON.parse(result[1]));
-    return result;
-}
+// function read_cookie(name) {
+//     var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+//     result && (result = JSON.parse(result[1]));
+//     return result;
+// }
 
 var isMobile = false; //initiate as false
 // device detection
@@ -19,66 +16,43 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
     isMobile = true;
 }
 
-//console.log("Is mobile?" + isMobile);
-
-// const body = $('body');
-// const prodDesc = $('.product-single__description');
-
-// body.css({
-//     'position': 'absolute'
-// })
-
-//------------
-
 var f = window.location.origin.toString();
 const shopId = f.substring(8, f.length - 14);
-//console.log(shopId);
-
-// color: "#ff000000",
-// glyph: ["https://discord.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg", "95%"]
 
 var svID, chID
 
 var url = 'https://www.discordify.com'
 
-// fetch(`${url}/api/usageRecord/${shopId}`)
-//     .then(res => res.json())
-//     .then(data => {
-//         console.log(data)
-//         return fetch(`${url}/api/usageCreate/${shopId}`)
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//         console.log(data)
-//         return fetch(`${url}/api/discordID/${shopId}`)
-//     })
-if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
-    fetch(`${url}/api/discordID/${shopId}`)
-        .then(res => res.json())
-        .then(data => {
-            const dis = data.data
+fetch(`${url}/ping`)
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data)
+        //if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
+        fetch(`${url}/api/discordID/${shopId}`)
+            .then(res => res.json())
+            .then(data => {
+                const dis = data.data
 
-            bake_cookie("dis", dis)
+                //bake_cookie("dis", dis)
 
-            svID = dis.serverID
-            chID = dis.channelID
+                svID = dis.serverID
+                chID = dis.channelID
 
-            return fetch(`${url}/api/widget/${shopId}`)
-        })
-        .then(res => res.json())
-        .then(data => {
+                return fetch(`${url}/api/widget/${shopId}`)
+            })
+            .then(res => res.json())
+            .then(data => {
+                const widget = data.data;
 
-            const widget = data.data;
+                //bake_cookie("widget", widget)
 
-            bake_cookie("widget", widget)
-
-            if (widget.widgetEnabled) {
-                if (!window.location.pathname.includes("/cart")) {
-                    if ((!isMobile && widget.desktop)) {
-                        var script = document.createElement("script");
-                        script.type = "text/javascript";
-                        script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                        script.text = `
+                if (widget.widgetEnabled) {
+                    if (!window.location.pathname.includes("/cart")) {
+                        if ((!isMobile && widget.desktop)) {
+                            var script = document.createElement("script");
+                            script.type = "text/javascript";
+                            script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                            script.text = `
                 var crate = new Crate({
                     server: '${svID}', 
                     channel: '${chID}', 
@@ -94,13 +68,13 @@ if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
                     avatar: '${widget.notificationAvatar}'                        
                   }) 
                 `
-                        document.head.appendChild(script);
-                    }
-                    else if ((isMobile && widget.mobile)) {
-                        var script = document.createElement("script");
-                        script.type = "text/javascript";
-                        script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                        script.text = `
+                            document.head.appendChild(script);
+                        }
+                        else if ((isMobile && widget.mobile)) {
+                            var script = document.createElement("script");
+                            script.type = "text/javascript";
+                            script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                            script.text = `
                 var crate = new Crate({
                     server: '${svID}', 
                     channel: '${chID}',
@@ -116,61 +90,65 @@ if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
                     avatar: '${widget.notificationAvatar}'                        
                   }) 
                 `
-                        document.head.appendChild(script);
+                            document.head.appendChild(script);
+                        }
                     }
                 }
-            }
-        })
-        .catch(error => console.log(error));
-else {
-    const { svID, chID } = read_cookie("dis")
-    const widget = read_cookie("widget")
-    if (widget.widgetEnabled) {
-        if (!window.location.pathname.includes("/cart")) {
-            if ((!isMobile && widget.desktop)) {
-                var script = document.createElement("script");
-                script.type = "text/javascript";
-                script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                script.text = `
-        var crate = new Crate({
-            server: '${svID}', 
-            channel: '${chID}', 
-            location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
-            shard: 'https://e.widgetbot.io',                        
-            color: '${widget.color}',
-            defer: true,                        
-        })
-        //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
-        crate.notify({
-            content: '${widget.notificationText}',
-            timeout: ${widget.notificationTimeout},
-            avatar: '${widget.notificationAvatar}'                        
-          }) 
-        `
-                document.head.appendChild(script);
-            }
-            else if ((isMobile && widget.mobile)) {
-                var script = document.createElement("script");
-                script.type = "text/javascript";
-                script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                script.text = `
-        var crate = new Crate({
-            server: '${svID}', 
-            channel: '${chID}',
-            location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
-            shard: 'https://e.widgetbot.io',                        
-            color: '${widget.color}',
-            defer: true,                        
-        })
-        //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
-        crate.notify({
-            content: '${widget.notificationText}',
-            timeout: ${widget.notificationTimeout},
-            avatar: '${widget.notificationAvatar}'                        
-          }) 
-        `
-                document.head.appendChild(script);
-            }
-        }
-    }
-}
+            })
+            .catch((e) => console.log(e));
+        // else {
+        //     const { svID, chID } = read_cookie("dis")
+        //     const widget = read_cookie("widget")
+        //     if (widget.widgetEnabled) {
+        //         if (!window.location.pathname.includes("/cart")) {
+        //             if ((!isMobile && widget.desktop)) {
+        //                 var script = document.createElement("script");
+        //                 script.type = "text/javascript";
+        //                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+        //                 script.text = `
+        //     var crate = new Crate({
+        //         server: '${svID}', 
+        //         channel: '${chID}', 
+        //         location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
+        //         shard: 'https://e.widgetbot.io',                        
+        //         color: '${widget.color}',
+        //         defer: true,                        
+        //     })
+        //     //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
+        //     crate.notify({
+        //         content: '${widget.notificationText}',
+        //         timeout: ${widget.notificationTimeout},
+        //         avatar: '${widget.notificationAvatar}'                        
+        //       }) 
+        //     `
+        //                 document.head.appendChild(script);
+        //             }
+        //             else if ((isMobile && widget.mobile)) {
+        //                 var script = document.createElement("script");
+        //                 script.type = "text/javascript";
+        //                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+        //                 script.text = `
+        //     var crate = new Crate({
+        //         server: '${svID}', 
+        //         channel: '${chID}',
+        //         location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
+        //         shard: 'https://e.widgetbot.io',                        
+        //         color: '${widget.color}',
+        //         defer: true,                        
+        //     })
+        //     //crate.options.color = '#'+Math.random().toString(16).slice(2, 8);                    
+        //     crate.notify({
+        //         content: '${widget.notificationText}',
+        //         timeout: ${widget.notificationTimeout},
+        //         avatar: '${widget.notificationAvatar}'                        
+        //       }) 
+        //     `
+        //                 document.head.appendChild(script);
+        //             }
+        //         }
+        //     }
+
+        // }
+    }).catch((e) => console.log(e))
+
+
