@@ -79,10 +79,10 @@ server.use(async (ctx, next) => {
   }
   else if (ctx.request.query.shop) {
     console.log()
-    console.log("Query Shop: ", ctx.request.header.origin)
+    console.log("Query Shop: ", ctx.request.query.shop)
     console.log()
     anext = false
-    shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
+    shopID = String(ctx.request.query.shop).substr(8, String(ctx.request.query.shop).length - 22);
   }
   // else if (ctx.request.header.referer) {
   //   if (ctx.request.header.referer != 'https://partners.shopify.com/' || ctx.request.header.referer != 'https://apps.shopify.com/') {
