@@ -312,14 +312,15 @@ server.use(async (ctx, next) => {
     await next()
 })
 
-router.get('/test-script.js', async (ctx) => {
-  //console.log("SE INCEARCA BA")
+router.get('/test-script.js', async (ctx, next) => {
+  console.log("SE INCEARCA BA")
   try {
     await send(ctx, 'script.js', { root: __dirname })
     //console.log(__dirname)
   } catch (e) {
     console.log(e)
   }
+  await next()
 })
 
 router.get('/favicon.ico', async (ctx) => {
