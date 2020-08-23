@@ -74,7 +74,6 @@ router.get('/test-script.js', async (ctx, next) => {
 
 router.get('/ping', async (ctx, next) => {
   ctx.body = { status: "success" }
-  await next()
 })
 
 server.use(async (ctx, next) => {
