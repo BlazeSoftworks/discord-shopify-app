@@ -14,6 +14,7 @@ import React, { useState, useCallback } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import getShopId from '../src/util'
 
 const CREATE_SCRIPTTAG = gql`
     mutation scriptTagCreate($input: ScriptTagInput!) {
