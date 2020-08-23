@@ -16,10 +16,13 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
     isMobile = true;
 }
 
-var f = window.location.origin.toString();
-const shopId = f.substring(8, f.length - 14);
+// var f = window.location.origin.toString();
+// const shopId = f.substring(8, f.length - 14);
 
-alert(JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1]))
+// alert(JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1]))
+
+var f = JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1])
+const shopId = f.substring(8, f.length - 14);
 
 var svID, chID
 
