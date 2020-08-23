@@ -61,6 +61,17 @@ server.use(router.routes());
 //   }
 // })
 
+router.get('/test-script.js', async (ctx, next) => {
+  console.log("SE INCEARCA BA")
+  try {
+    await send(ctx, 'script.js', { root: __dirname })
+    //console.log(__dirname)
+  } catch (e) {
+    console.log(e)
+  }
+  await next()
+})
+
 router.get('/ping', async (ctx, next) => {
   ctx.body = { status: "success" }
   await next()
@@ -79,7 +90,7 @@ server.use(async (ctx, next) => {
   }
   else if (ctx.request.query.shop) {
     console.log()
-    console.log("Query Shop: ", ctx.request.query.shop)
+    console.log("Query Shop:", ctx.request.query.shop)
     console.log()
     anext = false
     shopID = String(ctx.request.query.shop).substr(8, String(ctx.request.query.shop).length - 22);
@@ -310,17 +321,6 @@ server.use(async (ctx, next) => {
 
   if (anext)
     await next()
-})
-
-router.get('/test-script.js', async (ctx, next) => {
-  console.log("SE INCEARCA BA")
-  try {
-    await send(ctx, 'script.js', { root: __dirname })
-    //console.log(__dirname)
-  } catch (e) {
-    console.log(e)
-  }
-  await next()
 })
 
 router.get('/favicon.ico', async (ctx) => {
