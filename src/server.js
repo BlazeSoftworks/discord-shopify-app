@@ -19,6 +19,8 @@ const getStorePlan = require('./requests/getStorePlan');
 const getSubQuery = require('./requests/getSubQuery');
 //const createUsageRecord = require('./requests/createUsageRecord');
 
+const getShopID = require('./util')
+
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -42,6 +44,7 @@ const Widget = require('./models/widget')
 //const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 const Billing = require('./models/billing')
+const getShopId = require('./util')
 
 var update = {}
 
@@ -85,14 +88,16 @@ server.use(async (ctx, next) => {
     console.log()
     console.log("cookie = ", ctx.cookies.get("shopOrigin"))
     console.log()
-    shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
+    //shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
+    shopID = getShopId(ctx.cookies.get("shopOrigin"))
   }
   else if (ctx.request.query.shop) {
     console.log()
     console.log("Query Shop:", ctx.request.query.shop)
     console.log()
     anext = false
-    shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 14);
+    //shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 14);
+    shopID = getShopId(ctx.request.query.shop)
   }
   // else if (ctx.request.header.referer) {
   //   if (ctx.request.header.referer != 'https://partners.shopify.com/' || ctx.request.header.referer != 'https://apps.shopify.com/') {
@@ -378,7 +383,8 @@ app.prepare().then(() => {
           sameSite: 'none'
         });
 
-        const shopID = shop.substr(0, shop.length - 14);
+        //const shopID = shop.substr(0, shop.length - 14);
+        const shopID = getShopID(shop)
 
         //ROUTE CREATION
         update[shopID] = false

@@ -98,10 +98,11 @@ function AnnotatedLayout() {
   // console.log(data.priceRules.edges[0].node.discountCodes.edges[0].node.code);
   //console.log(Cookie.get("shopOrigin"))
 
-  const sURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14)
+  //const shopURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14)
+  const shopURL = getShopId(data.shop.myshopifyDomain)
 
   if (first) {
-    axios.get(`/api/discordID/${sURL}`).then(result => {
+    axios.get(`/api/discordID/${shopURL}`).then(result => {
       if (result.data.data.serverID != null) {
         setId(true);
         setTextFieldValue(result.data.data.serverID);
@@ -189,7 +190,7 @@ function AnnotatedLayout() {
                     if (textFieldValue != '') {
                       setId(true);
                       setActive(true);
-                      makeApiCall({ serverID: textFieldValue, channelID: textFieldValue1 }, sURL);
+                      makeApiCall({ serverID: textFieldValue, channelID: textFieldValue1 }, shopURL);
                     }
                     else {
                       alert("Please paste in your ID first");
@@ -205,8 +206,8 @@ function AnnotatedLayout() {
     </Frame>
   )
 
-  async function makeApiCall(appInfo, sURL) {
-    const url = `/api/discordID/${sURL}`;
+  async function makeApiCall(appInfo, shopURL) {
+    const url = `/api/discordID/${shopURL}`;
     setTextFieldValueOld(textFieldValue);
     setTextFieldValueOld1(textFieldValue1);
     axios.post(url, appInfo).then((result) => { }).catch((error) => { console.log(error.response) });

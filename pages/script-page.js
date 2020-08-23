@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { CircleAlertMajorMonotone, CircleTickMajorMonotone } from '@shopify/polaris-icons';
 import axios from 'axios'
 import $ from 'jquery';
+import getShopId from '../src/util'
 
 const CREATE_SCRIPTTAG = gql`
     mutation scriptTagCreate($input: ScriptTagInput!) {
@@ -410,7 +411,8 @@ function ScriptPage() {
     if (loading) return <div>Loading...</div>
     if (error) return <div>{error.message}</div>
 
-    const shopURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14);
+    //const shopURL = String(data.shop.myshopifyDomain).substr(0, String(data.shop.myshopifyDomain).length - 14);
+    const shopURL = getShopId(data.shop.myshopifyDomain)
 
     if (first) {
         axios.get(`/api/discordID/${shopURL}`).then(result => {

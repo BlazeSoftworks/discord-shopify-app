@@ -9,6 +9,29 @@
 //     return result;
 // }
 
+function getShopId(url) {
+    while (url.indexOf("\"") != -1 || url.indexOf("\'") != -1) {
+        url = url.replace("\"", "");
+        url = url.replace("\'", "");
+    }
+
+    var prefix1 = "//";
+    var prefix2 = "://";
+    var sufix = ".myshopify.com";
+    var shopId;
+    if (url.startsWith(prefix1) || url.indexOf(prefix2) != -1) {
+        if (url.indexOf(prefix2) != -1) {
+            shopId = url.substr(url.indexOf(prefix2) + prefix2.length, url.indexOf(sufix) - (url.indexOf(prefix2) + prefix2.length));
+        } else if (url.startsWith(prefix1)) {
+            shopId = url.substr(url.indexOf(prefix1) + prefix1.length, url.indexOf(sufix) - (url.indexOf(prefix1) + prefix1.length));
+        }
+    } else {
+        shopId = url.substr(0, url.indexOf(sufix));
+    }
+    return shopId
+}
+
+
 var isMobile = false; //initiate as false
 // device detection
 if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
@@ -21,8 +44,10 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 
 // alert(JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1]))
 
-var f = JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1])
-const shopId = f.substring(1, f.length - 15);
+//var f = JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1])
+//const shopId = f.substring(1, f.length - 15);
+
+const shopId = getShopId(JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1]))
 
 var svID, chID
 
