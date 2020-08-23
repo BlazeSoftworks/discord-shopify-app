@@ -77,9 +77,9 @@ server.use(async (ctx, next) => {
     console.log()
     shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
   }
-  else if (ctx.request.header.origin) {
+  else if (ctx.request.query.shop) {
     console.log()
-    console.log("Origin: ", ctx.request.header.origin)
+    console.log("Query Shop: ", ctx.request.header.origin)
     console.log()
     anext = false
     shopID = String(ctx.request.header.origin).substr(8, String(ctx.request.header.origin).length - 22);
