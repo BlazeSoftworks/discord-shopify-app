@@ -116,7 +116,7 @@ server.use(async (ctx, next) => {
 
   //#region MONGODB ROUTES
 
-  if ((update[shopID] == false || update[shopID] == undefined) && (ctx.request.header.origin != undefined || ctx.cookies.get("shopOrigin") != undefined)) {
+  if (shopID != undefined && (update[shopID] == false || update[shopID] == undefined) && (ctx.request.query.shop != undefined || ctx.cookies.get("shopOrigin") != undefined)) {
 
     //const cap = 1000
 
