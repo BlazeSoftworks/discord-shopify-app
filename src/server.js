@@ -92,7 +92,7 @@ server.use(async (ctx, next) => {
     console.log("Query Shop:", ctx.request.query.shop)
     console.log()
     anext = false
-    shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 15);
+    shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 14);
   }
   // else if (ctx.request.header.referer) {
   //   if (ctx.request.header.referer != 'https://partners.shopify.com/' || ctx.request.header.referer != 'https://apps.shopify.com/') {
