@@ -22,7 +22,7 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 // alert(JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1]))
 
 var f = JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1])
-const shopId = f.substring(8, f.length - 14);
+const shopId = f.substring(0, f.length - 14);
 
 var svID, chID
 
