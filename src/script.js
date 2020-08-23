@@ -19,6 +19,8 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 var f = window.location.origin.toString();
 const shopId = f.substring(8, f.length - 14);
 
+alert(JSON.stringify(document.getElementById("ducu")))
+
 var svID, chID
 
 var url = 'https://www.discordify.com'
