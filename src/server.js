@@ -474,14 +474,7 @@ app.prepare().then(() => {
 
           console.log(confirmationUrl)
 
-          //ctx.redirect(confirmationUrl);
-
-          const app = createApp({
-            apiKey: process.env.SHOPIFY_API_KEY,
-            shopOrigin: shop
-          });
-
-          Redirect.create(app).dispatch(Redirect.Action.REMOTE, confirmationUrl);
+          ctx.redirect(confirmationUrl);
         }
         else {
           console.log("3")
