@@ -433,6 +433,8 @@ app.prepare().then(() => {
 
         //#endregion        
 
+        console.log("AICI E PEOBLEMA")
+
         var bill = await Billing.findOne({ shopID })
 
         console.log(bill)
