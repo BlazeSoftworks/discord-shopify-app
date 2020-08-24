@@ -435,9 +435,9 @@ app.prepare().then(() => {
 
         var bill = await Billing.findOne({ shopID })
 
-        // if (!bill) {
-        //   bill = {}
-        // }
+        if (!bill) {
+          bill = {}
+        }
 
         const { partnerDevelopment, email } = await getStorePlan(ctx, accessToken, shop)
 
@@ -460,6 +460,8 @@ app.prepare().then(() => {
         }
         else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
+
+          console.log("DADAAA AICI");
 
           bill.gid = gid
           await bill.save()
