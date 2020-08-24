@@ -75,9 +75,9 @@ router.get('/test-script.js', async (ctx, next) => {
   await next()
 })
 
-router.get('/ping', async (ctx) => {
-  ctx.body = { status: "success" }
-})
+// router.get('/ping', async (ctx) => {
+//   ctx.body = { status: "success" }
+// })
 
 server.use(async (ctx, next) => {
   var anext = false

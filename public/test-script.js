@@ -53,36 +53,36 @@ var svID, chID
 
 var url = 'https://www.discordify.com'
 
-fetch(`${url}/ping`)
-    .then((res) => res.json())
-    .then((data) => {
-        console.log(data)
-        //if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
-        fetch(`${url}/api/discordID/${shopId}`)
-            .then(res => res.json())
-            .then(data => {
-                const dis = data.data
+// fetch(`${url}/ping`)
+//     .then((res) => res.json())
+//     .then((data) => {
+//         console.log(data)
+//if (read_cookie("dis") == undefined || read_cookie("widget") == undefined)
+fetch(`${url}/api/discordID/${shopId}`)
+    .then(res => res.json())
+    .then(data => {
+        const dis = data.data
 
-                //bake_cookie("dis", dis)
+        //bake_cookie("dis", dis)
 
-                svID = dis.serverID
-                chID = dis.channelID
+        svID = dis.serverID
+        chID = dis.channelID
 
-                return fetch(`${url}/api/widget/${shopId}`)
-            })
-            .then(res => res.json())
-            .then(data => {
-                const widget = data.data;
+        return fetch(`${url}/api/widget/${shopId}`)
+    })
+    .then(res => res.json())
+    .then(data => {
+        const widget = data.data;
 
-                //bake_cookie("widget", widget)
+        //bake_cookie("widget", widget)
 
-                if (widget.widgetEnabled) {
-                    if (!window.location.pathname.includes("/cart")) {
-                        if ((!isMobile && widget.desktop)) {
-                            var script = document.createElement("script");
-                            script.type = "text/javascript";
-                            script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                            script.text = `
+        if (widget.widgetEnabled) {
+            if (!window.location.pathname.includes("/cart")) {
+                if ((!isMobile && widget.desktop)) {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                    script.text = `
                 var crate = new Crate({
                     server: '${svID}', 
                     channel: '${chID}', 
@@ -98,13 +98,13 @@ fetch(`${url}/ping`)
                     avatar: '${widget.notificationAvatar}'                        
                   }) 
                 `
-                            document.head.appendChild(script);
-                        }
-                        else if ((isMobile && widget.mobile)) {
-                            var script = document.createElement("script");
-                            script.type = "text/javascript";
-                            script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
-                            script.text = `
+                    document.head.appendChild(script);
+                }
+                else if ((isMobile && widget.mobile)) {
+                    var script = document.createElement("script");
+                    script.type = "text/javascript";
+                    script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
+                    script.text = `
                 var crate = new Crate({
                     server: '${svID}', 
                     channel: '${chID}',
@@ -120,12 +120,12 @@ fetch(`${url}/ping`)
                     avatar: '${widget.notificationAvatar}'                        
                   }) 
                 `
-                            document.head.appendChild(script);
-                        }
-                    }
+                    document.head.appendChild(script);
                 }
-            })
-            .catch((e) => console.log(e));
+            }
+        }
+    })
+    .catch((e) => console.log(e));
         // else {
         //     const { svID, chID } = read_cookie("dis")
         //     const widget = read_cookie("widget")
@@ -179,4 +179,4 @@ fetch(`${url}/ping`)
         //     }
 
         // }
-    }).catch((e) => console.log(e))
+    // }).catch((e) => console.log(e))
