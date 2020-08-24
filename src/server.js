@@ -13,6 +13,8 @@ const koaBody = require('koa-body')
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy')
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy')
+const createApp = require('@shopify/app-bridge')
+const Redirect = require('@shopify/app-bridge/actions')
 
 const getSubscriptionUrl = require('./requests/getSubcriptionUrl');
 const getStorePlan = require('./requests/getStorePlan');
@@ -464,8 +466,6 @@ app.prepare().then(() => {
         else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
 
-          console.log("DADAAA AICI");
-
           bill.gid = gid
           await bill.save()
 
@@ -474,7 +474,21 @@ app.prepare().then(() => {
 
           console.log(confirmationUrl)
 
-          ctx.redirect(confirmationUrl);
+          //ctx.redirect(confirmationUrl);
+
+          // If the current window is the 'parent', change the URL by setting location.href
+          if (window.top == window.self) {
+            window.location.assign(confirmationUrl);
+
+            // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
+          } else {
+            const app = createApp({
+              apiKey: process.env.SHOPIFY_API_KEY,
+              shopOrigin: shop
+            });
+
+            Redirect.create(app).dispatch(Redirect.Action.REMOTE, confirmationUrl);
+          }
         }
         else {
           console.log("3")
