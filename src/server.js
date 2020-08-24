@@ -55,6 +55,12 @@ server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
 server.use(router.routes());
 
+const lusca = require('koa-luscax');
+
+server.use(lusca({
+  xframe: '',
+}));
+
 // server.use(async (ctx) => {
 //   if (parseInt(ctx.status) === 404) {
 //     ctx.status = 404
@@ -367,7 +373,6 @@ router.post('/webhooks/customers/data_request', webhook, (ctx) => {
 });
 
 app.prepare().then(() => {
-
   server.use(session({ secure: true, sameSite: 'none' }, server));
   server.keys = [SHOPIFY_API_SECRET_KEY];
   server.use(
