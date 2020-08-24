@@ -48,9 +48,10 @@ const getShopId = require('./util')
 
 var update = {}
 
-const lusca = require('koa-luscax');
-
-server.use(lusca({ xframe: 'SAMEORIGIN' }));
+server.use(async (ctx, next) => {
+  ctx.set('X-Frame-Options', '')
+  await next();
+});
 
 // init middleware with resolver
 server.use(cors({ origin: '*' }));
