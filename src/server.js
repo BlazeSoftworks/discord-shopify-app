@@ -433,12 +433,10 @@ app.prepare().then(() => {
 
         //#endregion        
 
-        const bill = await Billing.findOne({ shopID })
+        var bill = await Billing.findOne({ shopID })
 
-        // if (bill) {
-        //   console.log()
-        //   console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
-        //   console.log()
+        // if (!bill) {
+        //   bill = {}
         // }
 
         const { partnerDevelopment, email } = await getStorePlan(ctx, accessToken, shop)
@@ -455,7 +453,8 @@ app.prepare().then(() => {
 
           await id.save()
 
-          //console.log("1 ", id)
+          console.log("1 ", id)
+          console.log(confirmationUrl);
 
           ctx.redirect(confirmationUrl);
         }
@@ -465,13 +464,13 @@ app.prepare().then(() => {
           bill.gid = gid
           await bill.save()
 
-          //console.log("2 ", bill)
-          //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+          console.log("2 ", bill)
+          console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
 
           ctx.redirect(confirmationUrl);
         }
         else {
-          //console.log("3")
+          console.log("3")
 
           ctx.redirect("/");
         }
