@@ -95,6 +95,7 @@ server.use(async (ctx, next) => {
     console.log()
     console.log("Query Shop:", ctx.request.query.shop)
     console.log()
+    console.log(ctx.request)
     if (ctx.request.header.referer != 'https://partners.shopify.com/' && ctx.request.header.referer != 'https://apps.shopify.com/')
       anext = false
     else
