@@ -95,7 +95,11 @@ server.use(async (ctx, next) => {
     console.log()
     console.log("Query Shop:", ctx.request.query.shop)
     console.log()
-    anext = false
+    if (ctx.request.header.referer != 'https://partners.shopify.com/' && ctx.request.header.referer != 'https://apps.shopify.com/')
+      anext = false
+    else
+      anext = true
+    console.log(ctx.request.header.referer)
     //shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 14);
     shopID = getShopId(ctx.request.query.shop)
   }
@@ -389,6 +393,8 @@ app.prepare().then(() => {
         //ROUTE CREATION
         update[shopID] = false
 
+        console.log("AICI E PEOBLEMA")
+
         //#region TRIAL LOGIC
 
         const billing = (await Billing.findOne({ shopID }))
@@ -433,15 +439,9 @@ app.prepare().then(() => {
 
         //#endregion        
 
-        console.log("AICI E PEOBLEMA")
-
-        var bill = await Billing.findOne({ shopID })
+        var bill = (await Billing.findOne({ shopID }))
 
         console.log(bill)
-
-        if (!bill) {
-          bill = {}
-        }
 
         const { partnerDevelopment, email } = await getStorePlan(ctx, accessToken, shop)
 
