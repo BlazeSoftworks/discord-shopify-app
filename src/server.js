@@ -48,11 +48,6 @@ const getShopId = require('./util')
 
 var update = {}
 
-server.use(async (ctx, next) => {
-  ctx.set('X-Frame-Options', '')
-  await next();
-});
-
 // init middleware with resolver
 server.use(cors({ origin: '*' }));
 server.use(router.allowedMethods());
