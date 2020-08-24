@@ -58,7 +58,7 @@ server.use(router.routes());
 const lusca = require('koa-luscax');
 
 server.use(lusca({
-  xframe: '',
+  xframe: 'SAMEORIGIN',
 }));
 
 // server.use(async (ctx) => {
