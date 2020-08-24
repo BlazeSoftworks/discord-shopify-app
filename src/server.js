@@ -96,7 +96,7 @@ server.use(async (ctx, next) => {
     console.log("Query Shop:", ctx.request.query.shop)
     console.log()
     console.log(ctx.request)
-    if (ctx.request.url.includes("/auth") || ctx.request.header.referer == 'https://partners.shopify.com/' || ctx.request.header.referer == 'https://apps.shopify.com/')
+    if (ctx.request.url.includes("/auth/inline") || ctx.request.url.includes("/auth/callback") || ctx.request.header.referer == 'https://partners.shopify.com/' || ctx.request.header.referer == 'https://apps.shopify.com/')
       anext = true
     else
       anext = false
