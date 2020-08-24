@@ -83,7 +83,7 @@ server.use(async (ctx, next) => {
   var anext = false
   var shopID
 
-  if (ctx.cookies.get("shopOrigin")) {
+  if (ctx.cookies.get("shopOrigin") && ctx.cookies.get("shopOrigin") == ctx.request.query.shop) {
     anext = true
     console.log()
     console.log("cookie = ", ctx.cookies.get("shopOrigin"))
