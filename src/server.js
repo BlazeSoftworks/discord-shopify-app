@@ -96,10 +96,10 @@ server.use(async (ctx, next) => {
     console.log("Query Shop:", ctx.request.query.shop)
     console.log()
     console.log(ctx.request)
-    if (ctx.request.header.referer != 'https://partners.shopify.com/' && ctx.request.header.referer != 'https://apps.shopify.com/')
-      anext = false
-    else
+    if (ctx.request.url.includes("/auth") || ctx.request.header.referer == 'https://partners.shopify.com/' || ctx.request.header.referer == 'https://apps.shopify.com/')
       anext = true
+    else
+      anext = false
     console.log(ctx.request.header.referer)
     //shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 14);
     shopID = getShopId(ctx.request.query.shop)
