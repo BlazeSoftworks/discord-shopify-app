@@ -13,8 +13,8 @@ const koaBody = require('koa-body')
 dotenv.config();
 const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy')
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy')
-const createApp = require('@shopify/app-bridge')
-const Redirect = require('@shopify/app-bridge/actions')
+const { createApp } = require('@shopify/app-bridge')
+const { Redirect } = require('@shopify/app-bridge/actions')
 
 const getSubscriptionUrl = require('./requests/getSubcriptionUrl');
 const getStorePlan = require('./requests/getStorePlan');
@@ -482,7 +482,6 @@ app.prepare().then(() => {
           });
 
           Redirect.create(app).dispatch(Redirect.Action.REMOTE, confirmationUrl);
-
         }
         else {
           console.log("3")
