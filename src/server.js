@@ -476,19 +476,13 @@ app.prepare().then(() => {
 
           //ctx.redirect(confirmationUrl);
 
-          // If the current window is the 'parent', change the URL by setting location.href
-          if (window.top == window.self) {
-            window.location.assign(confirmationUrl);
+          const app = createApp({
+            apiKey: process.env.SHOPIFY_API_KEY,
+            shopOrigin: shop
+          });
 
-            // If the current window is the 'child', change the parent's URL with Shopify App Bridge's Redirect action
-          } else {
-            const app = createApp({
-              apiKey: process.env.SHOPIFY_API_KEY,
-              shopOrigin: shop
-            });
+          Redirect.create(app).dispatch(Redirect.Action.REMOTE, confirmationUrl);
 
-            Redirect.create(app).dispatch(Redirect.Action.REMOTE, confirmationUrl);
-          }
         }
         else {
           console.log("3")
