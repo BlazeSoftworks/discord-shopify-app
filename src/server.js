@@ -435,6 +435,8 @@ app.prepare().then(() => {
 
         var bill = await Billing.findOne({ shopID })
 
+        console.log(bill)
+
         if (!bill) {
           bill = {}
         }
