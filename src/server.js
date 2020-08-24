@@ -472,8 +472,10 @@ app.prepare().then(() => {
           bill.gid = gid
           await bill.save()
 
-          console.log("2 ", bill)
-          console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+          console.log("2 ")
+          //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
+
+          console.log(confirmationUrl)
 
           ctx.redirect(confirmationUrl);
         }
