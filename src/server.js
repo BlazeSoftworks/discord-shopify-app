@@ -62,6 +62,10 @@ server.use(router.routes());
 //   }
 // })
 
+router.get('/redirect', (ctx) => {
+  ctx.body = privacy
+})
+
 router.get('/test-script.js', async (ctx, next) => {
   console.log("SE INCEARCA BA")
   try {
@@ -117,7 +121,6 @@ server.use(async (ctx, next) => {
   // }
   else {
     anext = true
-    console.log("ASDASDASDASDAJ  CACLASCKASLCKASLC KASOCKASOCKASCK")
   }
 
   console.log("shopID =", shopID)
