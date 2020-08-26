@@ -12,7 +12,8 @@ function getParameterByName(name, url) {
 
 export default function Redirect() {
     useEffect(() => {
-        window.location.replace(getParameterByName("confurl"))
+        //window.location.replace(getParameterByName("confurl"))
+        window.top.location.href = getParameterByName("confurl");
     }, []);
 
     return (
