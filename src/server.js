@@ -472,7 +472,7 @@ app.prepare().then(() => {
 
           console.log(confirmationUrl)
 
-          ctx.redirect(confirmationUrl);
+          ctx.redirect(`/redirect?confurl=${confirmationUrl}`);
         }
         else {
           console.log("3")
