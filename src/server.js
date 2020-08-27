@@ -444,7 +444,10 @@ app.prepare().then(() => {
 
         const { partnerDevelopment, email } = await getStorePlan(ctx, accessToken, shop)
 
-        if (!bill && Free.findOne({ shopID }) == undefined) {
+        console.log((await Free.find({ shopID })).length)
+
+
+        if (!bill && (await Free.find({ shopID })).length == 0) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
           const id = new Billing({
@@ -461,7 +464,7 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if (((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") && Free.findOne({ shopID }) == undefined) {
+        else if (((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") && (await Free.find({ shopID })).length == 0) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
 
           bill.gid = gid
