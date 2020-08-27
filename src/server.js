@@ -44,6 +44,7 @@ const Widget = require('./models/widget')
 //const Usage = require('./models/usage')
 const ShopRedact = require('./models/shopRedact')
 const Billing = require('./models/billing')
+const Free = require('./models/free')
 const getShopId = require('./util')
 
 var update = {}
@@ -443,7 +444,7 @@ app.prepare().then(() => {
 
         const { partnerDevelopment, email } = await getStorePlan(ctx, accessToken, shop)
 
-        if (!bill) {
+        if (!bill && Free.findOne({ shopID }) == undefined) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
 
           const id = new Billing({
@@ -460,13 +461,13 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if ((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") {
+        else if (((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") && Free.findOne({ shopID }) == undefined) {
           const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
 
           bill.gid = gid
           await bill.save()
 
-          console.log("2 ")
+          console.log("2")
           //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))
 
           console.log(confirmationUrl)
