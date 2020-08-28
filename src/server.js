@@ -468,7 +468,18 @@ app.prepare().then(() => {
           ctx.redirect(confirmationUrl);
         }
         else if (((await getSubQuery(ctx, accessToken, shop, billing.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, billing.gid)).data.node.status != "ACTIVE")) {
-          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial, 4.99);
+          var confirmationUrl, gid
+
+          if ((await Custom.findOne({ shopID })).length > 0) {
+            const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, custom.trial, custom.price);
+            confirmationUrl = res.confirmationUrl
+            gid = res.gid
+          }
+          else {
+            const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial, 4.99);
+            confirmationUrl = res.confirmationUrl
+            gid = res.gid
+          }
 
           billing.gid = gid
           await billing.save()
