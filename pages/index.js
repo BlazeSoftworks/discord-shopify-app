@@ -141,7 +141,7 @@ function AnnotatedLayout() {
             >
             </Banner>
           </Layout.Section>
-          <Layout.AnnotatedSection title="Step One" description={<p>Add Widgetbot to your server <a href="https://discord.com/oauth2/authorize?client_id=543225764036870167&scope=bot&permissions=537218112" target="_blank"><b>here</b></a>. Make sure you give Widgetbot all the permissions!</p>}>
+          <Layout.AnnotatedSection title="Step One" description={<p>Add Widgetbot to your server <a href="https://discord.com/oauth2/authorize?client_id=543225764036870167&scope=bot&permissions=537218112" target="_blank"><b>here</b></a>. Make sure you give Widgetbot all the permissions! <b> Do not remove Widgetbot from the server, if you remove the bot the widget won't work!</b></p>}>
             <Card sectioned >
               <img src="dis1.PNG" width="100%" height="410" />
             </Card>
