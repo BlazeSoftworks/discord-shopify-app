@@ -45,6 +45,7 @@ const Widget = require('./models/widget')
 const ShopRedact = require('./models/shopRedact')
 const Billing = require('./models/billing')
 const Free = require('./models/free')
+const Custom = require('./models/custom')
 const getShopId = require('./util')
 
 var update = {}
@@ -73,10 +74,6 @@ router.get('/test-script.js', async (ctx, next) => {
   }
   await next()
 })
-
-// router.get('/ping', async (ctx) => {
-//   ctx.body = { status: "success" }
-// })
 
 server.use(async (ctx, next) => {
   var anext = false
@@ -392,12 +389,9 @@ app.prepare().then(() => {
         //ROUTE CREATION
         update[shopID] = false
 
-        console.log("AICI E PEOBLEMA")
+        var billing = (await Billing.findOne({ shopID }))
 
-        //#region TRIAL LOGIC
-
-        const billing = (await Billing.findOne({ shopID }))
-
+        //#region TRIAL LOGIC        
         var date_ob = new Date()
 
         let date = date_ob.getDate()
@@ -438,17 +432,26 @@ app.prepare().then(() => {
 
         //#endregion        
 
-        var bill = (await Billing.findOne({ shopID }))
-
-        console.log(bill)
+        var custom = (await Custom.findOne({ shopID }))
 
         const { partnerDevelopment, email } = await getStorePlan(ctx, accessToken, shop)
 
-        console.log((await Free.find({ shopID })).length)
+        if ((await Free.find({ shopID })).length > 0) {
+          ctx.redirect("/");
+        }
+        else if (!billing) {
+          var confirmationUrl, gid
 
-
-        if (!bill && (await Free.find({ shopID })).length == 0) {
-          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial);
+          if ((await Custom.findOne({ shopID })).length > 0) {
+            const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, custom.trial, custom.price);
+            confirmationUrl = res.confirmationUrl
+            gid = res.gid
+          }
+          else {
+            const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial, 4.99);
+            confirmationUrl = res.confirmationUrl
+            gid = res.gid
+          }
 
           const id = new Billing({
             first_install_date: today,
@@ -464,11 +467,11 @@ app.prepare().then(() => {
 
           ctx.redirect(confirmationUrl);
         }
-        else if (((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE") && (await Free.find({ shopID })).length == 0) {
-          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial);
+        else if (((await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, bill.gid)).data.node.status != "ACTIVE")) {
+          const { confirmationUrl, gid } = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial, 4.99);
 
-          bill.gid = gid
-          await bill.save()
+          billing.gid = gid
+          await billing.save()
 
           console.log("2")
           //console.log((await getSubQuery(ctx, accessToken, shop, bill.gid)))

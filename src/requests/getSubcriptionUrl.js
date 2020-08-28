@@ -1,4 +1,4 @@
-const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, trial) => {
+const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, trial, price) => {
   // {
   //   plan: {
   //     appUsagePricingDetails: {
@@ -19,7 +19,7 @@ const getSubscriptionUrl = async (ctx, accessToken, shop, partnerDevelopment, tr
             {
               plan: {
                 appRecurringPricingDetails: {
-                    price: { amount: 4.99, currencyCode: USD }
+                    price: { amount: ${price}, currencyCode: USD }
                 }
               }
             }            
