@@ -442,7 +442,7 @@ app.prepare().then(() => {
         else if (!billing) {
           var confirmationUrl, gid
 
-          if ((await Custom.findOne({ shopID })).length > 0) {
+          if ((await Custom.find({ shopID })).length > 0) {
             const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, custom.trial, custom.price);
             confirmationUrl = res.confirmationUrl
             gid = res.gid
@@ -470,7 +470,7 @@ app.prepare().then(() => {
         else if (((await getSubQuery(ctx, accessToken, shop, billing.gid)).data.node == null || (await getSubQuery(ctx, accessToken, shop, billing.gid)).data.node.status != "ACTIVE")) {
           var confirmationUrl, gid
 
-          if ((await Custom.findOne({ shopID })).length > 0) {
+          if ((await Custom.find({ shopID })).length > 0) {
             const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, custom.trial, custom.price);
             confirmationUrl = res.confirmationUrl
             gid = res.gid
