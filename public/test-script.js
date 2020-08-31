@@ -1,13 +1,13 @@
-// function bake_cookie(name, value) {
-//     var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
-//     document.cookie = cookie;
-// }
+function bake_cookie(name, value) {
+    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+    document.cookie = cookie;
+}
 
-// function read_cookie(name) {
-//     var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-//     result && (result = JSON.parse(result[1]));
-//     return result;
-// }
+function read_cookie(name) {
+    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+    result && (result = JSON.parse(result[1]));
+    return result;
+}
 
 function getShopId(url) {
     while (url.indexOf("\"") != -1 || url.indexOf("\'") != -1) {
@@ -63,7 +63,7 @@ fetch(`${url}/api/discordID/${shopId}`)
     .then(data => {
         const dis = data.data
 
-        //bake_cookie("dis", dis)
+        bake_cookie("dis", dis)
 
         svID = dis.serverID
         chID = dis.channelID
@@ -74,7 +74,7 @@ fetch(`${url}/api/discordID/${shopId}`)
     .then(data => {
         const widget = data.data;
 
-        //bake_cookie("widget", widget)
+        bake_cookie("widget", widget)
 
         if (widget.widgetEnabled) {
             if (!window.location.pathname.includes("/cart")) {
@@ -126,6 +126,13 @@ fetch(`${url}/api/discordID/${shopId}`)
         }
     })
     .catch((e) => console.log(e));
+
+
+if (read_cookie("dis"))
+    console.log("DISCORD COOKIE: ", read_cookie("dis"))
+if (read_cookie("widget"))
+    console.log("WIDGET COOKIE: ", read_cookie("widget"))
+
         // else {
         //     const { svID, chID } = read_cookie("dis")
         //     const widget = read_cookie("widget")
