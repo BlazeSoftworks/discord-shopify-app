@@ -1,5 +1,5 @@
 function bake_cookie(name, value) {
-    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 20, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
+    var cookie = [name, '=', JSON.stringify(value), '; max-age=', 3600, '; domain=.', window.location.host.toString(), '; path=/;'].join('');
     document.cookie = cookie;
 }
 
@@ -49,7 +49,7 @@ if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elain
 
 const shopId = getShopId(JSON.stringify($("script[src*='discordify']")[0].src.split("shop=")[1]))
 
-var svID, chID
+var serverID, channelID
 
 var url = 'https://www.discordify.com'
 
@@ -61,7 +61,7 @@ console.log(read_cookie("dis"))
 console.log(read_cookie("widget"))
 if (read_cookie("dis") && read_cookie("widget")) {
     console.log("avem cookie")
-    const { svID, chID } = read_cookie("dis")
+    const { serverID, channelID } = read_cookie("dis")
     const widget = read_cookie("widget")
     if (widget.widgetEnabled) {
         if (!window.location.pathname.includes("/cart")) {
@@ -71,8 +71,8 @@ if (read_cookie("dis") && read_cookie("widget")) {
                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
                 script.text = `
             var crate = new Crate({
-                server: '${svID}', 
-                channel: '${chID}', 
+                server: '${serverID}', 
+                channel: '${channelID}', 
                 location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
                 shard: 'https://e.widgetbot.io',                        
                 color: '${widget.color}',
@@ -93,8 +93,8 @@ if (read_cookie("dis") && read_cookie("widget")) {
                 script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
                 script.text = `
             var crate = new Crate({
-                server: '${svID}', 
-                channel: '${chID}',
+                server: '${serverID}', 
+                channel: '${channelID}',
                 location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
                 shard: 'https://e.widgetbot.io',                        
                 color: '${widget.color}',
@@ -122,8 +122,8 @@ else {
 
             bake_cookie("dis", dis)
 
-            svID = dis.serverID
-            chID = dis.channelID
+            serverID = dis.serverID
+            channelID = dis.channelID
 
             return fetch(`${url}/api/widget/${shopId}`)
         })
@@ -141,8 +141,8 @@ else {
                         script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
                         script.text = `
                 var crate = new Crate({
-                    server: '${svID}', 
-                    channel: '${chID}', 
+                    server: '${serverID}', 
+                    channel: '${channelID}', 
                     location: ["${widget.desktopPosition.yAxis}", "${widget.desktopPosition.xAxis}"],                                
                     shard: 'https://e.widgetbot.io',                        
                     color: '${widget.color}',
@@ -163,8 +163,8 @@ else {
                         script.src = "https://cdn.jsdelivr.net/npm/@widgetbot/crate@3";
                         script.text = `
                 var crate = new Crate({
-                    server: '${svID}', 
-                    channel: '${chID}',
+                    server: '${serverID}', 
+                    channel: '${channelID}',
                     location: ["${widget.mobilePosition.yAxis}", "${widget.mobilePosition.xAxis}"],                                
                     shard: 'https://e.widgetbot.io',                        
                     color: '${widget.color}',
