@@ -65,7 +65,6 @@ server.use(router.routes());
 // })
 
 router.get('/test-script.js', async (ctx, next) => {
-  console.log("SE INCEARCA BA")
   try {
     await send(ctx, 'script.js', { root: __dirname })
     //console.log(__dirname)
@@ -81,23 +80,23 @@ server.use(async (ctx, next) => {
 
   if (ctx.cookies.get("shopOrigin") && ctx.cookies.get("shopOrigin") == ctx.request.query.shop) {
     anext = true
-    console.log()
-    console.log("cookie = ", ctx.cookies.get("shopOrigin"))
-    console.log()
+    // console.log()
+    // console.log("cookie = ", ctx.cookies.get("shopOrigin"))
+    // console.log()
     //shopID = String(ctx.cookies.get("shopOrigin")).substr(0, String(ctx.cookies.get("shopOrigin")).length - 14);
     shopID = getShopId(ctx.cookies.get("shopOrigin"))
   }
   else if (ctx.request.query.shop) {
-    console.log()
-    console.log("Query Shop:", ctx.request.query.shop)
-    console.log()
-    console.log(ctx.request)
+    // console.log()
+    // console.log("Query Shop:", ctx.request.query.shop)
+    // console.log()
+    // console.log(ctx.request)
     //if (ctx.request.url.includes("/auth/inline") || ctx.request.url.includes("/auth/callback") || ctx.request.header.referer == 'https://partners.shopify.com/' || ctx.request.header.referer == 'https://apps.shopify.com/')
     if (ctx.request.url.includes('/test-script.js'))
       anext = false
     else
       anext = true
-    console.log(ctx.request.header.referer)
+    //console.log(ctx.request.header.referer)
     //shopID = String(ctx.request.query.shop).substr(0, String(ctx.request.query.shop).length - 14);
     shopID = getShopId(ctx.request.query.shop)
   }
@@ -117,8 +116,8 @@ server.use(async (ctx, next) => {
     anext = true
   }
 
-  console.log("shopID =", shopID)
-  console.log(`update[${shopID}] =`, update[shopID])
+  // console.log("shopID =", shopID)
+  // console.log(`update[${shopID}] =`, update[shopID])
 
   //#region MONGODB ROUTES
 
@@ -181,7 +180,7 @@ server.use(async (ctx, next) => {
     //   }
     // })
 
-    console.log("A INTRAT AICI GEN WHAT COAIE")
+    //console.log("A INTRAT AICI GEN WHAT COAIE")
 
     router.get(`/api/discordID/${shopID}`, async (ctx) => {
       try {
