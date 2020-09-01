@@ -443,12 +443,12 @@ app.prepare().then(() => {
           var confirmationUrl, gid
 
           if ((await Custom.find({ shopID })).length > 0) {
-            const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, custom.trial, custom.price);
+            const res = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, custom.trial, custom.price);
             confirmationUrl = res.confirmationUrl
             gid = res.gid
           }
           else {
-            const res = await getSubscriptionUrl(ctx, accessToken, shop, (await getStorePlan(ctx, accessToken, shop)).partnerDevelopment, trial, 4.99);
+            const res = await getSubscriptionUrl(ctx, accessToken, shop, partnerDevelopment, trial, 4.99);
             confirmationUrl = res.confirmationUrl
             gid = res.gid
           }

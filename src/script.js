@@ -129,8 +129,12 @@ fetch(`${url}/api/discordID/${shopId}`)
 
 if (read_cookie("dis"))
     console.log("DISCORD COOKIE: ", read_cookie("dis"))
+else
+    console.log("nu avem dis")
 if (read_cookie("widget"))
     console.log("WIDGET COOKIE: ", read_cookie("widget"))
+else
+    console.log("nu avem wig")
         // else {
         //     const { svID, chID } = read_cookie("dis")
         //     const widget = read_cookie("widget")
