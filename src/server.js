@@ -207,15 +207,23 @@ server.use(async (ctx, next) => {
     router.post(`/api/discordID/${shopID}`, koaBody(), async (ctx) => {
       if (ctx.cookies.get("shopOrigin")) {
         try {
-          if ((await DiscordID.find({ shopID })).length > 0) {
-            const item = await DiscordID.findOneAndUpdate(shopID, {
-              serverID: ctx.request.body.serverID,
-              channelID: ctx.request.body.channelID,
-              shopID
-            }, { new: true, runValidators: true })
+          var obj = await DiscordID.findOne({ shopID })
+          // if ((await DiscordID.find({ shopID })).length > 0) {
+          //   const item = await DiscordID.findOneAndUpdate(shopID, {
+          //     serverID: ctx.request.body.serverID,
+          //     channelID: ctx.request.body.channelID,
+          //     shopID
+          //   }, { new: true, runValidators: true })
+          //   ctx.status = 200
+          //   ctx.body = "Item Updated";
+          //   //console.log(item)
+          // }
+          if (obj) {
+            obj.serverID = ctx.request.body.serverID
+            obj.channelID = ctx.request.body.channelID
+            await obj.save()
             ctx.status = 200
-            ctx.body = "Item Updated";
-            //console.log(item)
+            ctx.body = "Item Created";
           }
           else {
             const id = new DiscordID({
@@ -225,7 +233,7 @@ server.use(async (ctx, next) => {
             })
             await id.save()
             ctx.status = 200
-            ctx.body = id
+            ctx.body = "Item Created";
           }
         } catch (error) {
           //console.log(error);
@@ -300,6 +308,8 @@ server.use(async (ctx, next) => {
             obj.color = ctx.request.body.color
             obj.widgetEnabled = ctx.request.body.widgetEnabled
             await obj.save()
+            ctx.status = 200
+            ctx.body = "Item Created";
           }
           else {
             const id = new Widget({
@@ -316,7 +326,7 @@ server.use(async (ctx, next) => {
             })
             await id.save()
             ctx.status = 200
-            ctx.body = id
+            ctx.body = "Item Created";
           }
         } catch (error) {
           //console.log(error);
