@@ -116,7 +116,6 @@ function AnnotatedLayout() {
   }
 
   if (stop && data.scriptTags.edges[0] == undefined) {
-    console.log("dublu cacat")
     setStop(false);
     createScripts({
       variables: {

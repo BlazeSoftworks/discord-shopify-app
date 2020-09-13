@@ -123,9 +123,7 @@ server.use(async (ctx, next) => {
 
   if (shopID != undefined && (update[shopID] == false || update[shopID] == undefined) && (ctx.request.query.shop != undefined || ctx.cookies.get("shopOrigin") != undefined)) {
 
-    //const cap = 1000
-
-    //console.log("MARELE VIERME")
+    //const cap = 1000    
 
     // router.get(`/api/usageCreate/${shopID}`, async (ctx) => {
     //   const item = (await Usage.find({ shopID }))[0]
@@ -273,22 +271,35 @@ server.use(async (ctx, next) => {
       if (ctx.cookies.get("shopOrigin")) {
         //console.log(ctx.request.body)
         try {
-          if ((await Widget.find({ shopID })).length > 0) {
-            const item = await Widget.findOneAndUpdate(shopID, {
-              desktopPosition: ctx.request.body.desktopPosition,
-              mobilePosition: ctx.request.body.mobilePosition,
-              notificationText: ctx.request.body.notificationText,
-              notificationTimeout: ctx.request.body.notificationTimeout,
-              notificationAvatar: ctx.request.body.notificationAvatar,
-              mobile: ctx.request.body.mobile,
-              desktop: ctx.request.body.desktop,
-              color: ctx.request.body.color,
-              widgetEnabled: ctx.request.body.widgetEnabled,
-              shopID
-            }, { new: true, runValidators: true })
-            ctx.status = 200
-            ctx.body = "Item Updated";
-            //console.log(item)
+          var obj = await Widget.findOne({ shopID })
+          // if ((await Widget.find({ shopID })).length > 0) {
+          //   const item = await Widget.findOneAndUpdate(shopID, {
+          //     desktopPosition: ctx.request.body.desktopPosition,
+          //     mobilePosition: ctx.request.body.mobilePosition,
+          //     notificationText: ctx.request.body.notificationText,
+          //     notificationTimeout: ctx.request.body.notificationTimeout,
+          //     notificationAvatar: ctx.request.body.notificationAvatar,
+          //     mobile: ctx.request.body.mobile,
+          //     desktop: ctx.request.body.desktop,
+          //     color: ctx.request.body.color,
+          //     widgetEnabled: ctx.request.body.widgetEnabled,
+          //     shopID
+          //   }, { new: true, runValidators: true })
+          //   ctx.status = 200
+          //   ctx.body = "Item Updated";
+          //   //console.log(item)
+          // }
+          if (obj) {
+            obj.desktopPosition = ctx.request.body.desktopPosition
+            obj.mobilePosition = ctx.request.body.mobilePosition
+            obj.notificationText = ctx.request.body.notificationText
+            obj.notificationTimeout = ctx.request.body.notificationTimeout
+            obj.notificationAvatar = ctx.request.body.notificationAvatar
+            obj.mobile = ctx.request.body.mobile
+            obj.desktop = ctx.request.body.desktop
+            obj.color = ctx.request.body.color
+            obj.widgetEnabled = ctx.request.body.widgetEnabled
+            await obj.save()
           }
           else {
             const id = new Widget({
